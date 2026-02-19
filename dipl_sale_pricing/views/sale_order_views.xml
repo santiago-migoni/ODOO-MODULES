@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Heredar vista de formulario de pedido de venta -->
+    <record id="sale_order_form_view_pricing" model="ir.ui.view">
+        <field name="name">sale.order.form.pricing</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//list//field[@name='product_uom_qty']" position="after">
+                <field name="desarrollo_mm" optional="show" string="Desarrollo (mm)" placeholder="Ej: 1200 o 1100+50+50" help="Ingrese el desarrollo de la pieza en milímetros. Puede usar expresiones matemáticas."/>
+                <field name="largo_mm" optional="show" string="Largo (mm)" placeholder="Ej: 2000 o 1900+50+50" help="Ingrese el largo de la pieza en milímetros. Puede usar expresiones matemáticas."/>
+                <field name="minutos_corte" optional="hide" string="Min. Corte" help="Tiempo de corte láser en minutos por unidad (solo si aplica)"/>
+                <field name="peso_total" optional="show" string="Peso (kg)" help="Peso total calculado automáticamente (peso unitario × cantidad)"/>
+                <field name="subtotal_material" optional="hide" string="$ Material" help="Costo del material (peso × precio por kg)"/>
+                <field name="subtotal_corte" optional="hide" string="$ Corte" help="Costo del corte (minutos × precio por minuto)"/>
+                <field name="usa_calculo_peso" column_invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

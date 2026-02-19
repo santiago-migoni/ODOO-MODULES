@@ -1,0 +1,43 @@
+// = Home Menu
+// ============================================================================
+// Glassmorphism-aware dark mode overrides
+
+.o_home_menu_background {
+
+    .o_app_icon {
+        --AppSwitcherIcon-background: #{rgba(#fff, .05)};
+        --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, .1)};
+        --AppSwitcherIcon-border-color: transparent;
+    }
+
+    .o_app:hover .o_app_icon {
+        --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, .2)};
+    }
+
+    // === Glassmorphism: Dark glass overrides ===
+    .o_home_menu .o_home_menu_search input {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.1);
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        &:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    .o_home_menu .o_app {
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        &.o_focused {
+            background: rgba(255, 255, 255, 0.06);
+            outline-color: rgba(255, 255, 255, 0.15);
+        }
+    }
+}

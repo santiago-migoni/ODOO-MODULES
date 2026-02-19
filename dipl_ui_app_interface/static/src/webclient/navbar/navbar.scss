@@ -1,0 +1,28 @@
+// = Main Navbar
+// ============================================================================
+.o_main_navbar {
+    --NavBar-entry-color--active: #{$o-component-active-color};
+    --NavBar-entry-borderColor-active: #{$o-component-active-border};
+    --NavBar-entry-backgroundColor--active: #{$o-component-active-bg};
+    --NavBar-entry-backgroundColor--hover: #{rgba($o-gray-200, 0.6)};
+    --NavBar-entry-backgroundColor--focus: #{rgba($o-gray-200, 0.6)};
+
+    --Dropdown_menu-margin-y: #{map-get($spacers, 1)};
+
+    // === Glassmorphism: Frosted glass navbar ===
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba($o-navbar-background, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+
+    .o_menu_toggle {
+        color: var(--NavBar-menuToggle-color, #{$o-brand-odoo});
+    }
+}
+
+// Ensuring SuperUser Design menu is not compressed in Enterprise
+// ============================================================================
+body.o_is_superuser .o_menu_systray {
+    border-image-outset: map-get($border-widths, 5);
+}

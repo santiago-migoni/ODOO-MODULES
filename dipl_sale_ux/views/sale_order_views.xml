@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Heredar la vista de búsqueda de sale.order para agregar filtro de cotizaciones activas -->
+    <record id="sale_order_view_search_inherit_quotation_active" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.quotation.active</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+
+            <!-- Agregar filtro de cotizaciones después de los filtros existentes -->
+            <filter name="my_quotation" position="after">
+                <filter name="cotizaciones_activas" string="Cotizaciones" domain="[('state', 'in', ['draft', 'sent'])]" help="Cotizaciones en borrador o enviadas"/>
+            </filter>
+
+        </field>
+    </record>
+
+    <!-- Modificar la acción de cotizaciones para activar el filtro por defecto -->
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="context">{'search_default_cotizaciones_activas': 1}</field>
+    </record>
+
+</odoo>

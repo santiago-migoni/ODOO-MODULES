@@ -1,0 +1,180 @@
+// = QuickMenu — Sidebar de acceso rápido
+// ============================================================================
+
+$dipl-qm-rail-width: 45px;
+$dipl-qm-panel-width: 200px;
+
+// === Global Layout Adjustments ===
+// Push content to the right when QuickMenu is present
+html.dipl_has_quick_menu {
+
+    .o_main_navbar,
+    .o_action_manager {
+        margin-left: $dipl-qm-rail-width;
+        transition: margin-left 0.25s ease;
+    }
+
+    // Adjust navbar width to avoid overflow
+    .o_main_navbar {
+        width: calc(100% - #{$dipl-qm-rail-width});
+    }
+}
+
+$dipl-qm-bg: #ffffff; // Solid background for cleanliness
+$dipl-qm-border: rgba(0, 0, 0, 0.06);
+$dipl-qm-icon-size: 28px; // Smaller icons for 45px rail
+$dipl-qm-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+.dipl_quick_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1040;
+    background: $dipl-qm-bg;
+    border-right: 1px solid $dipl-qm-border;
+    width: $dipl-qm-rail-width; // 45px
+    transition: width $dipl-qm-transition, box-shadow $dipl-qm-transition;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: all;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 8px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        height: 44px; // Consistent height for rows
+        padding: 0 8px;
+        text-decoration: none;
+        color: var(--o-gray-700, #495057);
+        transition: background 0.2s ease, color 0.2s ease;
+        cursor: pointer;
+        border-radius: 0;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+            color: var(--o-brand-odoo, #714B67);
+        }
+
+        &--home {
+            color: var(--o-gray-600, #56606a);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+    }
+
+    &__icon {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin-left: 1px; // Center in 45px rail (approx)
+    }
+
+    &__icon-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    &__icon-fa {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+
+        .fa {
+            font-size: 16px;
+        }
+    }
+
+    &__name {
+        margin-left: 16px;
+        font-size: 13px;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.1s ease;
+        pointer-events: none; // Avoid hover issues when small
+    }
+
+    &__separator {
+        height: 1px;
+        background-color: $dipl-qm-border;
+        margin: 4px 10px;
+        flex-shrink: 0;
+    }
+
+    &__app-list {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+    }
+
+    // === Expanding states ===
+    &--expanded {
+        width: $dipl-qm-panel-width; // 200px
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+
+        .dipl_quick_menu__name {
+            opacity: 1;
+            transition: opacity 0.3s ease 0.1s;
+            pointer-events: all;
+        }
+    }
+}
+
+// === Dark mode ===
+.o_dark .dipl_quick_menu {
+
+    &__rail,
+    &__panel {
+        background: rgba(30, 30, 40, 0.85);
+        border-right-color: rgba(255, 255, 255, 0.08);
+    }
+
+    &__app-row:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    &--expanded {
+        .dipl_quick_menu__rail {
+            background: rgba(30, 30, 40, 0.95);
+        }
+    }
+}
+
+// === Accesibilidad ===
+@media (prefers-reduced-motion: reduce) {
+
+    .dipl_quick_menu__panel,
+    .dipl_quick_menu__app-icon,
+    .dipl_quick_menu__app-row {
+        transition: none !important;
+    }
+}

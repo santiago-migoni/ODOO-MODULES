@@ -1,0 +1,8 @@
+// Shared with web client and login screen
+
+.o_home_menu_background,
+.o_web_client.o_home_menu_background {
+    background: url("/dipl_ui_app_interface/static/img/background-light.svg") no-repeat center center fixed;
+    background-size: cover;
+    background-color: #{$o-gray-200};
+}
