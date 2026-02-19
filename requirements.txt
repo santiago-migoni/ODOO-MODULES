@@ -1,0 +1,12 @@
+# ─────────────────────────────────────────────────────
+# ODOO-MODULES — Dependencias Python de todos los módulos
+# ─────────────────────────────────────────────────────
+
+# Agregar dependencias de tus módulos aquí.
+# Odoo.sh instala este archivo automáticamente.
+# En tu server propio, setup_server.sh lo instala via Dockerfile.
+
+# Ejemplos:
+# requests>=2.28.0
+# zeep>=4.2.1        # Para AFIP webservices
+# pyOpenSSL>=22.0.0  # Para firma digital
