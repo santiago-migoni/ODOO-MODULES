@@ -76,7 +76,13 @@ commit: ## Commit interactivo (Add + Commit)
 	fi; \
 	git add .; \
 	read -p "Tipo (feat, fix, docs, style, refactor, test, chore): " TYPE; \
-	read -p "Ámbito (opcional, ej: ventas): " SCOPE; \
+	BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
+	SCOPE=$${BRANCH#*/}; \
+	if [ "$$SCOPE" = "development" ] || [ "$$SCOPE" = "staging" ] || [ "$$SCOPE" = "main" ]; then \
+		read -p "Ámbito (opcional, ej: ventas): " SCOPE; \
+	else \
+		echo "$(BLUE)Ámbito (rama): $$SCOPE$(NC)"; \
+	fi; \
 	read -p "Descripción (imperativo, minúsculas): " DESC; \
 	if [ -n "$$SCOPE" ]; then \
 		MSG="$$TYPE($$SCOPE): $$DESC"; \
