@@ -1,4 +1,4 @@
-.PHONY: help init scaffold branch commit push pr lint format
+.PHONY: help init scaffold branch commit push pr lint format go-infra
 
 # ── Colors ───────────────────────────────────────────────────
 BLUE   := \033[0;34m
@@ -16,7 +16,10 @@ help: ## Muestra esta ayuda
 	@echo "$(BLUE)╚══════════════════════════════════════════════════╝$(NC)"
 	@echo ""
 	@echo "$(YELLOW)── 🛠️  HERRAMIENTAS DE DESARROLLO ──────────────────$(NC)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -v "\[NAV\]" | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
+	@echo ""
+	@echo "$(BLUE)── 📂 NAVEGACIÓN ───────────────────────────────────$(NC)"
+	@grep -E '^[a-zA-Z_-]+:.*?## \[NAV\].*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {sub(/\[NAV\] /, "", $$2); printf "  $(BLUE)%-20s$(NC) %s\n", $$1, $$2}'
 	@echo ""
 
 # ============================================================
@@ -173,3 +176,9 @@ format: ## Formatea código con black (si instalado)
 	else \
 		echo "$(YELLOW)Black no instalado. pip install black$(NC)"; \
 	fi
+
+go-infra: ## [NAV] Ir al repositorio de infraestructura (Identificado)
+	@echo "$(BLUE)Entrando a ODOO (Infra)... (Escribe 'exit' para volver al repo de módulos)$(NC)"
+	@cd ../ODOO && PROMPT="[ODOO-INFRA] % " zsh -i
+
+
