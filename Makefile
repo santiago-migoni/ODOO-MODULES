@@ -10,15 +10,15 @@ help: ## Muestra esta ayuda
 	$(call unified_help)
 
 # ============================================================
-#  🚀 HERRAMIENTAS DE DESARROLLO
+#  🛠️ DESARROLLO
 # ============================================================
 
-init: ## Instala hooks de git y dependencias
+init: ## [DEV] Instala hooks de git y dependencias
 	@echo "$(BLUE)Instalando pre-commit hooks...$(NC)"
 	@pre-commit install
 	@echo "$(GREEN)✓ Entorno listo$(NC)"
 
-scaffold: ## Crea un nuevo módulo base interactivo
+scaffold: ## [DEV] Crea un nuevo módulo base interactivo
 	@read -p "Nombre técnico del módulo: " NAME; \
 	if [ -z "$$NAME" ]; then exit 1; fi; \
 	mkdir -p $$NAME/models $$NAME/views $$NAME/security $$NAME/data $$NAME/static/description; \
@@ -29,66 +29,65 @@ scaffold: ## Crea un nuevo módulo base interactivo
 	printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<odoo>\n<data></data>\n</odoo>\n" > $$NAME/views/views.xml; \
 	echo "$(GREEN)✓ Módulo $$NAME creado$(NC)"
 
-# ── Git Flow ──────────────────────────────────────────────
-branch: ## Crea rama feature desde development
+branch: ## [DEV] Crea rama feature desde development
 	@read -p "Nombre de la feature: " FEAT; \
 	git checkout development && git pull origin development && git checkout -b feature/$$FEAT
 
-commit: ## Commit interactivo (Add + Commit)
+commit: ## [DEV] Commit interactivo (Add + Commit)
 	$(call shared_commit)
 
-push: ## Push de la rama actual
+# ============================================================
+#  🚀 DESPLIEGUE
+# ============================================================
+
+push: ## [DEPLOY] Push de la rama actual
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	git push -u origin $$BRANCH
 
-deploy: push ## Push + Recargar código en el servidor
-	@cd ../ODOO && $(MAKE) deploy
+deploy: ## [DEPLOY] Push (Dual) + Recargar código en el servidor
+	$(call dual_push)
+	@echo "$(BLUE)Actualizando servidor remoto...$(NC)"
+	@cd ../ODOO && $(MAKE) deploy-dev TARGET_BRANCH=$$(git rev-parse --abbrev-ref HEAD)
 
-update: push ## Push + Update módulo específico (ej: make update mod=dipl_ui)
+update: ## [DEPLOY] Push + Update módulo específico (ej: make update mod=dipl_ui)
 	@if [ -z "$(mod)" ]; then exit 1; fi
+	$(call dual_push)
 	@cd ../ODOO && $(MAKE) update-remote mod=$(mod)
 
-pr: ## Abre la URL para crear PR
+pr: ## [DEPLOY] Abre la URL para crear PR
 	@gh pr create --web || echo "$(YELLOW)Instala GitHub CLI (gh)$(NC)"
 
-promote-dev: ## Merge feature → development
+promote-dev: ## [DEPLOY] Merge feature → development
 	@CURRENT=$$(git rev-parse --abbrev-ref HEAD); \
 	git push origin $$CURRENT && git checkout development && git pull origin development && \
 	git merge $$CURRENT --no-edit && git push origin development && git branch -d $$CURRENT
 
-promote-stag: ## Merge development → staging + deploy
+promote-stag: ## [DEPLOY] Merge development → staging + deploy
 	@git checkout staging && git pull origin staging && git merge development --no-edit && git push origin staging
-	@cd ../ODOO && $(MAKE) deploy-stag
+	$(call proxy_cmd,deploy-stag)
 
-promote-prod: ## Merge staging → main + deploy
+promote-prod: ## [DEPLOY] Merge staging → main + deploy
 	@git checkout main && git pull origin main && git merge staging --no-edit && git push origin main
-	@cd ../ODOO && $(MAKE) deploy-prod
-
-# ── Calidad ───────────────────────────────────────────────
-lint: ## Ejecuta flake8
-	@flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-
-format: ## Formatea con black
-	@black . || echo "$(YELLOW)Instala black$(NC)"
+	$(call proxy_cmd,deploy-prod)
 
 # ============================================================
-#  ⚙️  INSPECCIÓN (Proxy a Infraestructura)
+#  📊 MONITORIZACIÓN
 # ============================================================
 
-ps: ## Ver estado del servidor (via Infra)
-	@$(MAKE) -C ../ODOO ps
+ps: ## [MONITOR] Ver estado del servidor (via Infra)
+	$(call proxy_cmd,ps)
 
-stats: ## Ver consumo del servidor (via Infra)
-	@$(MAKE) -C ../ODOO stats
+stats: ## [MONITOR] Ver consumo del servidor (via Infra)
+	$(call proxy_cmd,stats)
 
-hardware: ## Ver recursos del servidor (via Infra)
-	@$(MAKE) -C ../ODOO hardware
+hardware: ## [MONITOR] Ver recursos del servidor (via Infra)
+	$(call proxy_cmd,hardware)
 
-logs: ## Ver logs del servidor (via Infra)
-	@$(MAKE) -C ../ODOO logs
+logs: ## [MONITOR] Ver logs del servidor (via Infra)
+	$(call proxy_cmd,logs)
 
-ssh: ## Conecta al servidor (via Infra)
-	@$(MAKE) -C ../ODOO ssh
+ssh: ## [MONITOR] Conecta al servidor (via Infra)
+	$(call proxy_cmd,ssh)
 
 # ============================================================
 #  📂 NAVEGACIÓN
@@ -97,5 +96,15 @@ ssh: ## Conecta al servidor (via Infra)
 go-infra: ## [NAV] Ir al repositorio de infraestructura
 	@echo "$(BLUE)Entrando a ODOO (Infra)... (Escribe 'exit' para volver)$(NC)"
 	@cd ../ODOO && PROMPT="[ODOO-INFRA] % " zsh -i
+
+# ============================================================
+#  ⚙️  CALIDAD
+# ============================================================
+
+lint: ## [MAINT] Ejecuta flake8
+	@flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+format: ## [MAINT] Formatea con black
+	@black . || echo "$(YELLOW)Instala black$(NC)"
 
 
