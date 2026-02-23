@@ -99,6 +99,20 @@ push: ## Push de la rama actual a origin
 	git push -u origin $$BRANCH; \
 	echo "$(GREEN)✓ Cambios subidos$(NC)"
 
+deploy: push ## Sube la rama actual y recarga el código en el servidor de Desarrollo interactivo
+	@echo "$(BLUE)Avisando a ODOO que despliegue esta rama en el servidor de control...$(NC)"
+	@cd ../ODOO && $(MAKE) deploy
+
+update: push ## [NUEVO] Actualiza UN solo módulo (XML/Assets) sin perder tiempo (ej: make update mod=dipl_ui_interface)
+	@if [ -z "$(mod)" ]; then \
+		echo "$(RED)Error: Debes especificar el módulo a actualizar. Ejemplo: make update mod=dipl_sale_002$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(YELLOW)Avisando a ODOO que actualice el módulo específco: $(mod)...$(NC)"
+	@cd ../ODOO && \
+	BRANCH=$$(git -C ../ODOO-MODULES rev-parse --abbrev-ref HEAD); \
+	$(MAKE) update-remote TARGET_BRANCH=$$BRANCH mod=$(mod)
+
 pr: ## Abre la URL para crear PR en GitHub (si gh instalado)
 	@if command -v gh > /dev/null 2>&1; then \
 		gh pr create --web; \
@@ -123,21 +137,23 @@ promote-dev: ## Promueve feature actual → development (Merge + Push + Delete f
 	git branch -d $$CURRENT && \
 	echo "$(GREEN)✓ $$CURRENT mergeado a development$(NC)"
 
-promote-stag: ## Promueve development → staging
+promote-stag: ## Promueve development → staging Y RECIBE EN SERVIDOR
 	@echo "$(BLUE)Promocionando development → staging...$(NC)"
 	@git checkout staging && \
 	git pull origin staging && \
 	git merge development --no-edit && \
 	git push origin staging
-	@echo "$(GREEN)✓ Código en staging. Ve a ODOO y ejecuta: make deploy-stag$(NC)"
+	@echo "$(YELLOW)Actualizando servidor de Staging remoto automáticamente...$(NC)"
+	@cd ../ODOO && $(MAKE) deploy-stag
 
-promote-prod: ## Promueve staging → main
+promote-prod: ## Promueve staging → main Y RECIBE EN SERVIDOR DE PRD
 	@echo "$(YELLOW)⚠ Promocionando staging → main (PRODUCCIÓN)...$(NC)"
 	@git checkout main && \
 	git pull origin main && \
 	git merge staging --no-edit && \
 	git push origin main
-	@echo "$(GREEN)✓ Código en main. Ve a ODOO y ejecuta: make deploy-prod$(NC)"
+	@echo "$(YELLOW)Actualizando servidor de Producción remoto automáticamente...$(NC)"
+	@cd ../ODOO && $(MAKE) deploy-prod
 
 # ============================================================
 #  🧹 CALIDAD DE CÓDIGO
