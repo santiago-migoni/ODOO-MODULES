@@ -44,29 +44,35 @@ push: ## [DEPLOY] Push de la rama actual
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	git push -u origin $$BRANCH
 
-deploy: ## [DEPLOY] Push (Dual) + Recargar código en el servidor
+deploy: ## [DEPLOY] [MAC] Push (Dual) + Recargar código en el servidor
 	$(call dual_push)
 	@echo "$(BLUE)Actualizando servidor remoto...$(NC)"
-	@cd ../ODOO && $(MAKE) deploy-dev TARGET_BRANCH=$$(git rev-parse --abbrev-ref HEAD)
+	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
+	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make deploy-dev TARGET_BRANCH=$$BRANCH"
 
-update: ## [DEPLOY] Push + Update módulo específico (ej: make update mod=dipl_ui)
+update: ## [DEPLOY] [MAC] Push + Update módulo específico (ej: make update mod=dipl_ui)
 	@if [ -z "$(mod)" ]; then exit 1; fi
 	$(call dual_push)
-	@cd ../ODOO && $(MAKE) update-remote mod=$(mod)
+	@echo "$(BLUE)Actualizando módulo $(mod) en el servidor...$(NC)"
+	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
+	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make update-dev TARGET_BRANCH=$$BRANCH mod=$(mod)"
 
 pr: ## [DEPLOY] Abre la URL para crear PR
 	@gh pr create --web || echo "$(YELLOW)Instala GitHub CLI (gh)$(NC)"
 
-promote-dev: ## [DEPLOY] Merge feature → development
+promote-dev: ## [DEPLOY] [MAC] Merge feature → development
+	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@CURRENT=$$(git rev-parse --abbrev-ref HEAD); \
 	git push origin $$CURRENT && git checkout development && git pull origin development && \
 	git merge $$CURRENT --no-edit && git push origin development && git branch -d $$CURRENT
 
-promote-stag: ## [DEPLOY] Merge development → staging + deploy
+promote-stag: ## [DEPLOY] [MAC] Merge development → staging + deploy
+	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout staging && git pull origin staging && git merge development --no-edit && git push origin staging
 	$(call proxy_cmd,deploy-stag)
 
-promote-prod: ## [DEPLOY] Merge staging → main + deploy
+promote-prod: ## [DEPLOY] [MAC] Merge staging → main + deploy
+	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout main && git pull origin main && git merge staging --no-edit && git push origin main
 	$(call proxy_cmd,deploy-prod)
 
