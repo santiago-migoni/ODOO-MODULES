@@ -1,7 +1,8 @@
 include ../ODOO/infra/make/common.mk
 
 APP_NAME := Odoo Modules
-ENV_DESC := Desarrollo (Terminal 2)
+ENV_DESC := Desarrollo de Odoo
+REPO_NAME := MODULES
 
 # ============================================================
 #  AYUDA
@@ -13,10 +14,10 @@ help: ## Muestra esta ayuda
 #  🛠️ DESARROLLO
 # ============================================================
 
-init: ## [DEV] Instala hooks de git y dependencias
-	@echo "$(BLUE)Instalando pre-commit hooks...$(NC)"
+init: ## [DEV] Instala hooks de git locales
+	@echo "$(BLUE)Instalando pre-commit hooks para Módulos...$(NC)"
 	@pre-commit install
-	@echo "$(GREEN)✓ Entorno listo$(NC)"
+	@echo "$(GREEN)✓ Entorno de Módulos listo$(NC)"
 
 scaffold: ## [DEV] Crea un nuevo módulo base interactivo
 	@read -p "Nombre técnico del módulo: " NAME; \
@@ -40,25 +41,18 @@ commit: ## [DEV] Commit interactivo (Add + Commit)
 #  🚀 DESPLIEGUE
 # ============================================================
 
-push: ## [DEPLOY] Push de la rama actual
-	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
-	git push -u origin $$BRANCH
+push: ## [DEPLOY] Push de la rama actual (Módulos)
+	$(call shared_push)
 
-deploy: ## [DEPLOY] [MAC] Push (Dual) + Recargar código en el servidor
-	$(call dual_push)
-	@echo "$(BLUE)Actualizando servidor remoto...$(NC)"
+pull: ## [DEPLOY] Pull de la rama actual (Módulos)
+	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
+	git pull origin $$BRANCH
+
+deploy: ## [DEPLOY] [MAC] Sincroniza y recarga Dev
+	$(call shared_push)
+	@echo "$(BLUE)Actualizando entorno de desarrollo en servidor remoto...$(NC)"
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make deploy-dev TARGET_BRANCH=$$BRANCH"
-
-update: ## [DEPLOY] [MAC] Push + Update módulo específico (ej: make update mod=dipl_ui)
-	@if [ -z "$(mod)" ]; then exit 1; fi
-	$(call dual_push)
-	@echo "$(BLUE)Actualizando módulo $(mod) en el servidor...$(NC)"
-	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
-	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make update-dev TARGET_BRANCH=$$BRANCH mod=$(mod)"
-
-pr: ## [DEPLOY] Abre la URL para crear PR
-	@gh pr create --web || echo "$(YELLOW)Instala GitHub CLI (gh)$(NC)"
 
 promote-dev: ## [DEPLOY] [MAC] Merge feature → development
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
@@ -69,12 +63,12 @@ promote-dev: ## [DEPLOY] [MAC] Merge feature → development
 promote-stag: ## [DEPLOY] [MAC] Merge development → staging + deploy
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout staging && git pull origin staging && git merge development --no-edit && git push origin staging
-	$(call proxy_cmd,deploy-stag)
+	$(call proxy_cmd,update-stag)
 
-promote-prod: ## [DEPLOY] [MAC] Merge staging → main + deploy
+promote-main: ## [DEPLOY] [MAC] Merge staging → main + deploy
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout main && git pull origin main && git merge staging --no-edit && git push origin main
-	$(call proxy_cmd,deploy-prod)
+	$(call proxy_cmd,update-prod)
 
 # ============================================================
 #  📊 MONITORIZACIÓN
@@ -86,25 +80,26 @@ ps: ## [MONITOR] Ver estado del servidor (via Infra)
 stats: ## [MONITOR] Ver consumo del servidor (via Infra)
 	$(call proxy_cmd,stats)
 
-hardware: ## [MONITOR] Ver recursos del servidor (via Infra)
-	$(call proxy_cmd,hardware)
+# Parametrizado
+logs: ## [MONITOR] Uso: make logs-[all|dev|stag|prod|nginx|dozzle]
+	@echo "$(RED)Error: Debes especificar un servicio (ej: make logs-dev)$(NC)" && exit 1
 
-logs: ## [MONITOR] Ver logs del servidor (via Infra)
-	$(call proxy_cmd,logs)
-
-ssh: ## [MONITOR] Conecta al servidor (via Infra)
-	$(call proxy_cmd,ssh)
+logs-%: ## [MONITOR] Ver logs delegados
+	$(call proxy_cmd,logs-$*)
 
 # ============================================================
 #  📂 NAVEGACIÓN
 # ============================================================
 
-go-infra: ## [NAV] Ir al repositorio de infraestructura
+ssh: ## [NAV] Conecta al servidor
+	$(call shared_ssh)
+
+odoo: ## [NAV] Ir al repositorio de infraestructura (ODOO)
 	@echo "$(BLUE)Entrando a ODOO (Infra)... (Escribe 'exit' para volver)$(NC)"
 	@cd ../ODOO && PROMPT="[ODOO-INFRA] % " zsh -i
 
 # ============================================================
-#  ⚙️  CALIDAD
+#  ⚙️  CALIDAD LOCAL
 # ============================================================
 
 lint: ## [MAINT] Ejecuta flake8
@@ -112,5 +107,3 @@ lint: ## [MAINT] Ejecuta flake8
 
 format: ## [MAINT] Formatea con black
 	@black . || echo "$(YELLOW)Instala black$(NC)"
-
-
