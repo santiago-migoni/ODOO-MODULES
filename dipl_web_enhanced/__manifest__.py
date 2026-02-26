@@ -1,7 +1,7 @@
 {
     'name': 'web_enhanced',
     'version': '1.0',
-    'category': 'Technical',
+    'category': 'Extra Tools',
     'summary': 'Módulo personalizado para mejorar la interfaz web de Odoo Community',
     'author': 'Dipleg',
     'depends': ['web', 'base_setup'],
