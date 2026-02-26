@@ -26,15 +26,20 @@ init: ## [DEV] Instala hooks de git locales
 	@echo "$(GREEN)✓ Entorno de Módulos listo$(NC)"
 
 scaffold: ## [DEV] Crea un nuevo módulo base interactivo
-	@read -p "Nombre técnico del módulo: " NAME; \
-	if [ -z "$$NAME" ]; then exit 1; fi; \
+	@echo "$(BLUE)--- Generador de Módulos Dipleg ---$(NC)"
+	@read -p "Nombre técnico (ej: dipl_sale_extra): " NAME; \
+	if [ -z "$$NAME" ]; then echo "$(RED)Error: El nombre es obligatorio$(NC)"; exit 1; fi; \
+	if [[ ! $$NAME =~ ^dipl_ ]]; then echo "$(YELLOW)Aviso: Se recomienda empezar con 'dipl_' por estándares del proyecto.$(NC)"; fi; \
+	echo "Categorías comunes: Sales, CRM, Inventory, Purchase, Accounting, Manufacturing, Website, Technical"; \
+	read -p "Categoría odoo (ej: Sales): " CAT; \
+	if [ -z "$$CAT" ]; then CAT="Technical"; fi; \
 	mkdir -p $$NAME/models $$NAME/views $$NAME/security $$NAME/data $$NAME/static/description; \
 	touch $$NAME/__init__.py $$NAME/models/__init__.py; \
 	printf "from . import models\n" > $$NAME/__init__.py; \
-	printf "{'name': '$$NAME', 'version': '1.0', 'depends': ['base'], 'data': ['security/ir.model.access.csv', 'views/views.xml'], 'installable': True, 'license': 'LGPL-3'}" > $$NAME/__manifest__.py; \
+	printf "{\n    'name': '$$NAME',\n    'version': '1.0',\n    'category': 'Dipleg/$$CAT',\n    'summary': 'Módulo personalizado para $$CAT',\n    'author': 'Dipleg',\n    'depends': ['base'],\n    'data': [\n        'security/ir.model.access.csv',\n        'views/views.xml',\n    ],\n    'installable': True,\n    'license': 'LGPL-3',\n}" > $$NAME/__manifest__.py; \
 	printf "id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink\n" > $$NAME/security/ir.model.access.csv; \
-	printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<odoo>\n<data></data>\n</odoo>\n" > $$NAME/views/views.xml; \
-	echo "$(GREEN)✓ Módulo $$NAME creado$(NC)"
+	printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<odoo>\n    <data>\n\n    </data>\n</odoo>\n" > $$NAME/views/views.xml; \
+	echo "$(GREEN)✓ Módulo $$NAME creado exitosamente en la categoría Dipleg/$$CAT$(NC)"
 
 branch: ## [DEV] Crea rama feature desde development
 	@read -p "Nombre de la feature: " FEAT; \
