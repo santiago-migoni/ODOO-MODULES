@@ -1,7 +1,7 @@
 {
     'name': 'web_enhanced',
     'version': '1.0',
-    'category': 'Dipleg/Technical',
+    'category': 'Technical',
     'summary': 'Módulo personalizado para Technical',
     'author': 'Dipleg',
     'depends': ['base'],
