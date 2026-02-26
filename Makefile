@@ -1,4 +1,10 @@
-include ../ODOO/infra/make/common.mk
+# Detección dinámica de common.mk (Soporta Mac: ../ODOO y Servidor: ../../)
+COMMON_MK := $(wildcard ../ODOO/infra/make/common.mk ../../infra/make/common.mk)
+ifeq ($(strip $(COMMON_MK)),)
+$(error Error: No se encontro common.mk. Verifica la ruta interactiva.)
+endif
+include $(COMMON_MK)
+
 
 APP_NAME := Odoo Modules
 ENV_DESC := Desarrollo de Odoo
