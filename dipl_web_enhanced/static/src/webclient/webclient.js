@@ -1,17 +1,13 @@
 import { WebClient } from "@web/webclient/webclient";
 import { useService } from "@web/core/utils/hooks";
-import { EnterpriseNavBar } from "./navbar/navbar";
+import { patch } from "@web/core/utils/patch";
 
-export class WebClientEnterprise extends WebClient {
-    static components = {
-        ...WebClient.components,
-        NavBar: EnterpriseNavBar,
-    };
+patch(WebClient.prototype, {
     setup() {
-        super.setup();
+        super.setup(...arguments);
         this.hm = useService("home_menu");
-    }
+    },
     _loadDefaultApp() {
         return this.hm.toggle(true);
     }
-}
+});

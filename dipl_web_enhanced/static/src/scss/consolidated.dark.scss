@@ -1,0 +1,610 @@
+.badge {
+    @for $size from 1 through length($o-colors) {
+        &.o_badge_color_#{$size - 1} {
+            background-color: #{mix(nth($o-colors, $size), $o-view-background-color, 15%)} !important;
+            color: #{adjust-color(nth($o-colors, $size), $lightness: 5%, $saturation: -15%)} !important;
+        }
+    }
+}
+// Overrides the existing classes to fit the text-color of
+// tag_list.dark.scss
+@for $size from 2 through length($o-colors) {
+  .o_colorlist_item_color_#{$size - 1} {
+      --background-color: #{adjust-color(nth($o-colors, $size), $lightness: -5%, $saturation: -15%)};
+      --color: #{mix(nth($o-colors, $size), $o-view-background-color, 15%)};
+  }
+}
+// = Dropdowns
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o-dropdown {
+  --border-color: #{$dropdown-border-color};
+  --o-input-border-color: #{$dropdown-border-color};
+}
+.o_notebook {
+    --Notebook__link-border-top-color--active: #{map-get($o-theme-text-colors, 'primary')};
+    --Notebook__link-color--active: #{map-get($o-theme-text-colors, 'primary')};
+    --Notebook__link-background-color: #{$o-gray-300};
+    --Notebook__link-background-color--hover: #{$o-gray-400};
+    --Notebook__link-border-color: #{$o-gray-200};
+    --Notebook__link-border-color--hover: #{$o-gray-200};
+}
+// = Popovers
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_popover {
+    --border-color: #{$popover-border-color};
+
+    .table {
+        --table-bg: #{$popover-bg};
+    }
+
+    .o_input {
+        --o-input-border-color: #{$popover-border-color};
+    }
+
+    .form-range {
+        &::-moz-range-track {
+            background: darken($popover-bg, 10%);
+        }
+        &::-webkit-slider-runnable-track {
+            background: darken($popover-bg, 10%);
+        }
+    }
+}
+.o_tag {
+    @for $size from 1 through length($o-colors) {
+        &.o_tag_color_#{$size - 1} {
+            --background-color: #{mix(nth($o-colors, $size), $o-view-background-color, 15%)};
+            --color: #{adjust-color(nth($o-colors, $size), $lightness: 5%, $saturation: -15%)};
+
+            &::after {
+                --background-color: var(--background-color);
+                --color: var(--color);
+            }
+        }
+    }
+}
+///
+/// This file is a copy of the bootstrap _variables.scss file where all the
+/// left-untouched variables definition have been removed.
+///
+
+
+// == Color system
+$danger: $o-danger !default;
+
+$min-contrast-ratio: 4.5 !default;
+
+$info-text-emphasis: shift-color($o-info, 90%) !default;
+$info-bg-subtle: shift-color($o-info, -65%) !default;
+$info-border-subtle: shift-color($o-info, 0%) !default;
+
+// == Characters which are escaped by the escape-svg function
+
+
+// == Options
+
+
+// == Prefix for :root CSS variables
+
+
+// == Gradient
+
+
+// == Spacing
+
+
+// == Position
+
+
+// == Body
+
+// == Links
+
+$link-shade-percentage: 15% !default;
+$link-hover-color: shift-color($o-action, 30%) !default;
+
+// == Paragraphs
+
+
+// == Grid breakpoints
+
+
+// == Grid containers
+
+
+// == Grid columns
+
+
+// == Components
+$box-shadow: 0 .5rem 1rem rgba($o-white, .3) !default;
+$box-shadow-sm: 0 .125rem .25rem rgba($o-white, .15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($o-white, .3) !default;
+$box-shadow-inset: inset 0 1px 2px rgba($o-white, .15) !default;
+
+$component-active-bg: $o-gray-300 !default;
+
+
+// == Typography
+$mark-bg: #ffdebc !default;
+$mark-color: shift-color($mark-bg, -75%) !default;
+
+// == Tables
+$table-bg: $o-view-background-color !default;
+$table-border-color: $o-gray-300 !default;
+$table-group-separator-color: $o-gray-300 !default;
+$table-bg-scale: -70% !default;
+$table-striped-bg-factor: .02 !default;
+$table-hover-bg-factor: .1 !default;
+$table-active-bg-factor: .1 !default;
+
+// == Buttons + Forms
+
+
+// == Buttons
+
+
+// == Forms
+$input-border-color: $o-gray-300 !default;
+$input-placeholder-color: mix($o-gray-500, $o-gray-600) !default;
+$input-focus-bg: inherit !default;
+$form-range-thumb-active-bg: lighten($o-brand-primary, 10%);
+$form-range-track-bg: $o-gray-300 !default;
+
+$form-switch-color: rgba($o-black, .5) !default;
+$form-switch-focus-color: $o-black !default;
+$form-switch-checked-color: $o-view-background-color !default;
+
+// == Form validation
+
+
+// == Z-index master list
+
+
+// == Navs
+
+
+// == Navbar
+
+
+// == Dropdowns
+$dropdown-bg: $o-gray-300 !default;
+$dropdown-border-color: $o-gray-400 !default;
+$dropdown-header-color: $o-gray-700 !default;
+
+
+// == Pagination
+
+
+// == Placeholders
+
+
+// == Cards
+$card-cap-bg: $o-view-background-color !default;
+
+// == Accordion
+
+
+// == Tooltips
+$tooltip-color: $o-gray-900 !default;
+$tooltip-bg: $o-gray-300 !default;
+
+
+// == Form tooltips must come after regular tooltips
+
+
+// == Popovers
+$popover-bg: $o-gray-300 !default;
+$popover-border-color: $o-gray-400 !default;
+
+// == Toasts
+
+
+// == Badges
+
+
+// == Modals
+
+
+// == Alerts
+$alert-bg-scale: -65% !default;
+$alert-border-scale: 0% !default;
+$alert-color-scale: 90% !default;
+
+// == Progress bars
+
+
+// == List group
+$list-group-bg: $o-view-background-color !default;
+
+
+// == Image thumbnails
+
+
+// == Figures
+
+
+// == Breadcrumbs
+
+
+// == Carousel
+
+
+// == Spinners
+
+
+// == Close
+
+
+// == Offcanvas
+
+
+// == Code
+
+// == Keyboard Input
+$kbd-color: $o-gray-200 !default;
+$kbd-bg: $o-gray-900 !default;
+$kbd-box-shadow: 0px 1px 1px rgba($o-white, 0.2), inset 0px -1px 1px 1px rgba($o-gray-800, 0.8), inset 0px 2px 0px 0px rgba($o-black, 0.8) !default;
+///
+/// This file is a copy of the bootstrap _functions.scss file where all the
+/// left-untouched function definition have been removed.
+///
+
+// Tint a color: mix a color with black
+@function tint-color($color, $weight) {
+    @return mix(#000, $color, $weight);
+}
+
+// Shade a color: mix a color with white
+@function shade-color($color, $weight) {
+    @return mix(#FFF, $color, $weight);
+}
+///
+/// Odoo Dark-Mode
+///
+///
+
+// = Colors
+// ============================================================================
+
+$o-white: #000 !default;
+$o-black: #FFF !default;
+
+$o-gray-100: #1B1D26 !default;
+$o-gray-200: #262A36 !default;
+$o-gray-300: #3C3E4B !default;
+$o-gray-400: #5A5E6B !default;
+$o-gray-500: #6B707F !default;
+$o-gray-600: #7E8392 !default;
+$o-gray-700: #B1B3BC !default;
+$o-gray-800: #D1D1D1 !default;
+$o-gray-900: #E4E4E4 !default;
+
+$o-enterprise-color: #6b3e66 !default;
+$o-brand-primary: $o-enterprise-color !default;
+$o-enterprise-action-color: #02c7b5 !default;
+
+$o-success: #1dc959 !default;
+$o-info: #6AB5FB !default;
+$o-warning: #FBB56A !default;
+$o-danger: #b83232 !default;
+$o-action: $o-enterprise-action-color !default;
+$light: $o-gray-300 !default;
+$dark: $o-gray-700 !default;
+
+
+// = Text
+// ============================================================================
+
+$o-main-link-color: $o-action !default;
+$o-enterprise-color: $o-brand-odoo !default;
+$o-main-favorite-color: #ffd532 !default;
+$o-main-code-color: #c58bc8 !default;
+
+// = Fine-tune contextual text colors.
+$o-theme-text-colors: (
+    "primary": #b972a6,
+    "success": #1dc959,
+    "info": #6AB5FB,
+    "warning": #FBB56A,
+    "danger": #ff5757,
+) !default;
+
+
+// = Webclient
+// ============================================================================
+$o-webclient-color-scheme: dark !default;
+$o-webclient-background-color: $o-gray-100 !default;
+$o-view-background-color: $o-gray-200 !default;
+
+// = Inputs
+$o-input-border-required: $o-black !default;
+
+// = Components
+// ============================================================================
+$o-component-active-bg: mix($o-action, $o-gray-300, 10%) !default;
+$o-form-lightsecondary: $o-gray-300 !default;
+
+// = List-group
+$o-list-group-active-bg: rgba(saturate(adjust-hue($o-info, 15), 1.8), .5) !default;
+
+// = Modal
+$modal-backdrop-bg: $o-white !default;
+
+// = Buttons
+$o-btns-bs-override: () !default;
+$o-btns-bs-override: map-merge((
+    "primary": (
+        background: $o-brand-primary,
+        border: $o-brand-primary,
+        color: $o-black,
+
+        hover-background: lighten($o-brand-primary, 5%),
+        hover-border: lighten($o-brand-primary, 5%),
+        hover-color: $o-black,
+
+        active-background: lighten($o-brand-primary, 10%),
+        active-border: lighten($o-brand-primary, 10%),
+        active-color: $o-black,
+    ),
+
+    "secondary": (
+        background: $o-gray-300,
+        border: $o-gray-300,
+        color: $o-gray-900,
+
+        hover-background: $o-gray-400,
+        hover-border: $o-gray-400,
+        hover-color: $o-gray-900,
+
+        active-background: mix($o-action, $o-gray-100, 15%),
+        active-border: lighten($o-action, 10%),
+        active-color: $o-black,
+    ),
+
+    "light": (
+        background: $o-gray-200,
+        border: $o-gray-200,
+        color: $o-gray-900,
+
+        hover-background: $o-gray-300,
+        hover-border: $o-gray-300,
+        hover-color: $o-black,
+
+        active-background: mix($o-action, $o-gray-100, 15%),
+        active-border:  darken($o-action, 10%),
+        active-color: $o-black,
+    ),
+
+    "danger": (
+        background: $o-danger,
+        border: $o-danger,
+        color: $o-black,
+
+        hover-background: lighten($o-danger, 5%),
+        hover-border: lighten($o-danger, 5%),
+        hover-color: $o-black,
+
+        active-background: lighten($o-danger, 10%),
+        active-border: lighten($o-danger, 10%),
+        active-color: $o-black,
+    ),
+), $o-btns-bs-override);
+
+
+$o-btns-bs-outline-override: () !default;
+$o-btns-bs-outline-override: map-merge((
+
+    "primary": (
+        background: transparent,
+        border: map-get($o-theme-text-colors, 'primary'),
+        color: map-get($o-theme-text-colors, 'primary'),
+
+        hover-background: lighten($o-brand-primary, 5%),
+        hover-border: lighten($o-brand-primary, 5%),
+        hover-color: $o-black,
+
+        active-background: lighten($o-brand-primary, 10%),
+        active-border: lighten($o-brand-primary, 10%),
+        active-color: $o-black,
+    ),
+    "secondary": (
+        background: transparent,
+        border: $o-gray-300,
+        color: $o-gray-900,
+
+        hover-background: $o-gray-300,
+        hover-border: $o-gray-300,
+        hover-color: $o-black,
+
+        active-background: mix($o-action, $o-gray-100, 15%),
+        active-border: lighten($o-action, 10%),
+        active-color: $o-black,
+    ),
+
+    "light": (
+        background: transparent,
+        border: $o-gray-300,
+        color: $o-black,
+
+        hover-background: $o-gray-300,
+        hover-border: $o-gray-300,
+        hover-color: $o-black,
+
+        active-background: mix($o-action, $o-gray-100, 15%),
+        active-border: lighten($o-action, 10%),
+        active-color: $o-black,
+    ),
+
+    "danger": (
+        background: transparent,
+        border: $o-danger,
+        color: $o-danger,
+
+        hover-background: lighten($o-danger, 5%),
+        hover-border: lighten($o-danger, 5%),
+        hover-color: $o-black,
+
+        active-background: lighten($o-danger, 10%),
+        active-border: lighten($o-danger, 10%),
+        active-color: $o-black,
+    ),
+), $o-btns-bs-outline-override);
+$o-colors-original: lighten(#000, 46.7%), #e74e4e, #f4b660, #F7CD1F, #6cedeb, #8d5482,
+              #f07b50, #2C8397, #475577, #dc0457, #30C381, #9365B8 !default;
+
+$o-colors-secondary-original: #aa4b6b, #30C381, #97743a, #F7CD1F, #4285F4, #8E24AA,
+                     #D6145F, #173e43, #348F50, #AA3A38, #795548, #5e0231,
+                     #6be585, #999966, #e9d362, #b56969, #bdc3c7, #649173 !default;
+
+$o-colors: ()!default;
+$o-colors-secondary: ()!default;
+
+@each $-color in $o-colors-original {
+    $-adjusted: saturate(mix($-color, $o-black, 50%), 60%);
+    $o-colors: append($o-colors, $-adjusted);
+}
+
+@each $-color in $o-colors-secondary-original {
+    $-adjusted: saturate(mix($-color, $o-black, 50%), 80%);
+    $o-colors-secondary: append($o-colors-secondary, $-adjusted);
+}
+// = Search Bar
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_searchview_facet {
+    --SearchBar-facet-background: #{$o-black};
+}
+// = Mobile Search
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_mobile_search {
+    --mobileSearch-bg: #{$o-gray-200};
+    --mobileSearch__header-bg: #{$o-gray-100};
+}
+
+.o_searchview {
+   --SearchBar-background-color: #{$o-gray-100};
+}
+// = Dashboard View
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_dashboard_view {
+    --DashboardView-background-color: #{$o-gray-100};
+    --DashboardView__controlPanel-background-color: transparent;
+    --DashboardView__pieChart-background-color: transparent;
+}
+
+// = Image Field
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_field_image {
+    --ImageField-background-color: #{$o-gray-900};
+}
+.o_field_property_definition_type, .o_field_property_definition_type_menu {
+    img {
+        -webkit-filter: invert(100%);
+        filter: invert(100%);
+    }
+}
+.o_property_field_value {
+    select {
+        option {
+            background-color: $border-color;
+        }
+    }
+}
+.o-form-buttonbox { 
+  --o-stat-button-color: currentColor;
+  --o-stat-text-color: #{o-text-color('primary')};
+}
+// = Gantt View Variables
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+$gantt-highlight-today-border: rgba($o-warning, 0.5) !default;
+$gantt-highlight-today-bg: rgba($o-warning, 0.15)!default;
+$gantt-highlight-hover-row: rgba($o-brand-primary, .1) !default;
+$gantt-row-open-bg: $o-gray-100 !default;
+$gantt-unavailability-bg: $o-gray-200 !default;
+// = Kanban Rendered
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_kanban_renderer {
+    --KanbanGroup-grouped-bg: #{$o-view-background-color};
+    --KanbanRecord__image-bg-color: #{$o-gray-900};
+    --KanbanColumn__highlight-background: #{mix($o-action, $o-gray-100, 15%)};
+    --KanbanColumn__highlight-border: #{$o-component-active-border};
+    --KanbanColumn__highlight-selected: #20364b;
+    --Kanban-background: #{$gray-100};
+}
+// = ListRenderer
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+// = Home Menu Background
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_home_menu_background {
+    --homeMenu-bg-color: #000511;
+    --homeMenu-bg-image: url("/dipl_web_enhanced/static/img/background-dark.svg");
+}// = Home Menu
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_home_menu_background {
+
+    .o_app_icon {
+        --AppSwitcherIcon-background: #{rgba(#fff, .05)};
+        --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, .1)};
+        --AppSwitcherIcon-border-color: transparent;
+    }
+
+    .o_app:hover .o_app_icon {
+        --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, .2)}; 
+    }
+}
+// = Home Menu Variables
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+$o-home-menu-caption-color: $o-black !default;
+$o-home-menu-caption-shadow: 0 1px 2px rgba(0, 0, 0, .75), 0 2px 5px rgba(0, 0, 0, .05), 0 0 5px rgba(0, 0, 0, .05) !default;
+// = Navbar
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_main_navbar {
+    --o-navbar-badge-color: #{$black};
+    --o-navbar-badge-text-shadow: none;
+    --NavBar-menuToggle-color: #{$o-black};
+    --NavBar-brand-color: #{$black};
+    --NavBar-entry-borderColor-active: #{darken($o-action, 10%)};
+    --NavBar-entry-backgroundColor--active: #{mix($o-action, $o-gray-100, 15%)};
+    --NavBar-entry-backgroundColor--hover: #{$o-gray-300};
+    --NavBar-entry-backgroundColor--focus: #{$o-gray-300};
+}
+// = Navbar Variables
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+$o-navbar-background: $o-view-background-color !default;
+// = Settings
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_base_settings_view .o_form_renderer {
+    --settings__tab-bg: #{$o-gray-100};
+    --settings__tab-bg--active: #{mix($o-action, $o-gray-100, 10%)};
+    --settings__tab-color: #{$body-color};
+    --settings__title-bg: #{$o-gray-300};
+}

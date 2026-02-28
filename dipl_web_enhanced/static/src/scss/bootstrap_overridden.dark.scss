@@ -1,181 +1,161 @@
-///
-/// This file is a copy of the bootstrap _variables.scss file where all the
-/// left-untouched variables definition have been removed.
-///
-
-
-// == Color system
-$danger: $o-danger !default;
-
-$min-contrast-ratio: 4.5 !default;
-
-$info-text-emphasis: shift-color($o-info, 90%) !default;
-$info-bg-subtle: shift-color($o-info, -65%) !default;
-$info-border-subtle: shift-color($o-info, 0%) !default;
-
-// == Characters which are escaped by the escape-svg function
-
-
-// == Options
-
-
-// == Prefix for :root CSS variables
-
-
-// == Gradient
-
-
-// == Spacing
-
-
-// == Position
-
-
-// == Body
-
-// == Links
-
-$link-shade-percentage: 15% !default;
-$link-hover-color: shift-color($o-action, 30%) !default;
-
-// == Paragraphs
-
-
-// == Grid breakpoints
-
-
-// == Grid containers
-
-
-// == Grid columns
-
-
-// == Components
-$box-shadow: 0 .5rem 1rem rgba($o-white, .3) !default;
-$box-shadow-sm: 0 .125rem .25rem rgba($o-white, .15) !default;
-$box-shadow-lg: 0 1rem 3rem rgba($o-white, .3) !default;
-$box-shadow-inset: inset 0 1px 2px rgba($o-white, .15) !default;
-
-$component-active-bg: $o-gray-300 !default;
-
-
-// == Typography
-$mark-bg: #ffdebc !default;
-$mark-color: shift-color($mark-bg, -75%) !default;
-
-// == Tables
-$table-bg: $o-view-background-color !default;
-$table-border-color: $o-gray-300 !default;
-$table-group-separator-color: $o-gray-300 !default;
-$table-bg-scale: -70% !default;
-$table-striped-bg-factor: .02 !default;
-$table-hover-bg-factor: .1 !default;
-$table-active-bg-factor: .1 !default;
-
-// == Buttons + Forms
-
-
-// == Buttons
-
-
-// == Forms
-$input-border-color: $o-gray-300 !default;
-$input-placeholder-color: mix($o-gray-500, $o-gray-600) !default;
-$input-focus-bg: inherit !default;
-$form-range-thumb-active-bg: lighten($o-brand-primary, 10%);
-$form-range-track-bg: $o-gray-300 !default;
-
-$form-switch-color: rgba($o-black, .5) !default;
-$form-switch-focus-color: $o-black !default;
-$form-switch-checked-color: $o-view-background-color !default;
-
-// == Form validation
-
-
-// == Z-index master list
-
-
-// == Navs
-
-
-// == Navbar
-
-
-// == Dropdowns
-$dropdown-bg: $o-gray-300 !default;
-$dropdown-border-color: $o-gray-400 !default;
-$dropdown-header-color: $o-gray-700 !default;
-
-
-// == Pagination
-
-
-// == Placeholders
-
-
-// == Cards
-$card-cap-bg: $o-view-background-color !default;
-
-// == Accordion
-
-
-// == Tooltips
-$tooltip-color: $o-gray-900 !default;
-$tooltip-bg: $o-gray-300 !default;
-
-
-// == Form tooltips must come after regular tooltips
-
-
-// == Popovers
-$popover-bg: $o-gray-300 !default;
-$popover-border-color: $o-gray-400 !default;
-
-// == Toasts
-
-
-// == Badges
-
-
-// == Modals
-
-
-// == Alerts
-$alert-bg-scale: -65% !default;
-$alert-border-scale: 0% !default;
-$alert-color-scale: 90% !default;
-
-// == Progress bars
-
-
-// == List group
-$list-group-bg: $o-view-background-color !default;
-
-
-// == Image thumbnails
-
-
-// == Figures
-
-
-// == Breadcrumbs
-
-
-// == Carousel
-
-
-// == Spinners
-
-
-// == Close
-
-
-// == Offcanvas
-
-
-// == Code
-
-// == Keyboard Input
-$kbd-color: $o-gray-200 !default;
-$kbd-bg: $o-gray-900 !default;
-$kbd-box-shadow: 0px 1px 1px rgba($o-white, 0.2), inset 0px -1px 1px 1px rgba($o-gray-800, 0.8), inset 0px 2px 0px 0px rgba($o-black, 0.8) !default;
+/// Odoo Dark-Mode Customizations
+
+// = Dropdowns
+.o-dropdown {
+  --border-color: #{$dropdown-border-color};
+  --o-input-border-color: #{$dropdown-border-color};
+}
+.o_notebook {
+  --Notebook__link-border-top-color--active: #{map-get(
+      $o-theme-text-colors,
+      "primary"
+    )};
+  --Notebook__link-color--active: #{map-get($o-theme-text-colors, "primary")};
+  --Notebook__link-background-color: #{$o-gray-300};
+  --Notebook__link-background-color--hover: #{$o-gray-400};
+  --Notebook__link-border-color: #{$o-gray-200};
+  --Notebook__link-border-color--hover: #{$o-gray-200};
+}
+// = Popovers
+.o_popover {
+  --border-color: #{$popover-border-color};
+  .table {
+    --table-bg: #{$popover-bg};
+  }
+  .o_input {
+    --o-input-border-color: #{$popover-border-color};
+  }
+  .form-range {
+    &::-moz-range-track {
+      background: darken($popover-bg, 10%);
+    }
+    &::-webkit-slider-runnable-track {
+      background: darken($popover-bg, 10%);
+    }
+  }
+}
+.o_tag {
+  @for $size from 1 through length($o-colors) {
+    &.o_tag_color_#{$size - 1} {
+      --background-color: #{mix(
+          nth($o-colors, $size),
+          $o-view-background-color,
+          15%
+        )};
+      --color: #{adjust-color(
+          nth($o-colors, $size),
+          $lightness: 5%,
+          $saturation: -15%
+        )};
+      &::after {
+        --background-color: var(--background-color);
+        --color: var(--color);
+      }
+    }
+  }
+}
+.badge {
+  @for $size from 1 through length($o-colors) {
+    &.o_badge_color_#{$size - 1} {
+      background-color: #{mix(
+          nth($o-colors, $size),
+          $o-view-background-color,
+          15%
+        )} !important;
+      color: #{adjust-color(
+          nth($o-colors, $size),
+          $lightness: 5%,
+          $saturation: -15%
+        )} !important;
+    }
+  }
+}
+@for $size from 2 through length($o-colors) {
+  .o_colorlist_item_color_#{$size - 1} {
+    --background-color: #{adjust-color(
+        nth($o-colors, $size),
+        $lightness: -5%,
+        $saturation: -15%
+      )};
+    --color: #{mix(nth($o-colors, $size), $o-view-background-color, 15%)};
+  }
+}
+// = Search Bar
+.o_searchview_facet {
+  --SearchBar-facet-background: #{$o-black};
+}
+.o_mobile_search {
+  --mobileSearch-bg: #{$o-gray-200};
+  --mobileSearch__header-bg: #{$o-gray-100};
+}
+.o_searchview {
+  --SearchBar-background-color: #{$o-gray-100};
+}
+// = Dashboard View
+.o_dashboard_view {
+  --DashboardView-background-color: #{$o-gray-100};
+  --DashboardView__controlPanel-background-color: transparent;
+  --DashboardView__pieChart-background-color: transparent;
+}
+// = Image Field
+.o_field_image {
+  --ImageField-background-color: #{$o-gray-900};
+}
+.o_field_property_definition_type,
+.o_field_property_definition_type_menu {
+  img {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+  }
+}
+.o_property_field_value {
+  select {
+    option {
+      background-color: $border-color;
+    }
+  }
+}
+.o-form-buttonbox {
+  --o-stat-button-color: currentColor;
+  --o-stat-text-color: #{o-text-color("primary")};
+}
+// Kanban Rendered
+.o_kanban_renderer {
+  --KanbanGroup-grouped-bg: #{$o-view-background-color};
+  --KanbanRecord__image-bg-color: #{$o-gray-900};
+  --KanbanColumn__highlight-background: #{mix($o-action, $o-gray-100, 15%)};
+  --KanbanColumn__highlight-border: #{$o-component-active-border};
+  --KanbanColumn__highlight-selected: #20364b;
+  --Kanban-background: #{$gray-100};
+}
+// = Home Menu
+.o_home_menu_background {
+  --homeMenu-bg-color: #000511;
+  --homeMenu-bg-image: url("/dipl_web_enhanced/static/img/background-dark.svg");
+  .o_app_icon {
+    --AppSwitcherIcon-background: #{rgba(#fff, 0.05)};
+    --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, 0.1)};
+    --AppSwitcherIcon-border-color: transparent;
+  }
+  .o_app:hover .o_app_icon {
+    --AppSwitcherIcon-inset-shadow: #{inset 0 0 0 1px rgba(#fff, 0.2)};
+  }
+}
+// = Navbar
+.o_main_navbar {
+  --o-navbar-badge-color: #{$black};
+  --o-navbar-badge-text-shadow: none;
+  --NavBar-menuToggle-color: #{$o-black};
+  --NavBar-brand-color: #{$black};
+  --NavBar-entry-borderColor-active: #{darken($o-action, 10%)};
+  --NavBar-entry-backgroundColor--active: #{mix($o-action, $o-gray-100, 15%)};
+  --NavBar-entry-backgroundColor--hover: #{$o-gray-300};
+  --NavBar-entry-backgroundColor--focus: #{$o-gray-300};
+}
+// = Settings
+.o_base_settings_view .o_form_renderer {
+  --settings__tab-bg: #{$o-gray-100};
+  --settings__tab-bg--active: #{mix($o-action, $o-gray-100, 10%)};
+  --settings__tab-color: #{$body-color};
+  --settings__title-bg: #{$o-gray-300};
+}

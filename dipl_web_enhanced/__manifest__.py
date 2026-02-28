@@ -46,7 +46,7 @@
             ('after', 'web/static/lib/bootstrap/scss/_functions.scss', 'dipl_web_enhanced/static/src/scss/bs_functions_overridden.dark.scss'),
         ],
         'web.assets_web': [
-            ('replace', 'web/static/src/main.js', 'dipl_web_enhanced/static/src/main.js'),
+            'dipl_web_enhanced/static/src/main.js',
         ],
         'web.dark_mode_variables': [
             ('before', 'dipl_web_enhanced/static/src/scss/primary_variables.scss', 'dipl_web_enhanced/static/src/scss/primary_variables.dark.scss'),
@@ -57,7 +57,9 @@
             ('include', 'web.dark_mode_variables'),
             ('before', 'dipl_web_enhanced/static/src/scss/bootstrap_overridden.scss', 'dipl_web_enhanced/static/src/scss/bootstrap_overridden.dark.scss'),
             ('after', 'web/static/lib/bootstrap/scss/_functions.scss', 'dipl_web_enhanced/static/src/scss/bs_functions_overridden.dark.scss'),
-            'dipl_web_enhanced/static/src/**/*.dark.scss',
+        ],
+        'web.assets_tests': [
+            'dipl_web_enhanced/static/tests/tours/**/*',
         ],
     },
     'installable': True,

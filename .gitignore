@@ -28,3 +28,6 @@ env/
 
 # Odoo session / temp files
 *.session
+
+# Odoo source code
+/.src/odoo
