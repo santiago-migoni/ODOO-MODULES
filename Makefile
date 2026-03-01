@@ -88,16 +88,7 @@ logs: ## [MONITOR] Uso: make logs-[all|dev|stag|prod|nginx|dozzle]
 logs-%: ## [MONITOR] Ver logs delegados
 	$(call proxy_cmd,logs-$*)
 
-# ============================================================
-#  📂 NAVEGACIÓN
-# ============================================================
-
-ssh: ## [NAV] Conecta al servidor
-	$(call shared_ssh)
-
-odoo: ## [NAV] Ir al repositorio de infraestructura (ODOO)
-	@echo "$(BLUE)Entrando a ODOO (Infra)... (Escribe 'exit' para volver)$(NC)"
-	@cd ../ODOO && PROMPT="[ODOO-INFRA] % " zsh -i
+# Comandos de navegación centralizados en common.mk
 
 # ============================================================
 #  ⚙️  CALIDAD LOCAL
