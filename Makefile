@@ -20,12 +20,12 @@ help: ## Muestra esta ayuda
 #  🛠️ DESARROLLO
 # ============================================================
 
-init: ## [DEV] Instala hooks de git locales
+mod-init: ## [DEV] Instala hooks de git locales
 	@echo "$(BLUE)Instalando pre-commit hooks para Módulos...$(NC)"
 	@pre-commit install
 	@echo "$(GREEN)✓ Entorno de Módulos listo$(NC)"
 
-scaffold: ## [DEV] Crea un nuevo módulo base interactivo
+mod-scaffold: ## [DEV] Crea un nuevo módulo base interactivo
 	@echo "$(BLUE)--- Generador de Módulos Dipleg ---$(NC)"
 	@read -p "Nombre técnico (ej: dipl_sale_extra): " NAME; \
 	if [ -z "$$NAME" ]; then echo "$(RED)Error: El nombre es obligatorio$(NC)"; exit 1; fi; \
@@ -39,7 +39,7 @@ scaffold: ## [DEV] Crea un nuevo módulo base interactivo
 	printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<odoo>\n    <data>\n\n    </data>\n</odoo>\n" > $$NAME/views/views.xml; \
 	echo "$(GREEN)✓ Módulo $$NAME creado exitosamente con categoría: $$CAT$(NC)"
 
-branch: ## [DEV] Crea rama feature desde development
+mod-branch: ## [DEV] Crea rama feature desde development
 	@read -p "Nombre de la feature: " FEAT; \
 	git checkout development && git pull origin development && git checkout -b feature/$$FEAT
 
@@ -63,31 +63,23 @@ deploy: ## [DEPLOY] [MAC] Sincroniza y recarga Dev
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make deploy-dev TARGET_BRANCH=$$BRANCH"
 
-promote-dev: ## [DEPLOY] [MAC] Merge feature → development
+mod-promote-dev: ## [DEPLOY] [MAC] Merge feature → development
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@CURRENT=$$(git rev-parse --abbrev-ref HEAD); \
 	git push origin $$CURRENT && git checkout development && git pull origin development && \
 	git merge $$CURRENT --no-edit && git push origin development && git branch -d $$CURRENT
 
-promote-stag: ## [DEPLOY] [MAC] Merge development → staging + deploy
+mod-promote-stag: ## [DEPLOY] [MAC] Merge development → staging + deploy
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout staging && git pull origin staging && git merge development --no-edit && git push origin staging
-	$(call proxy_cmd,update-stag)
+	$(call proxy_cmd,odoo-update-stag)
 
-promote-main: ## [DEPLOY] [MAC] Merge staging → main + deploy
+mod-promote-main: ## [DEPLOY] [MAC] Merge staging → main + deploy
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
 	@git checkout main && git pull origin main && git merge staging --no-edit && git push origin main
-	$(call proxy_cmd,update-prod)
+	$(call proxy_cmd,odoo-update-prod)
 
-# ============================================================
-#  📊 MONITORIZACIÓN
-# ============================================================
-
-ps: ## [MONITOR] Ver estado del servidor (via Infra)
-	$(call proxy_cmd,ps)
-
-stats: ## [MONITOR] Ver consumo del servidor (via Infra)
-	$(call proxy_cmd,stats)
+# Comandos ya manejados por common.mk (ps, stats, logs-%)
 
 # Parametrizado
 logs: ## [MONITOR] Uso: make logs-[all|dev|stag|prod|nginx|dozzle]
@@ -114,5 +106,7 @@ odoo: ## [NAV] Ir al repositorio de infraestructura (ODOO)
 lint: ## [MAINT] Ejecuta flake8
 	@flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
-format: ## [MAINT] Formatea con black
+mod-format: ## [MAINT] Formatea con black
 	@black . || echo "$(YELLOW)Instala black$(NC)"
+
+lint: mod-format ## Compatibility alias
