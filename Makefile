@@ -57,11 +57,7 @@ pull: ## [DEPLOY] Pull de la rama actual (Módulos)
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	git pull origin $$BRANCH
 
-deploy: ## [DEPLOY] [MAC] Sincroniza y recarga Dev
-	$(call shared_push)
-	@echo "$(BLUE)Actualizando entorno de desarrollo en servidor remoto...$(NC)"
-	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
-	$(REMOTE_SSH) "cd $(REMOTE_DIR) && make deploy-dev TARGET_BRANCH=$$BRANCH"
+# deploy manejado por common.mk
 
 mod-promote-dev: ## [DEPLOY] [MAC] Merge feature → development
 	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
