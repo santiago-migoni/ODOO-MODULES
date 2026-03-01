@@ -35,7 +35,6 @@
             'dipl_web_enhanced/static/src/views/**/*.js',
             'dipl_web_enhanced/static/src/views/**/*.xml',
             ('remove', 'dipl_web_enhanced/static/src/views/pivot/**'),
-            ('remove', 'dipl_web_enhanced/static/src/**/*.dark.scss'),
         ],
         'web.assets_backend_lazy': [
             'dipl_web_enhanced/static/src/views/pivot/**',
