@@ -1,0 +1,163 @@
+name: Odoo Module Tests
+
+on:
+  push:
+    branches:
+      - 'feat-*'
+      - 'fix-*'
+      - 'hotfix-*'
+      - 'feature/**'
+      - development
+  pull_request:
+    branches:
+      - staging
+      - development
+
+jobs:
+  # ── Job 1: Lint rápido (fail-fast) ─────────────────────────
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Run lint (critical errors only)
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  # ── Job 2: Tests de módulos Odoo ────────────────────────────
+  odoo-tests:
+    name: Odoo Module Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: lint
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_USER: odoo
+          POSTGRES_DB: odoo_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Odoo dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libldap2-dev libsasl2-dev libpq-dev node-less
+          pip install --quiet \
+            odoo==19.0 \
+            psycopg2-binary \
+            pillow \
+            lxml \
+            babel \
+            python-dateutil \
+            pytz \
+            requests \
+            werkzeug \
+            reportlab \
+            pdfminer.six \
+            xlrd \
+            xlwt \
+            xlutils \
+            ofxparse \
+            passlib \
+            pycryptodome \
+            vobject \
+            PyYAML || true
+
+      - name: Detect modules with tests
+        id: modules
+        run: |
+          MODULES=$(find . -maxdepth 2 -name '__manifest__.py' \
+            -exec dirname {} \; \
+            | xargs -I{} sh -c 'test -d "{}/tests" && basename "{}"' 2>/dev/null \
+            | tr '\n' ',' | sed 's/,$//')
+          echo "modules=$MODULES" >> $GITHUB_OUTPUT
+          echo "Found modules with tests: $MODULES"
+
+      - name: Run Odoo module tests
+        if: steps.modules.outputs.modules != ''
+        run: |
+          python -m odoo \
+            --addons-path=. \
+            --db_host=localhost \
+            --db_port=5432 \
+            --db_user=odoo \
+            --db_password=odoo \
+            -d odoo_test \
+            -i ${{ steps.modules.outputs.modules }} \
+            --test-enable \
+            --stop-after-init \
+            --no-http \
+            --logfile=/tmp/odoo_test.log 2>&1 | tee /tmp/odoo_test_output.log
+
+          # Check for test failures in output
+          if grep -qE "FAIL:|ERROR:" /tmp/odoo_test_output.log 2>/dev/null; then
+            echo "❌ Tests failed"
+            exit 1
+          fi
+
+      - name: Show test log on failure
+        if: failure()
+        run: |
+          echo "=== Odoo Test Log ==="
+          tail -100 /tmp/odoo_test.log 2>/dev/null || echo "(no log file)"
+
+      - name: Skip message (no modules with tests)
+        if: steps.modules.outputs.modules == ''
+        run: echo "ℹ️ No modules with tests/ directory found. Skipping Odoo tests."
+
+  # ── Job 3: Notificar resultado al webhook handler ───────────
+  notify:
+    name: Notify webhook handler
+    runs-on: ubuntu-latest
+    needs: [lint, odoo-tests]
+    if: always()
+
+    steps:
+      - name: Determine overall status
+        id: status
+        run: |
+          LINT="${{ needs.lint.result }}"
+          TESTS="${{ needs.odoo-tests.result }}"
+          if [ "$LINT" = "success" ] && ([ "$TESTS" = "success" ] || [ "$TESTS" = "skipped" ]); then
+            echo "result=success" >> $GITHUB_OUTPUT
+          else
+            echo "result=failed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Report result to webhook handler
+        if: vars.WEBHOOK_URL != ''
+        run: |
+          curl -s -X POST "${{ vars.WEBHOOK_URL }}/webhook/test-result" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"branch\": \"${{ github.ref_name }}\",
+              \"commit\": \"${{ github.sha }}\",
+              \"status\": \"${{ steps.status.outputs.result }}\",
+              \"workflow\": \"${{ github.workflow }}\",
+              \"run_id\": \"${{ github.run_id }}\"
+            }" || echo "Webhook notification failed (non-critical)"
