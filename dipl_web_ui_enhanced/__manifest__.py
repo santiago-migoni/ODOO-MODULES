@@ -2,15 +2,17 @@
 {
     'name': 'Dipleg Web UI Enhanced',
     'category': 'Hidden',
-    'version': '1.0',
-    'summary': 'Enhanced Responsive Web UI for Dipleg',
+    'version': '19.0.1.0',
+    'summary': 'Interfaz de usuario mejorada y responsiva para Dipleg',
     'description': """
-        Responsive Web Client for Dipleg based on Dipleg Enterprise layout.
-        This module provides an enterprise-like experience for the community version.
+        Web Client personalizado para Dipleg.
+        Basado en un fork de ICA Responsive, adaptado para la identidad visual de Dipleg.
+        Proporciona una experiencia Enterprise en la versión Community.
     """,
     'depends': ['web', 'base_setup'],
     'auto_install': False,
     'data': [
+        'security/ir.model.access.csv',
         'views/webclient_templates.xml',
     ],
     'assets': {

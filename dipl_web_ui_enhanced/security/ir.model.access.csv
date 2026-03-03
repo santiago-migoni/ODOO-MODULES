@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dipl_web_ui_enhanced_res_users_settings,dipl.web.ui.enhanced.res.users.settings,model_res_users_settings,,1,1,1,1
