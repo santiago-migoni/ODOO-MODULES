@@ -7,11 +7,9 @@ on:
       - 'fix-*'
       - 'hotfix-*'
       - 'feature/**'
-      - development
   pull_request:
     branches:
-      - staging
-      - development
+      - main
 
 jobs:
   # ── Job 1: Lint rápido (fail-fast) ─────────────────────────

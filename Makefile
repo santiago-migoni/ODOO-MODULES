@@ -39,43 +39,23 @@ mod-scaffold: ## [DEV] Crea un nuevo módulo base interactivo
 	printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<odoo>\n    <data>\n\n    </data>\n</odoo>\n" > $$NAME/views/views.xml; \
 	echo "$(GREEN)✓ Módulo $$NAME creado exitosamente con categoría: $$CAT$(NC)"
 
-mod-branch: ## [DEV] Crea rama feature desde development
+mod-branch: ## [DEV] Crea rama feature desde main
 	@read -p "Nombre de la feature: " FEAT; \
-	git checkout development && git pull origin development && git checkout -b feature/$$FEAT
+	git checkout main && git pull origin main && git checkout -b feature/$$FEAT
 
 commit: ## [DEV] Commit interactivo (Add + Commit)
 	$(call shared_commit)
 
 # ============================================================
-#  🚀 DESPLIEGUE
+#  DESPLIEGUE
 # ============================================================
 
-push: ## [DEPLOY] Push de la rama actual (Módulos)
+push: ## [DEPLOY] Push de la rama actual (Modulos)
 	$(call shared_push)
 
-pull: ## [DEPLOY] Pull de la rama actual (Módulos)
+pull: ## [DEPLOY] Pull de la rama actual (Modulos)
 	@BRANCH=$$(git rev-parse --abbrev-ref HEAD); \
 	git pull origin $$BRANCH
-
-# deploy manejado por common.mk
-
-mod-promote-dev: ## [DEPLOY] [MAC] Merge feature → development
-	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
-	@CURRENT=$$(git rev-parse --abbrev-ref HEAD); \
-	git push origin $$CURRENT && git checkout development && git pull origin development && \
-	git merge $$CURRENT --no-edit && git push origin development && git branch -d $$CURRENT
-
-mod-promote-stag: ## [DEPLOY] [MAC] Merge development → staging + deploy
-	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
-	@git checkout staging && git pull origin staging && git merge development --no-edit && git push origin staging
-	$(call proxy_cmd,odoo-update-stag)
-
-mod-promote-main: ## [DEPLOY] [MAC] Merge staging → main + deploy
-	@if [ "$(IS_MAC)" != "1" ]; then echo "$(RED)Error: Este comando se dispara desde la Mac.$(NC)"; exit 1; fi
-	@git checkout main && git pull origin main && git merge staging --no-edit && git push origin main
-	$(call proxy_cmd,odoo-update-prod)
-
-# Comandos ya manejados por common.mk (ps, stats, logs-%)
 
 # Parametrizado
 logs: ## [MONITOR] Uso: make logs-[all|dev|stag|prod|nginx|dozzle]
