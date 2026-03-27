@@ -1,0 +1,32 @@
+# ─────────────────────────────────────────
+# CLAUDEIGNORE — Reduce AI context window
+# Synced with .cursorignore
+# ─────────────────────────────────────────
+
+# --- Odoo source reference (1384+ community modules) ---
+.src/
+
+# --- Python caches ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# --- Odoo temp ---
+*.session
+*.log
+
+# --- OS / IDE ---
+.DS_Store
+._*
+.idea/
+.vscode/
+
+# --- Git ---
+.git/
+
+# --- Cursor config (not relevant for Claude) ---
+.cursor/

@@ -1,0 +1,10 @@
+# Dependencias Python adicionales para módulos custom de Odoo.
+#
+# Las librerías aquí se instalan automáticamente al arrancar
+# cualquier contenedor Odoo (producción y ramas efímeras).
+#
+# NO agregar dependencias ya incluidas en la imagen base odoo:19.0
+# (reportlab, Pillow, lxml, psycopg2, babel, werkzeug, etc.)
+#
+# Ejemplo:
+#   xlsxwriter==3.1.9

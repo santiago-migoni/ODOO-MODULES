@@ -1,0 +1,56 @@
+# ─────────────────────────────────────────
+# ANTIGRAVITYIGNORE — Reducir contexto de IA
+# ODOO-MODULES Repo
+# ─────────────────────────────────────────
+
+# --- Runtime data & filestore ---
+data/
+infra/backups/
+infra/logs/
+
+# --- Ephemeral compose/nginx overrides ---
+docker-compose.feat-*.yml
+docker-compose.fix-*.yml
+infra/nginx/conf.d/feat-*.conf
+infra/nginx/conf.d/fix-*.conf
+
+# --- Secrets ---
+config/*/odoo.conf
+infra/nginx/ssl/
+**/*.pem
+**/*.key
+.env
+.env.*
+
+# --- Node / Frontend build artifacts ---
+node_modules/
+paas/odoo-dashboard/frontend/package-lock.json
+paas/odoo-dashboard/backend/static/dist/
+
+# --- Python caches ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+.coverage
+htmlcov/
+
+# --- OS / IDE ---
+.DS_Store
+._*
+.idea/
+.vscode/
+
+# --- Git ---
+.git/
+
+# --- Cursor config (not relevant for Antigravity) ---
+.cursor/
+.cursorignore
+.cursorrules
+.claude/
+.claudeignore
+CLAUDE.md

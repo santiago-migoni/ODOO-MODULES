@@ -1,0 +1,37 @@
+# ─────────────────────────────────────────
+# ODOO-MODULES — .gitignore
+# ─────────────────────────────────────────
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.log
+.coverage
+htmlcov/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+._*
+
+# Odoo session / temp files
+*.session
+
+# Claude Code (personal settings)
+.claude/settings.local.json
+
+# Odoo Source (Core and Upstream)
+.src/*
+!.src/.gitkeep
