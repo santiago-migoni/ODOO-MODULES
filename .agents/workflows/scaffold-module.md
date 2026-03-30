@@ -1,96 +1,104 @@
 ---
 description: Crea un nuevo módulo de Odoo 19 siguiendo las convenciones de Dipleg.
 ---
-Create a new Odoo 19 module for Dipleg following the repository conventions.
+# Scaffold Module Workflow
 
+Create a new Odoo 19 module for Dipleg following repository conventions.
 
-## Instructions
-1. **Ask module name**: If not provided, ask for the module name (without the `dipl_` prefix).
-2. **Verify duplicates**: Search in `.src/` for anything similar before creating.
-3. **Consult patterns**: Read `.docs/patterns/` to use the standard templates.
+The argument `$ARGUMENTS` contains the module name (without the `dipl_` prefix). If not provided, ask for it.
 
-## Structure to generate
+## 1. Pre-flight questions (ask once, consolidated)
+
+Before generating any file, confirm:
+- **Module name** (if not in `$ARGUMENTS`).
+- **Short description** (summary field in manifest).
+- **Optional features** — answer yes/no for each:
+    - Multi-company support? (`company_id` + record rule)
+    - OWL frontend components? (`static/src/` + assets in manifest)
+    - Reports? (`report/` folder + action)
+    - Wizards? (`wizards/` folder)
+
+## 2. Base structure (always generated)
 
 ```
-dipl_{nombre}/
+dipl_{name}/
 ├── __init__.py
 ├── __manifest__.py
-├── CHANGELOG.md               # Change history (based on changelog-pattern.md)
+├── CHANGELOG.md
 ├── models/
 │   ├── __init__.py
-│   └── {nombre}.py            # Main model (based on model-pattern.py)
+│   └── {name}.py
 ├── views/
-│   └── {nombre}_views.xml     # Form/List/Search views + menuitem
+│   ├── {name}_views.xml
+│   └── menus.xml
 ├── security/
-│   ├── ir.model.access.csv    # Basic ACLs
-│   └── security.xml           # Groups (if applicable)
+│   ├── ir.model.access.csv
+│   └── security.xml          # always: at least one group
 ├── tests/
 │   ├── __init__.py
-│   └── test_{nombre}.py       # Basic tests (based on test-pattern.py)
-├── data/                       # Only if initial data is needed
-├── i18n/
-│   └── es.po                  # Spanish translations (msgid base is English)
-└── static/
-    └── description/
-        └── icon.png            # Placeholder icon
+│   └── test_{name}.py
+└── i18n/
+    └── es.po
 ```
 
-## Mandatory conventions
-- **Technical name**: `dipl_{nombre}` (always with prefix)
-- **Version**: `19.0.1.0.0`
-- **License**: `LGPL-3`
-- **Author**: `Dipleg`
-- **Website**: `https://dipleg.com`
-- **Category**: Ask the user
-- **Dependencies**: Minimal (`base` always; add as needed)
+Optional additions based on answers:
+- `static/src/` — if OWL selected.
+- `report/` — if Reports selected.
+- `wizards/` — if Wizards selected.
 
-## Manifest template
+## 3. Manifest template
+
+Generate the manifest including only what was confirmed:
 
 ```python
 {
     "name": "Dipleg - {Display Name}",
     "version": "19.0.1.0.0",
     "category": "{Category}",
-    "summary": "{Short Summary}",
+    "summary": "{Short Description}",
     "author": "Dipleg",
     "website": "https://dipleg.com",
     "license": "LGPL-3",
-    "depends": ["base"],
+    "depends": ["base", "mail"],
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
-        "views/{nombre}_views.xml",
+        "views/{name}_views.xml",
+        "views/menus.xml",
     ],
+    # Include only if OWL was confirmed:
+    # "assets": {
+    #     "web.assets_backend": [
+    #         "dipl_{name}/static/src/...",
+    #     ],
+    # },
     "installable": True,
     "application": False,
 }
 ```
 
-## `i18n/es.po` template
+## 4. Multi-company (if confirmed)
 
-Create `i18n/es.po` with the following minimal skeleton (no `i18n/en.po`):
-
-```po
-# Spanish translations for Dipleg custom module
-# Module: dipl_{nombre}
-msgid ""
-msgstr ""
-"Project-Id-Version: 19.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Spanish\n"
-"Language: es\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-# No translation entries by default.
-# After generating models/views/XML strings, run Odoo translation export/import
-# to populate msgid/msgstr pairs.
+Add to the main model:
+```python
+company_id = fields.Many2one(
+    "res.company",
+    string="Company",
+    default=lambda self: self.env.company,
+    required=True,
+    index=True,
+)
 ```
 
-## At the end
-- Show the tree of created files.
-- Tell how to install: `odoo-bin -i dipl_{nombre}` (or via Apps in Odoo).
+Add to `security/security.xml` a rule restricting records to `company_id` in `env.companies`.
+
+## 5. Post-generation steps
+
+1. Run `/translate` to populate `i18n/es.po` with all generated strings.
+2. Run `/generate-tests` to cover the base model logic.
+3. Install locally: `python odoo-bin -i dipl_{name} -d <db>`.
+
+## Edge cases
+
+- **OCA dependency**: If the module depends on an OCA addon, add it as a git submodule first (see `odoo-sh` skill §7) before adding to `depends`.
+- **Existing similar module**: Always `grep -r "dipl_{name}"` in the repo before creating to avoid duplication.

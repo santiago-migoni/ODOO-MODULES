@@ -33,5 +33,5 @@ env/
 .claude/settings.local.json
 
 # Odoo Source (Core and Upstream)
-.src/*
-!.src/.gitkeep
+src/*
+!src/.gitkeep
