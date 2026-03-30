@@ -50,27 +50,36 @@ If critical context is missing (model name, XML IDs, view structure, security gr
 | Situation | Use this skill |
 |---|---|
 | Looking up field types, decorators, ORM methods, views | `odoo-19` |
-| Planning module structure, inheritance, data model | `odoo-module-patterns` |
-| Deploying, reading build logs, Odoo.sh configuration | `odoo-sh` |
+| Mapping existing module code before designing changes (Fase 2) | `odoo-analysis` |
+| Planning module structure, inheritance, data model (Fase 3) | `odoo-module-patterns` |
+| Module requirements capture, sprint planning, story points (Fase 1) | `scrum-master` |
+| QA, test coverage validation, quality gates (Fase 5) | `odoo-qa` |
+| Deploying, reading build logs, Odoo.sh configuration (Fase 6) | `odoo-sh` |
+| Production bugs, hotfixes, versioning, post-deploy monitoring (Fase 7) | `odoo-maintenance` |
 | Complex Python logic outside Odoo framework | `python-pro` |
-| Sprint planning, story points, backlog management | `scrum-master` |
 
 ## Available Commands (`/slash-command`)
 
-| Command | Action |
-|---|---|
-| `/scaffold-module` | Create a new module (supports OWL & multi-company). |
-| `/new-feature` | Add new functionality to an existing module. |
-| `/add-field` | Add one or more fields to a model (Python + XML + migration). |
-| `/add-wizard` | Create a transactional wizard (`TransientModel`). |
-| `/add-report` | Create a QWeb PDF or HTML report. |
-| `/generate-tests` | Generate `TransactionCase` or `HttpCase` tests. |
-| `/translate` | Create or update `i18n/es.po` with all missing strings. |
-| `/security-audit` | Audit ACLs, record rules, and `sudo()` usage. |
-| `/perf-check` | Scan for N+1 queries and ORM optimizations. |
-| `/deploy` | Odoo.sh deployment checklist (staging → production). |
-| `/fix-issue` | Root-cause diagnosis and fix. |
-| `/review-pr` | Full quality checklist for Pull Requests. |
+| Command | SDLC Phase | Action |
+|---|---|---|
+| `/clone-odoo` | 0 - Infraestructura | Clone Odoo Community 19.0 source as local reference. |
+| `/sparse-checkout` | 0 — Infraestructura | Filter VS Code workspace to show only relevant modules. |
+| `/plan-module` | 1 — Planificación | Capture and validate module requirements before any code. |
+| `/explain` | 2 — Análisis | Analyze and explain existing code with full context. |
+| `/scaffold-module` | 3 — Diseño | Create a new module (supports OWL & multi-company). |
+| `/new-feature` | 3 — Diseño | Design and propose a new feature for an existing module. |
+| `/add-field` | 4 — Desarrollo | Add one or more fields to a model (Python + XML + migration). |
+| `/add-wizard` | 4 — Desarrollo | Create a transactional wizard (`TransientModel`). |
+| `/add-report` | 4 — Desarrollo | Create a QWeb PDF or HTML report. |
+| `/fix-issue` | 4 — Desarrollo | Root-cause diagnosis and targeted fix. |
+| `/generate-tests` | 5 — Pruebas / QA | Generate `TransactionCase` or `HttpCase` tests. |
+| `/perf-check` | 5 — Pruebas / QA | Scan for N+1 queries and ORM optimizations. |
+| `/security-audit` | 5 — Pruebas / QA | Audit ACLs, record rules, and `sudo()` usage. |
+| `/translate` | 6 — Deploy | Create or update `i18n/es.po` with all missing strings. |
+| `/review-pr` | 6 — Deploy | Full quality checklist for Pull Requests. |
+| `/changelog` | 6 — Deploy | Generate or update `CHANGELOG.md` with semantic versioning. |
+| `/deploy` | 6 — Deploy | Odoo.sh deployment checklist (staging → production). |
+| `/hotfix` | 7 — Mantenimiento | Accelerated fix protocol for production-critical bugs. |
 
 ## Odoo 19 Conventions (mandatory)
 
@@ -111,6 +120,18 @@ Before marking any task as done:
 - **Staging**: Always test in a staging build before merging to `master`.
 - **Production**: Merge only after green build and manual sanity check. Follow `/deploy`.
 
+## Module Versioning
+
+All custom modules use semantic versioning: `19.0.X.Y.Z`.
+
+| Component | When to increment | Example |
+|---|---|---|
+| Major `X` | Breaking model/API change requiring a migration script | `19.0.2.0.0` |
+| Minor `Y` | New backward-compatible feature | `19.0.1.1.0` |
+| Patch `Z` | Bug fix, no schema change | `19.0.1.0.1` |
+
+Always update `version` in `__manifest__.py` and add an entry to `CHANGELOG.md` before deploying.
+
 ## Translation Standard
 
 - Base msgid/source strings are **English** (the strings written in code).
@@ -127,6 +148,10 @@ When diagnosing errors:
 4. Implement a minimal fix consistent with the existing coding style and Odoo 19 conventions.
 5. Verify the fix via tests or a targeted runtime check.
 6. Document: root cause, evidence found, fix applied, test added, prevention recommendation.
+
+**Workflow to use:**
+- **Routine bug** (non-urgent, can wait for next release): `/fix-issue`.
+- **Production-critical bug** (needs same-day fix): `/hotfix` — accelerated protocol with minimal QA scope.
 
 ## Reference Guides
 

@@ -6,9 +6,9 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 
 # Scrum Master
 
-**Role:** Phase 4 - Implementation Planning specialist
+**Role:** Fase 1 — Module Planning specialist for Odoo 19 (Dipleg)
 
-**Function:** Break down work into manageable stories, plan sprints, track velocity, and facilitate agile delivery.
+**Function:** Capture module requirements, break work into manageable stories, plan sprints, track velocity, and hand off to development with clear acceptance criteria.
 
 ## Responsibilities
 
@@ -39,16 +39,17 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ## Workflow Integration
 
 ### You Work After:
-- **Product Manager** - Receives PRD/tech-spec with epics and requirements
-- **System Architect** - Receives architecture document (Level 2+)
-- **BMad Master** - Receives routing from workflow orchestration
+- **Business stakeholder** — Receives the module requirement (business problem description)
+- **`/plan-module`** — Run `/plan-module` first to capture Odoo-specific requirements before breaking into stories
+- **`/explain`** — If analyzing an existing module, use it first to understand current code
 
 ### You Work Before:
-- **Developer** - Hands off refined, estimated stories for implementation
+- **`/scaffold-module` or `/new-feature`** — Hands off refined, estimated stories for design and implementation
 
 ### You Work With:
-- **Memory Tool** - Store sprint plans, velocity data, and story details
-- **TodoWrite** - Track sprint tasks and story implementation progress
+- `docs/requirements/` — Store requirements documents per module
+- `docs/stories/` — Store individual story documents
+- `docs/sprint-status.yaml` — Track sprint progress
 
 ## Story Sizing Quick Reference
 
@@ -112,14 +113,31 @@ See [REFERENCE.md](REFERENCE.md) for detailed metrics calculations.
 
 ## Story Creation Workflow
 
-1. **Load Context** - Read project config, PRD, tech spec, architecture
-2. **Check Sprint Status** - Load `.bmad/sprint-status.yaml` if exists
-3. **Break Down Epic** - Decompose epic into 1-3 day stories
-4. **Write Story** - Use [user-story.template.md](templates/user-story.template.md)
-5. **Estimate Points** - Apply Fibonacci sizing guidelines
-6. **Define Acceptance Criteria** - Clear, testable, measurable
-7. **Identify Dependencies** - Technical and story dependencies
-8. **Update Sprint Status** - Track story in sprint plan
+### Step 0 — Odoo Requirements Capture (mandatory before breaking into stories)
+
+Before decomposing into stories, answer these questions and document in `docs/requirements/{module_name}.md`:
+
+| Question | Why it matters |
+|---|---|
+| Is this a new module or extension of an existing one? | Determines `/scaffold-module` vs `/new-feature` |
+| Does the module affect financial or inventory data? | Triggers `company_id` + multi-company record rule |
+| Is the module already installed in production? | Model changes require migration scripts |
+| Does it depend on an OCA module? | Git submodule required before adding to `depends` |
+| What Odoo standard models are involved? | Must analyze with `odoo-analysis` before design |
+| Does it need portal access or email notifications? | `auth=` on controllers, `mail.thread` on model |
+
+If any answer is uncertain — **ask the user**. Never assume business rules or identifiers.
+
+### Steps 1–8 — Standard Story Planning
+
+1. **Load Context** — Read `docs/requirements/{module_name}.md`
+2. **Check Sprint Status** — Load `docs/sprint-status.yaml` if exists
+3. **Break Down Epic** — Decompose module into 1–3 day stories
+4. **Write Story** — Use [user-story.template.md](templates/user-story.template.md)
+5. **Estimate Points** — Apply Fibonacci sizing guidelines
+6. **Define Acceptance Criteria** — Clear, testable, aligned with Odoo Quality Gates from `GEMINI.md`
+7. **Identify Dependencies** — Technical (module `depends`) and story dependencies
+8. **Update Sprint Status** — Track story in `docs/sprint-status.yaml`
 
 ## Sprint Planning Workflow
 
@@ -198,7 +216,7 @@ This skill leverages parallel subagents to maximize context utilization (each ag
 2. Launch parallel agents to analyze dependencies, velocity, and goals
 3. Main context uses outputs to allocate stories to sprints
 4. Generate sprint plan document with story allocation
-5. Update .bmad/sprint-status.yaml with plan
+5. Update docs/sprint-status.yaml with plan
 
 ### Story Refinement Workflow (Large Projects)
 **Pattern:** Story Parallel Implementation
@@ -245,7 +263,7 @@ Constraints:
 3. **Apply sizing strictly** - Break down stories >8 points
 4. **Be level-appropriate** - Don't over-plan Level 0-1 projects
 5. **Calculate velocity** from completed sprints before planning new ones
-6. **Store sprint data** in `.bmad/sprint-status.yaml`
+6. **Store sprint data** in `docs/sprint-status.yaml`
 7. **Hand off clearly** - Specify which story Developer should start with
 8. **Focus on value** - Prioritize stories that deliver user value early
 9. **Keep scope flexible** - Adjust sprint scope based on velocity trends
@@ -298,7 +316,7 @@ Goal: Complete product catalog and shopping cart
 [Remaining stories allocated...]
 
 Sprint plan created: docs/sprint-plan-e-commerce-platform-2025-12-09.md
-Sprint status updated: .bmad/sprint-status.yaml
+Sprint status updated: docs/sprint-status.yaml
 
 Ready to begin Sprint 1!
 Next step: Run /dev-story STORY-001 to start implementation

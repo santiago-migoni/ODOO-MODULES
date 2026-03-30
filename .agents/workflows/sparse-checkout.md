@@ -5,9 +5,24 @@ description: Configura sparse-checkout para trabajar solo con los módulos neces
 
 Configura git sparse-checkout para mostrar solo los módulos que necesitás, reduciendo el ruido visual en el editor.
 
+## Contexto
+
+El desarrollo en Dipleg parte de una rama creada desde el Dashboard (estilo Odoo.sh), que es un fork de `master` (producción). Esto significa que al hacer `git clone --single-branch`, el workspace contiene:
+
+- **Todos los módulos `dipl_*` ya en producción** — generan ruido visual en VS Code.
+- Las carpetas de soporte (`.agents/`, `docs/`, `src/`) — siempre necesarias.
+
+El objetivo de `git sparse-checkout` es mostrar **solo los módulos relevantes** para la tarea actual, sin tocar los demás en el repositorio remoto.
+
+**Cuándo ejecutar:** Una sola vez, inmediatamente después de `git clone --single-branch`, antes de abrir VS Code.
+
 ## Steps
 
-1. **Verificar estado**: Comprobar si sparse-checkout ya está configurado:
+0. **Clonar la rama desde el Dashboard**: Copiar el comando provisto por el Dashboard y ejecutarlo:
+   ```bash
+   git clone --single-branch --branch <nombre_rama> <repo_url> <carpeta_destino>
+   ```
+   Este comando clona únicamente la rama activa, sin historial de otras ramas.
    `git sparse-checkout list`
    Si ya está activo, mostrar los paths actuales y preguntar si se quiere reconfigurar.
 
