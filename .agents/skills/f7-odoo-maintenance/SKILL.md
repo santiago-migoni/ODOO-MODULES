@@ -7,6 +7,12 @@ description: >-
   bug, hotfix, version bump, maintenance, post-deploy, module version.
 ---
 
+> **Fase**: F7 — Mantenimiento
+> **Dónde estamos**: El módulo está en producción. Ahora gestionamos bugs, hotfixes, versionado y el cierre cíclico del SDLC.
+> **Qué hacer**: Diagnosticar y corregir bugs, ejecutar hotfixes, gestionar versiones, monitorear post-deploy, cerrar el ciclo.
+> **Cómo hacerlo**: Skill f7-odoo-maintenance + workflow /hotfix.
+> **Por qué así**: El Go-Live no es el final — es el inicio del siguiente ciclo. Sin mantenimiento estructurado, la deuda técnica se acumula y las migraciones anuales de Odoo se vuelven inmanejables.
+
 # Odoo Maintenance Skill
 
 **Role:** Fase 7 — Maintenance specialist for Dipleg's Odoo 19 modules in production
@@ -148,3 +154,44 @@ Every maintenance action must be documented:
 | Performance regression post-deploy | `/perf-check` on affected methods; patch release |
 | Security vulnerability found | Treat as production-critical hotfix — `/hotfix` immediately |
 | Third-party OCA dependency outdated | Pin to working commit; test on staging before bumping |
+
+## Scripts de Migración — Detalle Técnico
+
+### Pre-migration (pre-update.py)
+Ejecuta **antes** de que el ORM aplique el nuevo schema:
+- Remapear claves históricas.
+- Alterar constraints de PostgreSQL que bloquearían la actualización.
+- Transferir datos heredados a ubicaciones temporales antes de que las nuevas columnas se manifiesten.
+- Acceso: cursor SQL directo (`cr`), ORM NO completamente disponible.
+
+### Post-migration (post-update.py)
+Ejecuta **después** de que el ORM haya asimilado el nuevo schema:
+- Computar valores para campos stored recién añadidos.
+- Normalización de datos dependiente del nuevo schema.
+- Limpieza de columnas temporales/backup.
+- Acceso: ORM completo vía `api.Environment(cr, SUPERUSER_ID, {})`.
+
+### Hooks del Manifiesto
+- `pre_init_hook`: Antes de instalación. Cursor SQL directo. Crear infraestructura base.
+- `post_init_hook`: Después de instalación. Cursor SQL directo. Poblar datos iniciales.
+- `uninstall_hook`: Al desinstalar. Limpieza de artefactos de BD.
+- Los hooks **bypasean el ORM** — no hay access rights, computed triggers, ni record rules.
+
+## Gestión del Cambio Post-Go-Live
+
+El Go-Live genera fricción iterativa inevitable:
+- Hallazgos menores de UI/ergonomía.
+- Comportamientos no previstos en integraciones con terceros.
+- Nuevos ángulos de análisis gerencial no pronosticados.
+
+Todos estos descubrimientos **cierran el ciclo** retroalimentando el backlog de la Fase 1, generando material para el siguiente sprint de desarrollo.
+
+## Cierre Cíclico del SDLC
+
+Cada cierre de iteración:
+1. Retroalimenta la mesa de análisis técnico (Fase 1).
+2. Genera material para expandir/reordenar el backlog.
+3. Prepara solvencia de código ante migraciones anuales de Odoo.
+4. Refina la velocidad del equipo para futuros sprints.
+
+El desarrollo iterativo **descarta un final rígido** y abraza la optimización simbiótica continua.

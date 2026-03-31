@@ -1,6 +1,12 @@
 ---
 description: Genera tests para un módulo de Odoo 19.
 ---
+
+> **Fase**: F5 — Pruebas / QA
+> **Dónde estamos**: Código implementado. Generamos tests que validen comportamiento y prevengan regresiones.
+> **Por qué esta fase**: Tests automatizados son el andamiaje que sostiene la estabilidad. Sin ellos, cada refactorización es una ruleta rusa.
+> **Habilita**: Fase 6 (Deploy) — tests verdes son requisito para merge a staging y producción.
+
 Generate tests for Odoo 19 code following the native testing framework.
 
 
@@ -13,7 +19,7 @@ The argument `$ARGUMENTS` contains the path to the file or module to generate te
    - **HTTP Controller** → `HttpCase`
    - **Wizard** → `TransactionCase`
    - **JS/OWL** → `HttpCase` with a tour
-3. Consult the testing guide: `.cursor/skills/odoo-19/references/odoo-19-testing-guide.md`
+3. Consult the testing guide: `.agents/skills/g-odoo-19/references/odoo-19-testing-guide.md`
 4. Analyze the code to identify:
    - Public methods/actions
    - Computed fields and constraints
@@ -99,3 +105,22 @@ class TestDiplExample(TransactionCase):
 - Trivial getters/setters
 - Odoo ORM internal logic (already tested upstream)
 - XML views (use tours for complex UI flows)
+
+## Métodos de Testing por Prioridad
+
+### 1. Form Helper (preferido para lógica de modelo)
+Usa la clase `Form` para emular comportamiento de UI:
+- Activa `@api.onchange` automáticamente.
+- Propaga valores por defecto configurados en XML.
+- Fidelidad superior a llamadas directas de `write()`.
+
+### 2. HOOT Framework (para componentes OWL)
+- `mountWithCleanup`: Monta componente con limpieza automática post-test.
+- `mountView`: Monta vista completa para testing de integración.
+- `expect`: Aserciones sobre el DOM virtual.
+- Mock de RPC para aislar comportamiento del componente.
+
+### 3. Tours E2E (para flujos completos)
+- `tour.register` con pasos lógicos: trigger → wait → action.
+- Testean el puente completo Python ↔ JavaScript.
+- Doble función: anti-regresión + especificación de negocio ejecutable.

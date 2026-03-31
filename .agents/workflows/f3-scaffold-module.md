@@ -1,6 +1,12 @@
 ---
 description: Crea un nuevo módulo de Odoo 19 siguiendo las convenciones de Dipleg.
 ---
+
+> **Fase**: F3 — Diseño Arquitectónico
+> **Dónde estamos**: El análisis ha mapeado el código existente. Creamos la estructura base del módulo.
+> **Por qué esta fase**: La estructura de directorios de Odoo no es preferencia estilística — es ingeniería que permite al framework localizar recursos e inyectarlos en el registro central.
+> **Habilita**: Fase 4 (Implementación) — produce el esqueleto donde los desarrolladores codificarán modelos, vistas y lógica.
+
 # Scaffold Module Workflow
 
 Create a new Odoo 19 module for Dipleg following repository conventions.
@@ -102,3 +108,16 @@ Add to `security/security.xml` a rule restricting records to `company_id` in `en
 
 - **OCA dependency**: If the module depends on an OCA addon, add it as a git submodule first (see `odoo-sh` skill §7) before adding to `depends`.
 - **Existing similar module**: Always `grep -r "dipl_{name}"` in the repo before creating to avoid duplication.
+
+## Decisión de Herencia (obligatoria antes de generar)
+
+Antes de ejecutar el scaffold, confirmar el paradigma de herencia:
+
+| Pregunta | Si la respuesta es... | Usar |
+|---|---|---|
+| ¿Estás agregando campos/comportamiento a un modelo existente? | Sí | Extension (`_inherit` sin `_name`) |
+| ¿Necesitas una nueva entidad con identidad propia pero similar al padre? | Sí | Classical (`_name` + `_inherit`) |
+| ¿Necesitas acceder a campos del padre sin duplicar datos? | Sí | Delegation (`_inherits`) |
+| ¿Es un modelo completamente nuevo sin relación con modelos existentes? | Sí | Nuevo `models.Model` con `_name` único |
+
+Ver rule `06-inheritance-strategy` para detalles completos.

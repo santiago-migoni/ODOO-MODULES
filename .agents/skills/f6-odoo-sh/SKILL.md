@@ -6,6 +6,12 @@ description: >-
   deploying, configuring environments, or analyzing CI/CD issues in Odoo.sh.
 ---
 
+> **Fase**: F6 — Deploy
+> **Dónde estamos**: QA ha validado el código. Ahora lo movemos a través de los entornos de Odoo.sh hasta producción.
+> **Qué hacer**: Validar en staging con datos reales, ejecutar migración, desplegar a producción, capacitar usuarios.
+> **Cómo hacerlo**: Skill f6-odoo-sh + workflows /translate, /review-pr, /changelog, /deploy.
+> **Por qué así**: Sin un proceso de staging con datos clonados de producción, los scripts de migración podrían fallar ante volúmenes reales de datos, causando downtime en Go-Live.
+
 # Odoo.sh Skill - Reference Guide
 
 Guide for managing Dipleg's custom modules on the Odoo.sh platform.
@@ -78,3 +84,28 @@ The Odoo.sh web editor includes a terminal. Verified commands:
 - `python odoo-bin -u <module> -d <db> --stop-after-init` — update a module.
 - `tail -f /var/log/odoo/odoo-server.log` — stream live logs.
 - Standard `git`, `pip`, `psql` commands are available.
+
+## Estrategia de 3 Ramas — Detalle Arquitectónico
+
+### Development Branches (Ramas de Desarrollo)
+- Cada requerimiento/bugfix/refactor se desarrolla en su propia rama aislada.
+- Odoo.sh despliega un servidor Linux virtual + PostgreSQL **desde cero** con datos de demo.
+- **Mail catchers**: Interceptores de correo electrónico y DNS simulados — no se envían correos reales.
+- **Autodestrucción**: Las bases efímeras se eliminan tras un período de inactividad.
+- Aquí se ejecutan pruebas destructivas sin impacto en operaciones.
+
+### Staging Branches (Pre-producción)
+- Las bases de datos son **clones bit-a-bit de producción** (con anonimización opcional).
+- Epicentro del QA: UAT, validación de migración con datos históricos reales, pruebas de carga.
+- Si se detecta una regresión, el código se intercepta antes del impacto comercial.
+- Diferencia clave vs Development: datos reales en volúmenes reales.
+
+### Production Branch
+- Merge desde Staging solo tras evidencia concluyente de QA + validación del Project Leader.
+- Odoo.sh ejecuta: detener servicio → instalar dependencias → actualizar ORM → re-enrutar tráfico HTTP.
+- **Tiempo de inactividad prácticamente imperceptible**.
+
+### Salvaguardas
+- **Imposible** mover Production a Staging por drag-and-drop.
+- **Imposible** mover Staging a Production sin git merge explícito.
+- Gobernanza rigurosa impuesta por diseño arquitectónico de la plataforma.

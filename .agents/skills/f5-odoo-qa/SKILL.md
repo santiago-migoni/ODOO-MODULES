@@ -7,6 +7,12 @@ description: >-
   quality gates, validation, QA, before deploy, test the module.
 ---
 
+> **Fase**: F5 — Pruebas / QA
+> **Dónde estamos**: El código está implementado. Antes de desplegar, validamos calidad, rendimiento, seguridad y traducciones.
+> **Qué hacer**: Ejecutar la pirámide QA completa (5 niveles), validar quality gates.
+> **Cómo hacerlo**: Skill f5-odoo-qa + workflows /generate-tests, /perf-check, /security-audit.
+> **Por qué así**: Cada bug detectado en QA cuesta 10x menos que en producción (principio Six Sigma). Sin QA riguroso, la Fase 6 (Deploy) inyecta defectos directamente en la operación corporativa.
+
 # Odoo QA Skill
 
 **Role:** Fase 5 — Quality Assurance specialist for Odoo 19 modules
@@ -115,3 +121,34 @@ Before any merge to staging or production:
 | Security issue found | Block deploy — escalate to `/hotfix` protocol if already in production |
 | Translation gap after `/translate` | Re-run `/translate` and commit before merging |
 | Manual smoke test fails in staging | Create `fix/` branch and cycle back to Fase 4 |
+
+## Form Helper — Emulación de UI en Tests
+
+La clase `Form` de Odoo emula el comportamiento del cliente web en los tests:
+- Al inyectar valores programáticamente, activa `@api.onchange` y propagación de defaults.
+- Fidelidad superior a llamadas directas de `write()` al ORM.
+- Uso preferido para tests de wizards, formularios y flujos de estado.
+
+```python
+from odoo.tests.common import Form
+
+with Form(self.env['dipl.example']) as f:
+    f.name = "Test Record"
+    f.partner_id = self.partner  # triggers onchange
+    record = f.save()
+```
+
+## HOOT Framework — Tests de JavaScript/OWL
+
+Framework propio de Odoo para testing de componentes frontend:
+- `mountWithCleanup`: Monta componente con limpieza automática.
+- `mountView`: Monta una vista completa para testing de integración.
+- `expect`: Aserciones deterministas sobre el DOM virtual.
+- Mocking de RPC: Intercepta llamadas asíncronas al backend para aislar el componente.
+
+## Tours E2E — Especificaciones Ejecutables
+
+Los Tours (`tour.register`) son scripts interactivos que testean el puente Python ↔ JavaScript:
+- Estructurados en pasos lógicos: localizar trigger en DOM → esperar confirmación asíncrona → ejecutar interacción.
+- **Dualidad**: Funcionan simultáneamente como anti-regresión Y como especificaciones de negocio documentadas y ejecutables.
+- Reemplazan documentación de texto que se vuelve obsoleta rápidamente.

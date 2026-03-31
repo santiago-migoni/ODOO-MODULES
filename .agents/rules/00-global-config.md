@@ -1,5 +1,6 @@
 ---
 trigger: always_on
+globs:
 description: Configuración general y flujo de trabajo de Dipleg (Odoo 19, traducciones, ramas)
 ---
 # Configuración del Repositorio - ODOO-MODULES

@@ -1,6 +1,12 @@
 ---
 description: Proceso para agregar nuevas funcionalidades a módulos existentes en Odoo 19.
 ---
+
+> **Fase**: F3 — Diseño Arquitectónico
+> **Dónde estamos**: Módulo existente necesita una nueva funcionalidad. Analizamos impacto antes de codificar.
+> **Por qué esta fase**: Agregar features sin análisis de impacto genera conflictos de herencia, campos computados rotos y regresiones silentes.
+> **Habilita**: Fase 4 (Implementación) — produce una propuesta técnica aprobada que guía la codificación.
+
 # New Feature Workflow
 
 Step-by-step guide to add a new feature to an existing Odoo 19 module.
@@ -42,3 +48,13 @@ Always implement in dependency order to avoid broken intermediate states:
 - **Multi-module feature**: If the feature touches more than one module, create a separate branch per module and merge in dependency order. Note inter-module XML ID references to avoid load order errors.
 - **Upstream dependency change**: If the feature requires adding to `depends`, re-run `/security-audit` after — new model access may need new ACL entries.
 - **Inherited model conflict**: If a field name you need already exists in the inherited model, use `_compute` override or a prefixed name (`dipl_field_name`) to avoid collision.
+
+## Análisis de Impacto Avanzado
+
+Antes de proponer, evaluar:
+
+- **Herencia**: ¿La feature requiere Extension, Classical o Delegation? ¿Hay conflicto con herencia existente?
+- **Campos polimórficos**: Si la feature necesita vincular un registro a múltiples tipos de modelo, considerar `fields.Reference`.
+- **Computed fields**: Si se agregan campos calculados, validar que `@api.depends` incluya rutas profundas (ej: `line_ids.price_unit`). Preferir sobre-declarar dependencias.
+- **Many2many con metadatos**: Si la relación necesita fecha/estado/comentarios, usar tabla intermedia explícita.
+- **Seguridad**: ¿La feature introduce datos sensibles? Planear ACL + record rules desde la propuesta.

@@ -8,6 +8,12 @@ description: >-
   code, existing module structure, dependencies, before designing.
 ---
 
+> **Fase**: F2 — Análisis
+> **Dónde estamos**: El backlog está priorizado. Antes de diseñar, necesitamos mapear el código existente para entender qué ya existe y qué impacto tendrán los cambios.
+> **Qué hacer**: Mapeo de módulos, modelos, vistas, seguridad, lógica y análisis de impacto.
+> **Cómo hacerlo**: Skill f2-odoo-analysis + workflow /explain.
+> **Por qué así**: Sin un análisis profundo del código existente, la Fase 3 (Diseño) tomará decisiones de herencia y arquitectura basadas en suposiciones — generando refactorizaciones costosas.
+
 # Odoo Analysis Skill
 
 **Role:** Fase 2 — Analysis specialist for Odoo 19 modules
@@ -107,3 +113,18 @@ After completing the analysis, always produce this summary before proposing any 
 ```
 
 This output is mandatory input for Fase 3 (Diseño) — do not skip it.
+
+## Integración con GAP Analysis
+
+El análisis de código se alinea con las brechas identificadas en el GAP Analysis:
+- Para cada brecha funcional, el análisis identifica qué modelos estándar de Odoo están involucrados.
+- Evalúa si la brecha se resuelve con configuración, extensión de modelo existente, o módulo nuevo.
+- Alimenta la decisión de herencia (Extension/Classical/Delegation) que se formaliza en Fase 3.
+
+## Evaluación de Dependencias Lógicas
+
+Antes de pasar a diseño, validar:
+- Dependencias entre módulos custom y estándar.
+- Campos computados con rutas profundas que podrían verse afectados.
+- Record rules existentes que podrían entrar en conflicto con nuevas reglas.
+- Vistas heredadas que podrían romperse con cambios en el modelo.

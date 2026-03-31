@@ -4,6 +4,12 @@ description: Sprint planning and agile workflow specialist. Breaks epics into us
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
+> **Fase**: F1 — Planificación
+> **Dónde estamos**: El GAP Analysis ha identificado las brechas funcionales. Necesitamos transformarlas en un backlog priorizado y sprints ejecutables.
+> **Qué hacer**: Descomponer épicas en historias de 1-3 días, estimar con Fibonacci, planificar sprints.
+> **Cómo hacerlo**: Skill f1-scrum-master + workflow /plan-module.
+> **Por qué así**: Sin un backlog priorizado con dependencias lógicas resueltas, la Fase 2 (Análisis) operará sobre requerimientos ambiguos y los desarrolladores enfrentarán bloqueos lógicos.
+
 # Scrum Master
 
 **Role:** Fase 1 — Module Planning specialist for Odoo 19 (Dipleg)
@@ -341,3 +347,25 @@ Next step: Run /dev-story STORY-001 to start implementation
 ---
 
 **Remember:** Good sprint planning makes development smooth and predictable. Break big problems into small, achievable tasks. Keep work visible, trackable, and focused on delivering user value incrementally.
+
+## Input del GAP Analysis
+
+El backlog de este sprint se alimenta directamente del GAP Analysis (ver skill `f0-enterprise-sdlc`):
+- Las brechas funcionales cuantificadas se transforman en épicas.
+- Las dependencias lógicas (ej: inventario avanzado necesita maestro de productos) dictan el orden de los sprints.
+- La regla del 10/80/10 aplica: esta fase consume ~10% del presupuesto total.
+
+## Equipos Multifuncionales
+
+Cada sprint requiere la formación de equipos que agrupan:
+- **Business Analyst (BA)**: Traduce necesidades de negocio a requerimientos técnicos.
+- **Desarrolladores**: Implementan modelos, vistas, lógica de negocio.
+- **QA Specialist**: Valida calidad, reporta regresiones.
+- **SPoC (Single Point of Contact)**: Representante del cliente, valida entregables.
+
+## Prevención de Scope Creep
+
+La disciplina impuesta en esta fase previene el deslizamiento del alcance:
+- Requerimientos cambiantes se someten a escrutinio formal antes de entrar al sprint.
+- La documentación generada actúa como plano vinculante para los ingenieros.
+- Cambios de alcance post-aprobación requieren re-estimación y aprobación del SPoC.

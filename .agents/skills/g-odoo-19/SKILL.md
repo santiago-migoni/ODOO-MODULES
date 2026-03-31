@@ -1,63 +1,59 @@
 ---
 name: odoo-19
 description: >-
-  Odoo 19 development knowledge base with 18 specialized guides covering
-  Actions (ir.actions.*, cron jobs, server actions), Controllers (HTTP
-  routing, endpoints, auth types), Data files (XML/CSV records, shortcuts,
-  noupdate), API Decorators (@api.depends, @api.constrains, @api.ondelete,
-  @api.onchange, @api.model, @api.private), SQL Constraints (models.Constraint
-  replacing _sql_constraints), Database Indexes (models.Index), Module
-  development (manifest, wizards, reports), Field types (Char, Text, Monetary,
-  relational fields), Manifest configuration (__manifest__.py, dependencies,
-  asset bundles), Mixins (mail.thread, mail.activity.mixin, mail.alias.mixin,
-  utm.mixin), ORM Model methods (search, CRUD, domain filters, recordsets,
-  CamelCase model naming), Migration scripts (pre/post/end hooks, data
-  migration), OWL frontend components (hooks, services, lifecycle),
-  Performance optimization (N+1 prevention, batch ops, _read_group), QWeb
-  Reports (PDF/HTML, paper formats, barcodes, t-out), Security/ACL (record
-  rules, field permissions, privilege-based groups, @api.private), Testing
-  (TransactionCase, HttpCase, mocking, query count assertions), Transactions
-  (savepoints, UniqueViolation, serialization failures), Translations (i18n,
-  PO files, translatable fields), XML Views (list/form/search, kanban card
-  templates, xpath inheritance, QWeb templates). Use when writing, reviewing,
-  or debugging any Odoo 19 Python or XML code, creating or modifying modules,
-  fixing performance issues, or looking up Odoo 19 API patterns and best
-  practices.
+  Odoo 19 development knowledge base with 22 specialized references covering
+  the complete stack: ORM/backend, XML views, OWL frontend, themes/SCSS,
+  actions, controllers, fields, decorators, mixins, migration, performance,
+  security, testing, transactions, translations, and QWeb reports.
+  Use when writing, reviewing, or debugging any Odoo 19 code.
 ---
 
-# Odoo 19 Skill - Master Index
+# Odoo 19 Skill — Master Index
 
-Master index for all Odoo 19 development guides. Read the appropriate guide from `references/` based on your task.
+Load the appropriate reference from `references/` based on your task. Do NOT load all references at once — pick only what you need.
 
-## Quick Reference
+## Implementation Constraints
 
-| Topic          | File                                      | When to Use                                             |
-| -------------- | ----------------------------------------- | ------------------------------------------------------- |
-| Actions        | `references/odoo-19-actions-guide.md`     | Creating actions, menus, scheduled jobs, server actions |
-| API Decorators | `references/odoo-19-decorator-guide.md`   | Using @api decorators, compute fields, validation       |
-| Controllers    | `references/odoo-19-controller-guide.md`  | Writing HTTP endpoints, routes, web controllers         |
-| Data Files     | `references/odoo-19-data-guide.md`        | XML/CSV data files, records, shortcuts                  |
-| Development    | `references/odoo-19-development-guide.md` | Creating modules, manifest, reports, security, wizards  |
-| Field Types    | `references/odoo-19-field-guide.md`       | Defining model fields, choosing field types             |
-| Manifest       | `references/odoo-19-manifest-guide.md`    | **manifest**.py configuration, dependencies, hooks      |
-| Migration      | `references/odoo-19-migration-guide.md`   | Upgrading modules, data migration, version changes      |
-| Mixins         | `references/odoo-19-mixins-guide.md`      | mail.thread, activities, email aliases, tracking        |
-| Model Methods  | `references/odoo-19-model-guide.md`       | Writing ORM queries, CRUD operations, domain filters    |
-| OWL Components | `references/odoo-19-owl-guide.md`         | Building OWL UI components, hooks, services             |
-| Performance    | `references/odoo-19-performance-guide.md` | Optimizing queries, fixing slow code, preventing N+1    |
-| Reports        | `references/odoo-19-reports-guide.md`     | QWeb reports, PDF/HTML, templates, paper formats        |
-| Security       | `references/odoo-19-security-guide.md`    | Access rights, record rules, field permissions          |
-| Testing        | `references/odoo-19-testing-guide.md`     | Writing tests, mocking, assertions, browser testing     |
-| Transactions   | `references/odoo-19-transaction-guide.md` | Handling database errors, savepoints, UniqueViolation   |
-| Translation    | `references/odoo-19-translation-guide.md` | Adding translations, localization, i18n                 |
-| Views & XML    | `references/odoo-19-view-guide.md`        | Writing XML views, actions, menus, QWeb templates       |
+| Domain | Reference | Load When |
+|--------|-----------|-----------|
+| Backend / ORM | `references/odoo-19-backend-constraints.md` | Writing models, computed fields, security, batch ops, inheritance |
+| Views / XML | `references/odoo-19-view-constraints.md` | Writing Form, List, Kanban, Pivot, Search views, XPath inheritance |
+| OWL / JS | `references/odoo-19-owl-constraints.md` | Building OWL components, hooks, services, patch(), registry |
+| Theme / SCSS | `references/odoo-19-theme-constraints.md` | SCSS, Bootstrap overrides, website snippets, QWeb reports, print CSS |
+
+## API & Framework Guides
+
+| Topic | Reference | Load When |
+|-------|-----------|-----------|
+| Actions | `references/odoo-19-actions-guide.md` | Creating actions, menus, scheduled jobs, server actions |
+| API Decorators | `references/odoo-19-decorator-guide.md` | @api.depends, @api.constrains, @api.ondelete, @api.onchange |
+| Controllers | `references/odoo-19-controller-guide.md` | HTTP endpoints, routes, JSON-RPC, web controllers |
+| Data Files | `references/odoo-19-data-guide.md` | XML/CSV data files, records, noupdate, shortcuts |
+| Development | `references/odoo-19-development-guide.md` | Module creation, manifest, wizards, reports overview |
+| Field Types | `references/odoo-19-field-guide.md` | Defining fields, choosing field types, parameters |
+| Manifest | `references/odoo-19-manifest-guide.md` | __manifest__.py, dependencies, assets, hooks |
+| Migration | `references/odoo-19-migration-guide.md` | Upgrade scripts, data migration, pre/post hooks |
+| Mixins | `references/odoo-19-mixins-guide.md` | mail.thread, activities, email aliases, tracking |
+| Model Methods | `references/odoo-19-model-guide.md` | ORM queries, CRUD, domain filters, recordsets |
+| OWL Guide | `references/odoo-19-owl-guide.md` | OWL components deep dive, hooks, services |
+| Performance | `references/odoo-19-performance-guide.md` | N+1 prevention, batch ops, query optimization |
+| Reports | `references/odoo-19-reports-guide.md` | QWeb reports, PDF/HTML, paper formats, barcodes |
+| Security | `references/odoo-19-security-guide.md` | Access rights, record rules, field permissions |
+| Testing | `references/odoo-19-testing-guide.md` | TransactionCase, HttpCase, mocking, HOOT, Tours |
+| Transactions | `references/odoo-19-transaction-guide.md` | Savepoints, UniqueViolation, serialization failures |
+| Translation | `references/odoo-19-translation-guide.md` | i18n, PO files, translatable fields |
+| Views & XML | `references/odoo-19-view-guide.md` | XML views, actions, menus, QWeb templates |
 
 ## File Structure
 
 ```
-skills/odoo-19/
-├── SKILL.md                          # This file - master index
-└── references/                       # Development guides
+skills/g-odoo-19/
+├── SKILL.md                                # This file — master index
+└── references/                             # 22 specialized references
+    ├── odoo-19-backend-constraints.md      # MUST DO / MUST NOT DO for Python/ORM
+    ├── odoo-19-view-constraints.md         # MUST DO / MUST NOT DO for XML/views
+    ├── odoo-19-owl-constraints.md          # MUST DO / MUST NOT DO for OWL/JS
+    ├── odoo-19-theme-constraints.md        # MUST DO / MUST NOT DO for SCSS/themes/reports
     ├── odoo-19-actions-guide.md
     ├── odoo-19-controller-guide.md
     ├── odoo-19-data-guide.md
@@ -82,14 +78,13 @@ skills/odoo-19/
 
 All guides are based on analysis of Odoo 19 source code:
 
-- `odoo/models.py` - ORM implementation
-- `odoo/fields.py` - Field types
-- `odoo/api.py` - Decorators
-- `odoo/http.py` - HTTP layer
-- `odoo/exceptions.py` - Exception types
-- `odoo/tools/translate.py` - Translation system
-- `odoo/addons/base/models/res_lang.py` - Language model
-- `addons/web/static/src/core/l10n/translation.js` - JS translations
+- `odoo/models.py` — ORM implementation
+- `odoo/fields.py` — Field types
+- `odoo/api.py` — Decorators
+- `odoo/http.py` — HTTP layer
+- `odoo/exceptions.py` — Exception types
+- `odoo/tools/translate.py` — Translation system
+- `addons/web/static/src/core/` — OWL components and services
 
 ## External Documentation
 

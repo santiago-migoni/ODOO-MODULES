@@ -6,6 +6,12 @@ description: >-
   new features or modules.
 ---
 
+> **Fase**: F3 — Diseño Arquitectónico
+> **Dónde estamos**: El análisis ha mapeado el código existente. Ahora diseñamos la arquitectura del módulo: herencia, modelos de datos, patrones de UI.
+> **Qué hacer**: Decidir tipo de herencia, diseñar esquema de datos, seleccionar patrones de UI, definir estructura de directorios.
+> **Cómo hacerlo**: Skill f3-module-patterns + workflows /scaffold-module, /new-feature.
+> **Por qué así**: Una decisión de herencia incorrecta tiene implicaciones irreversibles en el rendimiento de la BD y puede costar decenas de miles de dólares en refactorización. Esta fase previene eso.
+
 # Odoo Module Patterns - Master Index
 
 Architectural guidance for Odoo 19 module design. Read the relevant reference before proposing any model or structure change.
@@ -47,3 +53,25 @@ Architectural guidance for Odoo 19 module design. Read the relevant reference be
 - **Batch-first**: Every Python method must handle a recordset of N records, not just one.
 
 > For module folder structure and scaffolding, use `/scaffold-module`.
+
+## Paradigma de Herencia — Decisión Obligatoria
+
+Antes de codificar cualquier modelo, se DEBE elegir el paradigma de herencia correcto. Ver rule `06-inheritance-strategy` para la tabla completa de decisión.
+
+Resumen rápido:
+- **Extension** (`_inherit` sin `_name`): Tabla única. Para agregar campos/comportamiento a modelos existentes. Patrón más común.
+- **Classical** (`_name` + `_inherit`): Tabla nueva con copia de columnas. Solo cuando la nueva entidad necesita identidad independiente.
+- **Delegation** (`_inherits` + `Many2one`): Tablas enlazadas por FK. Para normalización sin duplicación de datos (patrón res.users → res.partner).
+
+## Campos Polimórficos (fields.Reference)
+
+Para flujos donde un registro debe vincularse a múltiples tipos de modelo (ej: actividad de seguimiento → factura O orden de compra O ticket):
+- Usar `fields.Reference` con `selection` vía lambda para opciones dinámicas.
+- Odoo almacena como cadena concatenada evaluable en la BD.
+- Evita la proliferación de campos Many2one redundantes.
+
+## Many2many con Metadatos
+
+Cuando una relación Many2many requiere información adicional (fecha de asignación, estado, comentarios):
+- Definir explícitamente la tabla intermedia (`rel`, `column1`, `column2`).
+- O materializar como `models.Model` completo para inyectar campos adicionales.

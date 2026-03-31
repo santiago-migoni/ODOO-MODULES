@@ -1,6 +1,12 @@
 ---
 description: Captura y valida los requisitos de un módulo Odoo antes de escribir código.
 ---
+
+> **Fase**: F1 — Planificación
+> **Dónde estamos**: Se ha identificado una necesidad de negocio. Necesitamos validarla antes de diseñar.
+> **Por qué esta fase**: Sin validación formal, el desarrollo arranca sobre supuestos. El GAP Analysis previene scope creep y alinea expectativas con el SPoC.
+> **Habilita**: Fase 2 (Análisis) — produce un backlog priorizado que el análisis técnico consumirá.
+
 # Plan Module Workflow (Fase 1 — Planificación y Requisitos)
 
 Structured requirements capture for a new Odoo module or significant feature.
@@ -80,3 +86,15 @@ Decision: GO → proceed to Fase 2 (Análisis) or Fase 3 (Diseño)
 ```
 
 **WAIT FOR USER APPROVAL before proceeding to the next phase.**
+
+## GAP Analysis (paso formal)
+
+Antes de crear el backlog, ejecutar un análisis de brechas:
+
+1. **Comparar** la necesidad con funcionalidades nativas de Odoo.
+2. **Clasificar** la brecha: ¿configuración, extensión de modelo existente, o módulo nuevo?
+3. **Justificar** técnica y financieramente el desarrollo custom (si aplica).
+4. **Documentar** dependencias lógicas entre este requerimiento y otros módulos.
+5. **Generar** el backlog priorizado respetando dependencias (ej: inventario avanzado necesita maestro de productos).
+
+Referencia: skill `f0-enterprise-sdlc` para metodología completa de GAP Analysis.
