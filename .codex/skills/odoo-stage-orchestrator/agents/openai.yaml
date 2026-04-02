@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage Orchestrator"
+  short_description: "Choose the right lifecycle stage and validate handoffs."
+  default_prompt: "Use $odoo-stage-orchestrator to determine the current stage, missing prerequisites, and next aligned stage for this Odoo module work."

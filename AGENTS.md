@@ -30,6 +30,7 @@ All custom modules must keep the `dipl_` prefix.
 
 Repository support areas:
 - `.codex/`: Codex runtime config, rules, and skills.
+- `.codex/agents/`: project-specific subagents for focused implementation and review work.
 - `.docs/`: local development documentation and trace records (ignored from VCS).
 - `.src/`: local Odoo Community clone for framework and base-module analysis.
 - `requirements.txt`: global Python dependency baseline for modules in this repository.
@@ -60,6 +61,7 @@ Global technical skill:
 - `odoo-19`
 
 Lifecycle skills:
+- `odoo-stage-orchestrator`
 - `odoo-stage-01-discovery`
 - `odoo-stage-02-functional-definition`
 - `odoo-stage-03-technical-design`
@@ -74,12 +76,14 @@ Lifecycle skills:
 Governance skill:
 - `odoo-dashboard-branch-governance`
 
-## Odoo 19 conventions
-
-Mandatory references:
-- `.codex/docs/rules/02-odoo-19-conventions.md`
-- `.codex/docs/rules/03-quality-gates.md`
-- `.codex/docs/rules/04-translation-standard.md`
+Project subagents:
+- `code-mapper`
+- `frontend-developer`
+- `javascript-pro`
+- `python-pro`
+- `xml-pro`
+- `owl-pro`
+- `scss-pro`
 
 ## Dependencies
 

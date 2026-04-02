@@ -9,11 +9,10 @@ ODOO-MODULES/
 ├── dipl_<name>/                 # Installable custom modules at repo root
 ├── .codex/                      # Official agent ecosystem
 │   ├── config.toml              # Runtime baseline (approval/sandbox/profile)
+│   ├── agents/                  # Project subagents (*.toml)
 │   ├── skills/                  # Reusable Codex skills (SKILL.md + references)
-│   ├── docs/
-│   │   ├── workflows/           # SDLC playbooks (human readable)
-│   │   ├── rules/               # Governance/quality docs
 │   └── rules/                   # Executable Codex rule files (*.rules)
+├── .docs/                       # Local developer records (ignored from VCS)
 ├── .src/                        # Odoo Community source (reference only)
 ├── AGENTS.md                    # Primary governance entrypoint for agents
 ├── README.md
@@ -27,32 +26,47 @@ Authoritative order for agent guidance:
 ## How to operate with Codex
 
 - Activate capabilities via `$skill`.
+- Delegate project subagents from `.codex/agents/*.toml` when specialization helps.
 - Skills are autonomous and must contain their own execution contract.
 - Runtime behavior is governed by `.codex/config.toml` + `.codex/rules/*.rules`.
 - Use phase skills and operational skills from `.codex/skills/`.
-- Use `.codex/docs/workflows/` for detailed SDLC procedures.
-- Use `.codex/docs/rules/` for Odoo conventions and quality gates.
 
 ## Core skills
 
-Domain skills:
-- `f0-enterprise-sdlc`
-- `f1-scrum-master`
-- `f2-odoo-analysis`
-- `f3-module-patterns`
-- `g-odoo-19`
-- `f5-odoo-qa`
-- `f6-odoo-sh`
-- `f7-odoo-maintenance`
+Global technical skill:
+- `odoo-19`
 
-Operational skills (replacing command-centric flow):
-- `odoo-plan`
-- `odoo-analysis`
-- `odoo-scaffold`
-- `odoo-add-field`
-- `odoo-tests`
-- `odoo-deploy`
-- `odoo-hotfix`
+Lifecycle skills:
+- `odoo-stage-orchestrator`
+- `odoo-stage-01-discovery`
+- `odoo-stage-02-functional-definition`
+- `odoo-stage-03-technical-design`
+- `odoo-stage-04-planning`
+- `odoo-stage-05-module-scaffolding`
+- `odoo-stage-06-implementation`
+- `odoo-stage-07-validation-qa`
+- `odoo-stage-08-uat`
+- `odoo-stage-09-deployment`
+- `odoo-stage-10-maintenance`
+
+Governance skill:
+- `odoo-dashboard-branch-governance`
+
+Project subagents:
+- `code-mapper`
+- `frontend-developer`
+- `javascript-pro`
+- `python-pro`
+- `xml-pro`
+- `owl-pro`
+- `scss-pro`
+
+Branch and environment model:
+- `master` is production only.
+- All non-master branches are ephemeral and dashboard-managed.
+- Delivery flow is `dev-env -> test-env -> master`.
+- A branch can move from dev to test without renaming.
+- Test environments clone production data while disabling production services like outbound email and similar integrations.
 
 ## Odoo module conventions
 
@@ -78,3 +92,5 @@ Add Python dependencies to `requirements.txt`, and declare them in module manife
     "python": ["package_name"],
 },
 ```
+
+`requirements.txt` is the repository-level source of truth for Python dependencies.
