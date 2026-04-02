@@ -1,0 +1,18 @@
+:root {
+    --dipl-color-ink: #f8f9fa;
+    --dipl-color-paper: #1c1c1c;
+}
+
+body.o_web_client,
+body {
+    background:
+        radial-gradient(circle at top left, rgba(212, 184, 149, 0.18), transparent 25%),
+        linear-gradient(180deg, rgba(43, 58, 66, 0.32), transparent 35%),
+        #1c1c1c;
+    color: #f8f9fa;
+}
+
+.o_control_panel {
+    background: rgba(43, 58, 66, 0.45);
+    border-bottom-color: rgba(248, 249, 250, 0.08);
+}

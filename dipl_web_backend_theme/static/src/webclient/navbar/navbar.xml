@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="dipl_web_backend_theme.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension">
+    <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="replace">
+        <t t-if="env.isSmall">
+            <a href="/odoo" class="o_menu_toggle border-0 dipl_home_menu_toggle" t-att-class="{'hasImage': currentApp?.webIconData}" accesskey="h" t-ref="menuApps" t-on-click.prevent="_openAppMenuSidebar">
+                <t t-call="web.NavBar.AppsMenu.Sidebar"/>
+            </a>
+        </t>
+        <t t-else="">
+            <button
+                t-if="!isScopedApp"
+                type="button"
+                class="o_menu_toggle border-0 dipl_home_menu_toggle"
+                data-hotkey="h"
+                title="Home Menu"
+                t-on-click="toggleHomeMenu"
+            >
+                <span class="dipl_home_menu_toggle_icon">
+                    <i class="oi oi-apps"/>
+                </span>
+                <span class="d-none d-xl-inline dipl_home_menu_toggle_label">
+                    Aplicaciones
+                </span>
+            </button>
+            <div t-else="" class="mx-2"/>
+        </t>
+    </xpath>
+
+    <xpath expr="//DropdownItem[@t-esc='currentApp.name']" position="attributes">
+        <attribute name="class">'o_menu_brand d-flex dipl_menu_brand'</attribute>
+    </xpath>
+</t>
+
+</templates>

@@ -1,0 +1,17 @@
+.btn-primary {
+    --btn-color: #{$dark};
+    --btn-bg: #{$primary};
+    --btn-border-color: #{$primary};
+    --btn-hover-color: #{$light};
+    --btn-hover-bg: #{$secondary};
+    --btn-hover-border-color: #{$secondary};
+}
+
+.btn-secondary {
+    --btn-color: #{$light};
+    --btn-bg: #{$gray-300};
+    --btn-border-color: #{$gray-300};
+    --btn-hover-color: #{$dark};
+    --btn-hover-bg: #{$primary};
+    --btn-hover-border-color: #{$primary};
+}

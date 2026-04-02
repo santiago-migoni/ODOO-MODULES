@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="webclient_login" inherit_id="web.login_layout">
+        <xpath expr="//t[@t-call='web.frontend_layout']/t[last()]" position="after">
+            <t t-set="body_classname" t-value="'dipl-login-background'"/>
+            <t t-set="login_card_classes" t-value="'shadow border-0 rounded-4 bg-white dipl-login-card'"/>
+        </xpath>
+    </template>
+
+    <template id="webclient_bootstrap" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//meta[@name='theme-color']" position="replace">
+            <meta name="theme-color" t-att-content="'#1C1C1C' if color_scheme == 'dark' else '#2B3A42'"/>
+        </xpath>
+    </template>
+</odoo>

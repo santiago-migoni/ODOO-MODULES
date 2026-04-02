@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+:root {
+    --dipl-color-ink: #1c1c1c;
+    --dipl-color-surface-strong: #2b3a42;
+    --dipl-color-surface-deep: #2c3e50;
+    --dipl-color-accent: #d4b895;
+    --dipl-color-muted: #a9b0b3;
+    --dipl-color-paper: #f8f9fa;
+    --dipl-font-family: "Lato", sans-serif;
+}
+
+body {
+    font-family: var(--dipl-font-family);
+    background:
+        radial-gradient(circle at top left, rgba(212, 184, 149, 0.18), transparent 25%),
+        linear-gradient(180deg, rgba(169, 176, 179, 0.12), transparent 35%),
+        var(--dipl-color-paper);
+    color: var(--dipl-color-ink);
+}
+
+.o_web_client {
+    background: transparent;
+}
+
+.o_main_navbar {
+    background: linear-gradient(135deg, var(--dipl-color-surface-strong), var(--dipl-color-surface-deep));
+    border-bottom: 1px solid rgba(248, 249, 250, 0.08);
+    box-shadow: 0 12px 30px rgba(28, 28, 28, 0.18);
+}
+
+.o_main_navbar,
+.o_main_navbar .dropdown-toggle,
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .breadcrumb,
+.o_main_navbar .breadcrumb-item,
+.o_main_navbar .nav-link {
+    color: var(--dipl-color-paper);
+    font-family: var(--dipl-font-family);
+}
+
+.o_control_panel {
+    background: rgba(248, 249, 250, 0.78);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(43, 58, 66, 0.1);
+}
+
+.o_content,
+.o_action_manager {
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
+}
+
+.o_form_view,
+.o_list_view,
+.o_kanban_view,
+.modal-content,
+.dropdown-menu {
+    border-radius: 1rem;
+}

@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+body.dipl-login-background {
+    font-family: "Lato", sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(212, 184, 149, 0.34), transparent 22%),
+        linear-gradient(135deg, #1c1c1c, #2b3a42 48%, #2c3e50);
+}
+
+.dipl-login-card {
+    max-width: 30rem;
+    border: 1px solid rgba(212, 184, 149, 0.24);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+}
