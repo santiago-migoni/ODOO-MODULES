@@ -1,0 +1,13 @@
+# Skill autonomy standard
+
+prefix_rule(
+    ["git", "commit"],
+    decision = "prompt",
+    justification = "If the commit touches .codex/skills, verify each skill remains self-contained and name-unique."
+)
+
+prefix_rule(
+    ["git", "add"],
+    decision = "allow",
+    justification = "Staging is allowed; autonomy checks occur before commit."
+)

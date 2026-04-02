@@ -1,0 +1,25 @@
+# Safety enforcement layer
+
+prefix_rule(
+    ["git", "push", "--force"],
+    decision = "prompt",
+    justification = "Force push can rewrite shared history."
+)
+
+prefix_rule(
+    ["git", "push", "--force-with-lease"],
+    decision = "prompt",
+    justification = "Force-with-lease can still rewrite shared history."
+)
+
+prefix_rule(
+    ["git", "clean", "-fd"],
+    decision = "prompt",
+    justification = "Git clean can delete untracked files irreversibly."
+)
+
+prefix_rule(
+    ["git", "clean", "-fdx"],
+    decision = "prompt",
+    justification = "Git clean -fdx can delete ignored and untracked files irreversibly."
+)

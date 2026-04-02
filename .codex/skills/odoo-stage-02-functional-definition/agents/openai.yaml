@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 02 Functional Definition"
+  short_description: "Convert discovery into verifiable functional spec."
+  default_prompt: "Use $odoo-stage-02-functional-definition to define the functional specification for this Odoo module."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Dashboard Branch Governance"
+  short_description: "Control dev/test/master branch governance and gates."
+  default_prompt: "Use $odoo-dashboard-branch-governance to evaluate branch state, promotion readiness, and production merge eligibility."

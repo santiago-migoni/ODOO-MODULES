@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 10 Maintenance"
+  short_description: "Operate incident, hotfix, and enhancement lifecycle."
+  default_prompt: "Use $odoo-stage-10-maintenance to define the post-release maintenance protocol for this Odoo custom module."

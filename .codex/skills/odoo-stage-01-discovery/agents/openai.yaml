@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 01 Discovery"
+  short_description: "Diagnose AS-IS process and define preliminary scope."
+  default_prompt: "Use $odoo-stage-01-discovery to create a discovery report for this Odoo custom module initiative."

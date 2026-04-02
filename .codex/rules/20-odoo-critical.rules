@@ -1,0 +1,19 @@
+# Odoo critical quality gates
+
+prefix_rule(
+    ["git", "push"],
+    decision = "prompt",
+    justification = "Before push, confirm Odoo critical gates: tests, i18n/es.po, and manifest coherence."
+)
+
+prefix_rule(
+    ["git", "merge"],
+    decision = "prompt",
+    justification = "Before merge, confirm Odoo quality gates and migration impact review."
+)
+
+prefix_rule(
+    ["odoo-bin"],
+    decision = "allow",
+    justification = "Odoo runtime commands are expected for validation and module lifecycle checks."
+)

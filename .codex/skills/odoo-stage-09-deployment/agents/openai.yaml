@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 09 Deployment"
+  short_description: "Prepare Odoo.sh runbook, checks, and rollback."
+  default_prompt: "Use $odoo-stage-09-deployment to build the production deployment runbook for this Odoo module release."

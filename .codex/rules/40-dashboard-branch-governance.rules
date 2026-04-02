@@ -1,0 +1,31 @@
+# ODOO dashboard branch governance
+
+prefix_rule(
+    ["git", "push", "origin", "master"],
+    decision = "forbidden",
+    justification = "Direct push to master is forbidden. Production updates must come from reviewed PRs promoted from test."
+)
+
+prefix_rule(
+    ["git", "push", "origin", "HEAD:master"],
+    decision = "forbidden",
+    justification = "Direct ref push to master is forbidden. Use test -> PR -> master flow."
+)
+
+prefix_rule(
+    ["git", "push", "origin", "refs/heads/master"],
+    decision = "forbidden",
+    justification = "Direct push to refs/heads/master is forbidden. Use reviewed PR from test state."
+)
+
+prefix_rule(
+    ["git", "checkout", "master"],
+    decision = "prompt",
+    justification = "Master is production-only. Confirm you are performing production-safe read/review actions."
+)
+
+prefix_rule(
+    ["git", "switch", "master"],
+    decision = "prompt",
+    justification = "Master is production-only. Confirm production gating is satisfied before any action."
+)

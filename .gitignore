@@ -36,4 +36,4 @@ env/
 .src/*
 !.src/.gitkeep
 .docs/*
-!.docs/.gitkeep
+!.docs/lifecycle_module.md

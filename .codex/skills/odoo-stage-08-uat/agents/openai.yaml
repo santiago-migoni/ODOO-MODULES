@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 08 UAT"
+  short_description: "Run user acceptance with role-based scripts."
+  default_prompt: "Use $odoo-stage-08-uat to prepare and close UAT for this Odoo custom module release."

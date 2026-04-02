@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 07 Validation QA"
+  short_description: "Define QA matrix, severity model, and release gates."
+  default_prompt: "Use $odoo-stage-07-validation-qa to prepare and evaluate validation gates for this Odoo implementation."

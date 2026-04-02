@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 05 Module Scaffolding"
+  short_description: "Define baseline Odoo module structure and manifest."
+  default_prompt: "Use $odoo-stage-05-module-scaffolding to prepare the baseline scaffold for this Odoo custom module workstream."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 06 Implementation"
+  short_description: "Execute coding slices with traceable validation."
+  default_prompt: "Use $odoo-stage-06-implementation to run an iterative implementation plan for this Odoo module scope."

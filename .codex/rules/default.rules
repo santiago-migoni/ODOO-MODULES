@@ -1,0 +1,25 @@
+# Codex repository defaults for ODOO-MODULES
+# Layered policies live in:
+# - 10-safety.rules
+# - 20-odoo-critical.rules
+# - 30-skill-autonomy.rules
+# - 40-dashboard-branch-governance.rules
+# - 50-dependency-and-scaffold.rules
+
+prefix_rule(
+    ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Hard reset is destructive and requires explicit user instruction."
+)
+
+prefix_rule(
+    ["git", "checkout", "--"],
+    decision = "forbidden",
+    justification = "Direct checkout discard is destructive and requires explicit user instruction."
+)
+
+prefix_rule(
+    ["rm", "-rf"],
+    decision = "prompt",
+    justification = "Recursive deletion requires explicit human confirmation."
+)

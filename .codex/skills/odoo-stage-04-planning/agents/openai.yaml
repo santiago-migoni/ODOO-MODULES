@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 04 Planning"
+  short_description: "Build iteration plan, sequencing, and risk controls."
+  default_prompt: "Use $odoo-stage-04-planning to create an executable iteration plan for this Odoo module delivery."

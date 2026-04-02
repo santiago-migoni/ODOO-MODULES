@@ -1,0 +1,25 @@
+# Dependency and scaffolding governance
+
+prefix_rule(
+    ["odoo-bin", "scaffold"],
+    decision = "prompt",
+    justification = "Before scaffolding, confirm module name starts with dipl_ and follows repository structure standards."
+)
+
+prefix_rule(
+    ["pip", "install"],
+    decision = "prompt",
+    justification = "If Python dependencies are added, update requirements.txt as repository source of truth."
+)
+
+prefix_rule(
+    ["pip3", "install"],
+    decision = "prompt",
+    justification = "If Python dependencies are added, update requirements.txt as repository source of truth."
+)
+
+prefix_rule(
+    ["python3", "-m", "pip", "install"],
+    decision = "prompt",
+    justification = "If Python dependencies are added, update requirements.txt as repository source of truth."
+)

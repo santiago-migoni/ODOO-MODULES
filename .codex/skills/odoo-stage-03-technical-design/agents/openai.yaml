@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Stage 03 Technical Design"
+  short_description: "Design models, views, security, and integrations."
+  default_prompt: "Use $odoo-stage-03-technical-design to produce the technical design for this Odoo custom module scope."
