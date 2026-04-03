@@ -1,12 +1,68 @@
 body.dipl-login-background {
     font-family: "Lato", sans-serif;
     background:
-        radial-gradient(circle at top left, rgba(212, 184, 149, 0.34), transparent 22%),
-        linear-gradient(135deg, #1c1c1c, #2b3a42 48%, #2c3e50);
+        radial-gradient(circle at top left, rgba(212, 184, 149, 0.24), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(169, 176, 179, 0.12), transparent 24%),
+        linear-gradient(135deg, #161616, #223039 45%, #2c3e50);
+    min-height: 100vh;
+    position: relative;
 }
 
 .dipl-login-card {
-    max-width: 30rem;
-    border: 1px solid rgba(212, 184, 149, 0.24);
+    max-width: 31rem;
+    border: 1px solid rgba(212, 184, 149, 0.18);
+    border-radius: 1.5rem;
     box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(14px);
+}
+
+body.dipl-login-background .oe_login_form,
+body.dipl-login-background .oe_signup_form,
+body.dipl-login-background .oe_reset_password_form {
+    padding: 1rem;
+}
+
+body.dipl-login-background .card-body,
+body.dipl-login-background .modal-content,
+body.dipl-login-background .dipl-login-card {
+    background: rgba(255, 255, 255, 0.96);
+}
+
+body.dipl-login-background .btn-primary,
+body.dipl-login-background .btn-secondary,
+body.dipl-login-background .form-control {
+    min-height: 2.8rem;
+    border-radius: 0.95rem;
+}
+
+body.dipl-login-background .form-control {
+    border-color: rgba(43, 58, 66, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.dipl-login-background .btn-primary {
+    font-weight: 800;
+}
+
+body.dipl-login-background .btn-link,
+body.dipl-login-background a {
+    color: #2c3e50;
+}
+
+body.dipl-login-background .btn-link:hover,
+body.dipl-login-background a:hover {
+    color: #d4b895;
+}
+
+body.dipl-login-background .card-header,
+body.dipl-login-background .modal-header {
+    background: transparent;
+    border-bottom: 0;
+}
+
+@media (max-width: 767.98px) {
+    .dipl-login-card {
+        margin-inline: 1rem;
+        border-radius: 1.15rem;
+    }
 }

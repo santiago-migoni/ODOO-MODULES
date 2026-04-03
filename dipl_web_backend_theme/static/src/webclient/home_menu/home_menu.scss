@@ -1,5 +1,6 @@
 .dipl_home_menu {
     min-height: calc(100vh - 3.75rem);
+    padding-bottom: 2rem;
 }
 
 .dipl_home_menu_intro {
@@ -21,10 +22,12 @@
 .dipl_home_menu_copy {
     color: rgba(248, 249, 250, 0.8);
     font-size: 1rem;
+    max-width: 34rem;
 }
 
 .dipl_home_menu_searchbar .input-group {
-    max-width: 38rem;
+    max-width: 34rem;
+    border: 1px solid rgba(212, 184, 149, 0.18);
     border-radius: 999px;
     overflow: hidden;
     box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
@@ -33,14 +36,38 @@
 .dipl_home_menu_searchbar .form-control,
 .dipl_home_menu_searchbar .input-group-text {
     border-color: rgba(212, 184, 149, 0.28);
+    background: rgba(17, 24, 28, 0.36);
+    color: #f8f9fa;
+}
+
+.dipl_home_menu_searchbar .form-control::placeholder {
+    color: rgba(248, 249, 250, 0.42);
+}
+
+.dipl_home_menu_close {
+    min-height: 2.75rem;
+    min-width: 8rem;
+    border-radius: 999px;
+    border-color: rgba(248, 249, 250, 0.14);
+    background: rgba(248, 249, 250, 0.94);
+    color: #1c1c1c;
+    font-weight: 800;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+}
+
+.dipl_home_menu_close:hover,
+.dipl_home_menu_close:focus-visible {
+    border-color: rgba(212, 184, 149, 0.4);
+    background: #ffffff;
+    color: #1c1c1c;
 }
 
 .dipl_app_card {
     display: flex;
     align-items: center;
     gap: 1rem;
-    min-height: 7.5rem;
-    padding: 1rem 1.1rem;
+    min-height: 6.4rem;
+    padding: 1rem 1.15rem;
     border: 1px solid rgba(248, 249, 250, 0.12);
     border-radius: 1.3rem;
     background: rgba(248, 249, 250, 0.1);
@@ -59,6 +86,13 @@
     border-color: rgba(212, 184, 149, 0.55);
     background: rgba(248, 249, 250, 0.16);
     box-shadow: 0 24px 40px rgba(0, 0, 0, 0.16);
+}
+
+.dipl_app_card:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 0.22rem rgba(212, 184, 149, 0.24),
+        0 24px 40px rgba(0, 0, 0, 0.16);
 }
 
 .dipl_app_card_icon_wrap {
@@ -90,12 +124,17 @@
 .dipl_app_card_title {
     font-size: 1rem;
     font-weight: 700;
+    line-height: 1.2;
 }
 
 .dipl_app_card_meta {
     margin-top: 0.2rem;
     color: rgba(248, 249, 250, 0.64);
     font-size: 0.8rem;
+}
+
+.dipl_home_menu .row {
+    --bs-gutter-y: 1rem;
 }
 
 .dipl_home_menu_empty_card {
@@ -110,10 +149,27 @@
 @media (max-width: 767.98px) {
     .dipl_home_menu {
         min-height: calc(100vh - 3.25rem);
+        padding-bottom: 1.2rem;
+    }
+
+    .dipl_home_menu_title {
+        font-size: 2.25rem;
+    }
+
+    .dipl_home_menu_copy {
+        font-size: 0.95rem;
     }
 
     .dipl_app_card {
-        min-height: 6.5rem;
+        min-height: 5.9rem;
         padding: 0.9rem;
+    }
+
+    .dipl_home_menu_searchbar .input-group {
+        max-width: none;
+    }
+
+    .dipl_home_menu_close {
+        align-self: flex-start;
     }
 }

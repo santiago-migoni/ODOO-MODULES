@@ -3,10 +3,14 @@
     align-items: center;
     gap: 0.7rem;
     height: 100%;
+    min-height: 2.55rem;
     padding: 0 1rem;
-    background: transparent;
+    border: 1px solid rgba(248, 249, 250, 0.08);
+    border-radius: 0.95rem;
+    background: rgba(248, 249, 250, 0.08);
     color: #f8f9fa;
     font-weight: 700;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .dipl_home_menu_toggle_icon {
@@ -16,7 +20,8 @@
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 0.8rem;
-    background: rgba(248, 249, 250, 0.12);
+    background: linear-gradient(135deg, rgba(212, 184, 149, 0.26), rgba(248, 249, 250, 0.12));
+    color: #f8f9fa;
 }
 
 .dipl_home_menu_toggle_label {
@@ -25,9 +30,75 @@
 
 .dipl_menu_brand {
     font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_sections .dropdown-toggle {
+    font-size: 0.92rem;
+}
+
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_navbar_breadcrumbs {
+    align-self: center;
+}
+
+.o_main_navbar .o_menu_systray .dropdown-toggle,
+.o_main_navbar .o_menu_systray .btn {
+    color: rgba(248, 249, 250, 0.92);
+}
+
+.o_main_navbar .o_menu_systray img,
+.o_main_navbar .o_menu_systray .o_avatar {
+    border-radius: 999px;
+}
+
+.o_main_navbar .dropdown-menu {
+    margin-top: 0.75rem;
+}
+
+.dipl_home_menu_toggle:hover,
+.dipl_home_menu_toggle:focus-visible {
+    border-color: rgba(212, 184, 149, 0.38);
+    background: rgba(248, 249, 250, 0.12);
+    color: #f8f9fa;
+}
+
+.dipl_home_menu_toggle:active {
+    transform: translateY(1px);
 }
 
 .o_main_navbar .o_menu_toggle:hover,
 .o_main_navbar .nav-link:hover {
     color: #d4b895;
+}
+
+@media (max-width: 767.98px) {
+    .dipl_home_menu_toggle {
+        min-height: 2.35rem;
+        padding-inline: 0.7rem;
+        border-radius: 0.75rem;
+    }
+
+    .dipl_home_menu_toggle_icon {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .o_app_menu_sidebar {
+        background: linear-gradient(180deg, rgba(28, 28, 28, 0.98), rgba(43, 58, 66, 0.98));
+        color: #f8f9fa;
+    }
+
+    .o_app_menu_sidebar .o_sidebar_topbar {
+        border-bottom: 1px solid rgba(248, 249, 250, 0.08);
+    }
+
+    .o_app_menu_sidebar .o_burger_menu_content {
+        padding: 0.4rem 0.75rem 1rem;
+    }
+
+    .o_app_menu_sidebar .o_app {
+        border-radius: 0.9rem;
+    }
 }
