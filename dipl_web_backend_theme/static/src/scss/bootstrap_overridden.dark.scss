@@ -8,10 +8,20 @@
 }
 
 .btn-secondary {
-    --btn-color: #{$light};
-    --btn-bg: #{$gray-300};
-    --btn-border-color: #{$gray-300};
-    --btn-hover-color: #{$dark};
-    --btn-hover-bg: #{$primary};
-    --btn-hover-border-color: #{$primary};
+    --btn-color: var(--dipl-color-action-chip-text);
+    --btn-bg: var(--dipl-color-action-chip-bg);
+    --btn-border-color: var(--dipl-color-action-chip-border);
+    --btn-hover-color: var(--dipl-color-action-chip-hover-text);
+    --btn-hover-bg: var(--dipl-color-action-chip-hover-bg);
+    --btn-hover-border-color: rgba(212, 184, 149, 0.28);
+}
+
+.btn-light,
+.btn-outline-secondary {
+    --btn-color: var(--dipl-color-action-chip-text);
+    --btn-bg: var(--dipl-color-action-chip-bg);
+    --btn-border-color: var(--dipl-color-action-chip-border);
+    --btn-hover-color: var(--dipl-color-action-chip-hover-text);
+    --btn-hover-bg: var(--dipl-color-action-chip-hover-bg);
+    --btn-hover-border-color: rgba(212, 184, 149, 0.28);
 }

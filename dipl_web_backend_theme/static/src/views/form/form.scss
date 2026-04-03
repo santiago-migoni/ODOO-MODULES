@@ -1,6 +1,7 @@
 .o_form_view {
     --dipl-form-surface: var(--dipl-color-surface);
     --dipl-form-surface-muted: var(--dipl-color-surface-muted);
+    --dipl-form-surface-subtle: var(--dipl-color-surface-subtle);
     --dipl-form-border: var(--dipl-color-border-subtle);
     --dipl-form-shadow: 0 18px 36px rgba(17, 24, 28, 0.08);
     --dipl-form-title: var(--dipl-color-heading);
@@ -15,7 +16,7 @@
         border-width: 1px;
         border-color: var(--dipl-form-border);
         border-radius: 1.25rem;
-        background: linear-gradient(180deg, color-mix(in srgb, var(--dipl-form-surface) 84%, white 16%), var(--dipl-form-surface));
+        background: linear-gradient(180deg, var(--dipl-form-surface-muted), var(--dipl-form-surface));
         box-shadow: var(--dipl-form-shadow);
     }
 
@@ -105,7 +106,7 @@
         padding: 0.25rem;
         border: 1px solid var(--dipl-form-border);
         border-radius: 1rem;
-        background: var(--dipl-color-surface-subtle);
+        background: var(--dipl-form-surface-subtle);
     }
 
     .nav-tabs .nav-link {
@@ -129,7 +130,7 @@
         padding: 0.45rem 0.55rem;
         border: 1px solid var(--dipl-form-border);
         border-radius: 1rem;
-        background: var(--dipl-color-surface-subtle);
+        background: var(--dipl-form-surface-subtle);
         box-shadow: 0 10px 24px rgba(17, 24, 28, 0.06);
     }
 
@@ -151,7 +152,7 @@
 
     .o_field_x2many .o_list_table thead th,
     .o_field_x2many .o_list_table tfoot td {
-        background: var(--dipl-color-surface-subtle);
+        background: var(--dipl-form-surface-subtle);
     }
 
     .o_Chatter,
@@ -161,6 +162,13 @@
     .o-mail-Followers {
         border-radius: 1rem;
         background: var(--dipl-form-surface);
+    }
+
+    .o_notebook .tab-content,
+    .o_notebook .tab-pane,
+    .o_form_sheet .o_inner_group,
+    .o_form_sheet .o_group {
+        color: var(--dipl-color-ink);
     }
 
     .oe_button_box {
@@ -174,6 +182,12 @@
         border-radius: 1rem;
         background: var(--dipl-form-surface-muted);
         box-shadow: 0 10px 24px rgba(17, 24, 28, 0.06);
+    }
+
+    .oe_button_box .oe_stat_button:hover,
+    .oe_button_box .oe_stat_button:focus-visible {
+        background: var(--dipl-form-surface-subtle);
+        color: var(--dipl-color-heading);
     }
 
     .o_form_renderer .o_form_sheet_bg .alert,
@@ -202,7 +216,7 @@
     .settings_tab {
         padding: 0.9rem 0.75rem;
         border-right: 1px solid var(--dipl-color-border-subtle);
-        background: linear-gradient(180deg, color-mix(in srgb, var(--dipl-color-surface-muted) 88%, white 12%), var(--dipl-color-surface-subtle));
+        background: linear-gradient(180deg, var(--dipl-color-surface-muted), var(--dipl-color-surface-subtle));
     }
 
     .settings_tab .tab {

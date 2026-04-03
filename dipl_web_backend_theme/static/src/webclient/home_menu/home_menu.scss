@@ -34,7 +34,7 @@
 .dipl_home_menu_close:hover,
 .dipl_home_menu_close:focus-visible {
     border-color: rgba(212, 184, 149, 0.32);
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--dipl-home-menu-card-hover);
     color: var(--dipl-home-menu-text);
 }
 

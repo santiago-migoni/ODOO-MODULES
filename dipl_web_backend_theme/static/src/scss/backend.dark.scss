@@ -13,6 +13,8 @@
     --dipl-color-surface-muted: rgba(34, 48, 57, 0.92);
     --dipl-color-surface-subtle: rgba(43, 58, 66, 0.46);
     --dipl-color-surface-strong-contrast: rgba(169, 176, 179, 0.08);
+    --dipl-color-surface-raised: rgba(34, 48, 57, 0.98);
+    --dipl-color-surface-raised-strong: rgba(24, 24, 24, 0.98);
     --dipl-color-border-subtle: rgba(169, 176, 179, 0.16);
     --dipl-color-border-soft: rgba(169, 176, 179, 0.1);
     --dipl-color-input-bg: rgba(28, 28, 28, 0.9);
@@ -25,6 +27,7 @@
     --dipl-color-action-chip-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
     --dipl-color-action-chip-text: #f8f9fa;
     --dipl-color-action-chip-hover-bg: rgba(58, 76, 88, 0.96);
+    --dipl-color-action-chip-hover-text: #f8f9fa;
     --dipl-color-table-row-bg: rgba(24, 24, 24, 0.96);
     --dipl-color-table-row-alt: rgba(31, 43, 51, 0.92);
     --dipl-color-interactive-hover: rgba(212, 184, 149, 0.16);
@@ -63,7 +66,7 @@ body {
 .o_control_panel .o_cp_switch_buttons .btn:focus-visible,
 .o_control_panel .o_cp_action_menus .btn:focus-visible {
     background: rgba(43, 58, 66, 0.96);
-    color: var(--dipl-color-paper);
+    color: var(--dipl-color-action-chip-hover-text);
 }
 
 .o_control_panel .breadcrumb-item.active,
@@ -73,11 +76,11 @@ body {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-    color: var(--dipl-color-paper);
+    color: var(--dipl-color-heading);
 }
 
 .modal-content {
-    background: linear-gradient(180deg, rgba(24, 24, 24, 0.98), rgba(34, 48, 57, 0.92));
+    background: linear-gradient(180deg, var(--dipl-color-surface-raised-strong), var(--dipl-color-surface-raised));
 }
 
 .o_list_view .o_list_table tbody > tr > td,

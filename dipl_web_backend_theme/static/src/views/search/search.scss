@@ -6,15 +6,15 @@
 
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
-    gap: 0.2rem;
-    min-height: 2.8rem;
-    padding-inline: 0.35rem;
-    border-radius: 999px;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.28rem;
+    min-height: 3rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 1.2rem;
     border-color: var(--dipl-search-border);
     background: var(--dipl-search-bg);
     box-shadow: 0 8px 18px rgba(17, 24, 28, 0.05);
-    overflow: hidden;
 
     &:focus-within {
         border-color: rgba(212, 184, 149, 0.42);
@@ -28,8 +28,9 @@
     }
 
     .o_searchview_input {
-        flex: 1 1 14rem;
-        min-width: 8rem;
+        flex: 1 1 13rem;
+        min-width: 12rem;
+        order: 20;
         color: var(--dipl-color-ink);
         font-weight: 600;
     }
@@ -42,9 +43,9 @@
         display: inline-flex;
         flex: 0 1 auto;
         align-items: center;
-        max-width: 14rem;
+        max-width: min(12rem, 100%);
         min-height: 2.15rem;
-        padding-inline: 0.15rem;
+        padding-inline: 0.1rem;
         border: 1px solid var(--dipl-color-border-soft);
         border-radius: 999px;
         background: var(--dipl-search-facet-bg);
@@ -52,7 +53,7 @@
     }
 
     .o_searchview_facet_label {
-        max-width: 10rem;
+        max-width: 8.25rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -116,16 +117,15 @@
 
 @media (max-width: 991.98px) {
     .o_searchview {
-        flex-wrap: wrap;
         align-items: stretch;
         padding-block: 0.35rem;
         border-radius: 1.2rem;
     }
 
     .o_searchview .o_searchview_input {
-        flex-basis: 100%;
+        flex-basis: min(100%, 12rem);
         min-width: 0;
-        order: 10;
+        order: 20;
     }
 
     .o_searchview .o_searchview_facet {
