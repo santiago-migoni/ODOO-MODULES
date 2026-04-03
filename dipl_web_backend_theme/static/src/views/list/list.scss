@@ -1,5 +1,80 @@
-.o_list_view .table thead th {
-    border-bottom-color: rgba(43, 58, 66, 0.16);
-    color: #2b3a42;
-    font-weight: 700;
+.o_list_view {
+    --dipl-list-border: rgba(43, 58, 66, 0.08);
+    --dipl-list-header-bg: rgba(248, 249, 250, 0.96);
+    --dipl-list-row-hover: rgba(212, 184, 149, 0.12);
+    --dipl-list-row-selected: rgba(212, 184, 149, 0.18);
+    --dipl-list-text-soft: rgba(28, 28, 28, 0.68);
+
+    .o_list_renderer {
+        border: 1px solid var(--dipl-list-border);
+        border-radius: 1.2rem;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 16px 34px rgba(17, 24, 28, 0.06);
+        overflow: hidden;
+    }
+
+    .o_list_table {
+        background: transparent;
+    }
+
+    .table thead th,
+    .o_list_table thead th {
+        border-bottom-color: rgba(43, 58, 66, 0.1);
+        background: var(--dipl-list-header-bg);
+        color: #2b3a42;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        text-transform: none;
+    }
+
+    .o_list_table tbody > tr > td {
+        border-top-color: rgba(43, 58, 66, 0.06);
+        color: #1c1c1c;
+        vertical-align: middle;
+    }
+
+    .o_list_table tbody > tr:hover > td {
+        background: var(--dipl-list-row-hover);
+    }
+
+    .o_list_table tbody > tr.o_selected_row > td,
+    .o_list_table tbody > tr.o_data_row_selected > td {
+        background: var(--dipl-list-row-selected);
+    }
+
+    .o_list_table .text-muted,
+    .o_list_table .o_invisible_modifier + span,
+    .o_list_table .o_field_empty {
+        color: var(--dipl-list-text-soft);
+    }
+
+    .o_list_table .o_list_number,
+    .o_list_table .o_field_monetary,
+    .o_list_table .o_field_float,
+    .o_list_table .o_field_integer {
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+    }
+
+    .o_list_table tfoot td {
+        background: rgba(43, 58, 66, 0.04);
+        color: #1c1c1c;
+        font-weight: 800;
+    }
+
+    .o_list_renderer .badge,
+    .o_list_renderer .o_tag_badge_text {
+        border-radius: 999px;
+    }
+
+    .o_list_buttons,
+    .o_cp_buttons {
+        gap: 0.35rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .o_list_view .o_list_renderer {
+        border-radius: 1rem;
+    }
 }
