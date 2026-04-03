@@ -1,6 +1,6 @@
 {
     "name": "Dipleg Web Backend Theme",
-    "version": "19.0.1.4.0",
+    "version": "19.0.1.5.0",
     "summary": "Dipleg backend theme for Odoo Community",
     "category": "Hidden",
     "author": "Dipleg S.A.",
@@ -49,6 +49,7 @@
             "dipl_web_backend_theme/static/src/views/list/list.scss",
             "dipl_web_backend_theme/static/src/views/pivot/pivot.scss",
             "dipl_web_backend_theme/static/src/views/search/search.scss",
+            "dipl_web_backend_theme/static/src/views/compatibility/compatibility.scss",
         ],
         "web.assets_frontend": [
             "dipl_web_backend_theme/static/src/scss/frontend.scss",

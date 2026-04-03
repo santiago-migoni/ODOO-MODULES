@@ -29,7 +29,11 @@ body {
     color: var(--dipl-color-ink);
 }
 
-body,
+.o_web_client,
+.modal,
+.dropdown-menu,
+.o-autocomplete--dropdown-menu,
+.o_main_navbar,
 button,
 input,
 textarea,
@@ -37,19 +41,27 @@ select {
     font-family: var(--dipl-font-family);
 }
 
-body .btn,
-body .form-control,
-body .dropdown-menu,
-body .o_input,
-body .o-autocomplete--dropdown-menu {
+.o_web_client .btn,
+.o_web_client .form-control,
+.o_web_client .dropdown-menu,
+.o_web_client .o_input,
+.o_web_client .o-autocomplete--dropdown-menu,
+.modal .btn,
+.modal .form-control,
+.dropdown-menu,
+.o-autocomplete--dropdown-menu {
     border-radius: var(--dipl-shell-radius-md);
 }
 
-body .btn,
-body .dropdown-item,
-body .nav-link,
-body .breadcrumb-item > a,
-body a {
+.o_web_client .btn,
+.o_web_client .dropdown-item,
+.o_web_client .nav-link,
+.o_web_client .breadcrumb-item > a,
+.o_web_client a,
+.modal .btn,
+.modal a,
+.dropdown-menu .dropdown-item,
+.o_main_navbar .nav-link {
     transition:
         color var(--dipl-shell-transition),
         background-color var(--dipl-shell-transition),
@@ -58,12 +70,16 @@ body a {
         transform var(--dipl-shell-transition);
 }
 
-body .btn:focus-visible,
-body .dropdown-item:focus-visible,
-body .nav-link:focus-visible,
-body .form-control:focus-visible,
-body .o_input:focus-visible,
-body a:focus-visible {
+.o_web_client .btn:focus-visible,
+.o_web_client .dropdown-item:focus-visible,
+.o_web_client .nav-link:focus-visible,
+.o_web_client .form-control:focus-visible,
+.o_web_client .o_input:focus-visible,
+.o_web_client a:focus-visible,
+.modal .btn:focus-visible,
+.modal .form-control:focus-visible,
+.modal a:focus-visible,
+.dropdown-menu .dropdown-item:focus-visible {
     outline: none;
     box-shadow: 0 0 0 0.22rem rgba(212, 184, 149, 0.28);
 }
