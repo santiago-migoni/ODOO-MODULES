@@ -110,16 +110,18 @@
 
     .nav-tabs .nav-link {
         min-height: 2.5rem;
-        border: 0;
+        border: 1px solid transparent;
         border-radius: 0.85rem;
         color: var(--dipl-form-text-soft);
         font-weight: 700;
+        background: transparent;
     }
 
     .nav-tabs .nav-link.active {
-        background: var(--dipl-color-surface);
+        border-color: var(--dipl-form-border);
+        background: var(--dipl-form-surface-muted);
         color: var(--dipl-color-heading);
-        box-shadow: 0 10px 22px rgba(17, 24, 28, 0.08);
+        box-shadow: 0 8px 18px rgba(17, 24, 28, 0.06);
     }
 
     .o_form_statusbar {
@@ -136,6 +138,29 @@
     .o_arrow_button {
         border-radius: 0.8rem;
         font-weight: 700;
+    }
+
+    .o_field_x2many .o_list_renderer,
+    .o_field_x2many .o_list_table,
+    .o_field_x2many .o_list_table tbody > tr > td,
+    .o_field_x2many .o_list_table thead th,
+    .o_field_x2many .o_list_table tfoot td {
+        background: var(--dipl-form-surface);
+        color: var(--dipl-color-ink);
+    }
+
+    .o_field_x2many .o_list_table thead th,
+    .o_field_x2many .o_list_table tfoot td {
+        background: var(--dipl-color-surface-subtle);
+    }
+
+    .o_Chatter,
+    .o-mail-Chatter,
+    .o-mail-Thread,
+    .o-mail-Activity,
+    .o-mail-Followers {
+        border-radius: 1rem;
+        background: var(--dipl-form-surface);
     }
 
     .oe_button_box {

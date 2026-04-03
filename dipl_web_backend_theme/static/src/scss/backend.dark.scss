@@ -23,6 +23,10 @@
     --dipl-color-action-chip-bg: rgba(43, 58, 66, 0.78);
     --dipl-color-action-chip-border: rgba(169, 176, 179, 0.14);
     --dipl-color-action-chip-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+    --dipl-color-action-chip-text: #f8f9fa;
+    --dipl-color-action-chip-hover-bg: rgba(58, 76, 88, 0.96);
+    --dipl-color-table-row-bg: rgba(24, 24, 24, 0.96);
+    --dipl-color-table-row-alt: rgba(31, 43, 51, 0.92);
     --dipl-color-interactive-hover: rgba(212, 184, 149, 0.16);
     --dipl-color-interactive-selected: rgba(212, 184, 149, 0.24);
 }
@@ -74,4 +78,37 @@ body {
 
 .modal-content {
     background: linear-gradient(180deg, rgba(24, 24, 24, 0.98), rgba(34, 48, 57, 0.92));
+}
+
+.o_list_view .o_list_table tbody > tr > td,
+.o_list_view .o_list_table tbody > tr.o_data_row > td,
+.o_list_view .o_list_table tbody > tr.o_data_row_selected > td,
+.o_list_view .o_list_table tbody > tr.o_selected_row > td,
+.o_list_view .o_list_table tfoot td,
+.o_form_view .o_x2m_control_panel,
+.o_form_view .o_list_renderer,
+.o_form_view .o_field_x2many .o_list_table tbody > tr > td,
+.o_form_view .o_field_x2many .o_list_table thead th,
+.o_form_view .o_field_x2many .o_list_table tfoot td,
+.o_form_view .o_Chatter,
+.o_form_view .o-mail-Chatter,
+.o_form_view .o-mail-Activity,
+.o_form_view .o-mail-Thread,
+.o_form_view .o-mail-Followers {
+    background: var(--dipl-color-table-row-bg);
+    color: var(--dipl-color-ink);
+}
+
+.o_list_view .o_list_table tbody > tr:nth-child(even) > td,
+.o_form_view .o_field_x2many .o_list_table tbody > tr:nth-child(even) > td {
+    background: var(--dipl-color-table-row-alt);
+}
+
+.o_form_view .o_notebook_headers,
+.o_form_view .o_form_statusbar,
+.o_form_view .oe_button_box .oe_stat_button,
+.o_form_view.o_base_settings_view .settings_tab,
+.o_form_view.o_base_settings_view .settings,
+.o_form_view.o_base_settings_view .o_setting_container {
+    color: var(--dipl-color-ink);
 }

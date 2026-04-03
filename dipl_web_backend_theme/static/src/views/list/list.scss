@@ -29,8 +29,13 @@
 
     .o_list_table tbody > tr > td {
         border-top-color: var(--dipl-color-border-soft);
+        background: var(--dipl-color-table-row-bg);
         color: var(--dipl-color-ink);
         vertical-align: middle;
+    }
+
+    .o_list_table tbody > tr:nth-child(even) > td {
+        background: var(--dipl-color-table-row-alt);
     }
 
     .o_list_table tbody > tr:hover > td {
