@@ -6,7 +6,7 @@
 
     .o_kanban_group {
         border-radius: 1.15rem;
-        background: rgba(248, 249, 250, 0.58);
+        background: var(--dipl-color-surface-subtle);
     }
 
     .o_kanban_header {
@@ -14,9 +14,9 @@
     }
 
     .o_kanban_record {
-        border: 1px solid rgba(43, 58, 66, 0.08);
+        border: 1px solid var(--dipl-color-border-subtle);
         border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.98);
+        background: var(--dipl-color-surface);
         box-shadow: 0 12px 30px rgba(28, 28, 28, 0.08);
     }
 
@@ -27,6 +27,6 @@
 
     .o_kanban_quick_create {
         border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.92);
+        background: var(--dipl-color-surface-muted);
     }
 }

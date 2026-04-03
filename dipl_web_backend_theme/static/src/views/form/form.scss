@@ -1,10 +1,10 @@
 .o_form_view {
-    --dipl-form-surface: rgba(255, 255, 255, 0.96);
-    --dipl-form-surface-muted: rgba(248, 249, 250, 0.84);
-    --dipl-form-border: rgba(43, 58, 66, 0.1);
+    --dipl-form-surface: var(--dipl-color-surface);
+    --dipl-form-surface-muted: var(--dipl-color-surface-muted);
+    --dipl-form-border: var(--dipl-color-border-subtle);
     --dipl-form-shadow: 0 18px 36px rgba(17, 24, 28, 0.08);
-    --dipl-form-title: #1c1c1c;
-    --dipl-form-text-soft: rgba(28, 28, 28, 0.68);
+    --dipl-form-title: var(--dipl-color-heading);
+    --dipl-form-text-soft: var(--dipl-color-shell-text-soft);
     --dipl-form-accent-soft: rgba(212, 184, 149, 0.16);
 
     .o_form_sheet_bg {
@@ -15,7 +15,7 @@
         border-width: 1px;
         border-color: var(--dipl-form-border);
         border-radius: 1.25rem;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), var(--dipl-form-surface));
+        background: linear-gradient(180deg, color-mix(in srgb, var(--dipl-form-surface) 84%, white 16%), var(--dipl-form-surface));
         box-shadow: var(--dipl-form-shadow);
     }
 
@@ -58,7 +58,7 @@
     .o_form_label,
     .col-form-label,
     .o_cell.o_wrap_label > label {
-        color: var(--dipl-color-surface-deep);
+        color: var(--dipl-color-heading);
         font-weight: 800;
         letter-spacing: 0.01em;
     }
@@ -78,8 +78,8 @@
         min-height: 2.7rem;
         border: 1px solid var(--dipl-form-border);
         border-radius: 0.95rem;
-        background: rgba(255, 255, 255, 0.96);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        background: var(--dipl-color-input-bg);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
     .o_field_widget:not(.o_readonly_modifier) .o_input:focus,
@@ -105,7 +105,7 @@
         padding: 0.25rem;
         border: 1px solid var(--dipl-form-border);
         border-radius: 1rem;
-        background: rgba(248, 249, 250, 0.75);
+        background: var(--dipl-color-surface-subtle);
     }
 
     .nav-tabs .nav-link {
@@ -117,8 +117,8 @@
     }
 
     .nav-tabs .nav-link.active {
-        background: #ffffff;
-        color: var(--dipl-color-surface-deep);
+        background: var(--dipl-color-surface);
+        color: var(--dipl-color-heading);
         box-shadow: 0 10px 22px rgba(17, 24, 28, 0.08);
     }
 
@@ -127,7 +127,7 @@
         padding: 0.45rem 0.55rem;
         border: 1px solid var(--dipl-form-border);
         border-radius: 1rem;
-        background: rgba(248, 249, 250, 0.78);
+        background: var(--dipl-color-surface-subtle);
         box-shadow: 0 10px 24px rgba(17, 24, 28, 0.06);
     }
 
@@ -159,25 +159,25 @@
 
 .o_form_view.o_base_settings_view {
     .o_form_renderer {
-        --settings__tab-bg: rgba(248, 249, 250, 0.74);
+        --settings__tab-bg: var(--dipl-color-surface-subtle);
         --settings__tab-bg--active: rgba(212, 184, 149, 0.16);
-        --settings__tab-color: #2b3a42;
-        --settings__title-bg: rgba(43, 58, 66, 0.06);
+        --settings__tab-color: var(--dipl-color-heading);
+        --settings__title-bg: var(--dipl-color-surface-strong-contrast);
     }
 
     .o_setting_container {
         gap: 0;
-        border: 1px solid rgba(43, 58, 66, 0.08);
+        border: 1px solid var(--dipl-color-border-subtle);
         border-radius: 1.25rem;
-        background: rgba(255, 255, 255, 0.92);
+        background: var(--dipl-color-surface);
         box-shadow: 0 20px 42px rgba(17, 24, 28, 0.08);
         overflow: hidden;
     }
 
     .settings_tab {
         padding: 0.9rem 0.75rem;
-        border-right: 1px solid rgba(43, 58, 66, 0.08);
-        background: linear-gradient(180deg, rgba(248, 249, 250, 0.82), rgba(248, 249, 250, 0.65));
+        border-right: 1px solid var(--dipl-color-border-subtle);
+        background: linear-gradient(180deg, color-mix(in srgb, var(--dipl-color-surface-muted) 88%, white 12%), var(--dipl-color-surface-subtle));
     }
 
     .settings_tab .tab {
@@ -190,20 +190,20 @@
     .settings_tab .selected {
         box-shadow: none;
         background: rgba(212, 184, 149, 0.2);
-        color: #1c1c1c;
+        color: var(--dipl-color-heading);
     }
 
     .settings {
-        background: rgba(255, 255, 255, 0.98);
+        background: var(--dipl-color-surface);
     }
 
     .settings > .app_settings_block h2,
     .settings .settingSearchHeader {
         padding-top: 0.85rem;
         padding-bottom: 0.85rem;
-        border-bottom: 1px solid rgba(43, 58, 66, 0.06);
-        background: linear-gradient(180deg, rgba(43, 58, 66, 0.06), rgba(43, 58, 66, 0.03));
-        color: #1c1c1c;
+        border-bottom: 1px solid var(--dipl-color-border-soft);
+        background: linear-gradient(180deg, var(--settings__title-bg), transparent);
+        color: var(--dipl-color-heading);
         font-weight: 900;
         letter-spacing: 0.01em;
     }

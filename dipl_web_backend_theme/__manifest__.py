@@ -1,6 +1,6 @@
 {
     "name": "Dipleg Web Backend Theme",
-    "version": "19.0.1.5.0",
+    "version": "19.0.1.6.0",
     "summary": "Dipleg backend theme for Odoo Community",
     "category": "Hidden",
     "author": "Dipleg S.A.",

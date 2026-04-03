@@ -4,42 +4,15 @@
 <t t-name="dipl_web_backend_theme.HomeMenu">
     <div class="dipl_home_menu h-100 overflow-auto">
         <div class="container py-4 py-lg-5">
-            <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
-                <div class="dipl_home_menu_intro">
-                    <span class="dipl_home_menu_kicker text-uppercase fw-bold">Dipleg Workspace</span>
-                    <h1 class="dipl_home_menu_title mb-2">Selecciona un módulo para comenzar</h1>
-                    <p class="dipl_home_menu_copy mb-0">
-                        La interfaz se adapta automáticamente a aplicaciones estándar y módulos custom definidos por menú.
-                    </p>
-                </div>
-                <button class="btn btn-secondary dipl_home_menu_close" t-on-click="closeHomeMenu">
-                    <i class="fa fa-arrow-left me-2"/>
-                    <span>Volver</span>
+            <div class="dipl_home_menu_header mb-4 mb-lg-5">
+                <button class="btn dipl_home_menu_close" t-on-click="closeHomeMenu" aria-label="Cerrar aplicaciones">
+                    <i class="fa fa-times"/>
                 </button>
             </div>
 
-            <div class="dipl_home_menu_searchbar mb-4">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="fa fa-search"/>
-                    </span>
-                    <input
-                        t-ref="search"
-                        type="search"
-                        class="form-control border-start-0"
-                        placeholder="Buscar aplicación"
-                        t-att-value="state.query"
-                        t-on-input="onInputSearch"
-                    />
-                    <button t-if="state.query" class="btn btn-secondary" t-on-click="clearSearch">
-                        Limpiar
-                    </button>
-                </div>
-            </div>
-
-            <div t-if="hasResults" class="row g-3 g-lg-4">
-                <div t-foreach="displayedApps" t-as="app" t-key="app.id" class="col-6 col-md-4 col-xl-3">
-                    <button class="dipl_app_card w-100 text-start" t-on-click="() => this.onSelectApp(app)">
+            <div t-if="hasResults" class="row g-3 g-lg-4 justify-content-center">
+                <div t-foreach="props.apps" t-as="app" t-key="app.id" class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <button class="dipl_app_card w-100 text-center" t-on-click="() => this.onSelectApp(app)">
                         <div class="dipl_app_card_icon_wrap">
                             <img t-if="app.webIconData" class="dipl_app_card_icon" t-att-src="app.webIconData" t-att-alt="app.label"/>
                             <div t-else="" class="dipl_app_card_fallback_icon">
@@ -48,7 +21,6 @@
                         </div>
                         <div class="dipl_app_card_body">
                             <div class="dipl_app_card_title" t-esc="app.label"/>
-                            <div class="dipl_app_card_meta text-truncate" t-esc="app.xmlid"/>
                         </div>
                     </button>
                 </div>
@@ -56,8 +28,7 @@
 
             <div t-else="" class="dipl_home_menu_empty">
                 <div class="dipl_home_menu_empty_card">
-                    <h2 class="h4 mb-2">No hay resultados</h2>
-                    <p class="mb-0">Prueba con otro nombre de aplicación o limpia el filtro actual.</p>
+                    <h2 class="h4 mb-0">No hay aplicaciones disponibles.</h2>
                 </div>
             </div>
         </div>

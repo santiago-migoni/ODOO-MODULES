@@ -1,4 +1,14 @@
 body.dipl-home-menu-open {
+    --dipl-home-menu-text: #f8f9fa;
+    --dipl-home-menu-text-soft: rgba(248, 249, 250, 0.7);
+    --dipl-home-menu-card-bg: rgba(248, 249, 250, 0.1);
+    --dipl-home-menu-card-border: rgba(248, 249, 250, 0.12);
+    --dipl-home-menu-card-hover: rgba(248, 249, 250, 0.16);
+    --dipl-home-menu-card-shadow: 0 22px 44px rgba(0, 0, 0, 0.2);
+    --dipl-home-menu-icon-bg: rgba(248, 249, 250, 0.16);
+    --dipl-home-menu-close-bg: rgba(248, 249, 250, 0.12);
+    --dipl-home-menu-close-border: rgba(248, 249, 250, 0.14);
+
     background:
         radial-gradient(circle at top left, rgba(212, 184, 149, 0.24), transparent 20%),
         linear-gradient(135deg, #111111, #1c1c1c 42%, #2b3a42);
