@@ -43,7 +43,7 @@
         display: inline-flex;
         flex: 0 1 auto;
         align-items: center;
-        max-width: min(12rem, 100%);
+        max-width: 12rem;
         min-height: 2.15rem;
         padding-inline: 0.1rem;
         border: 1px solid var(--dipl-color-border-soft);
@@ -123,7 +123,7 @@
     }
 
     .o_searchview .o_searchview_input {
-        flex-basis: min(100%, 12rem);
+        flex-basis: 12rem;
         min-width: 0;
         order: 20;
     }
