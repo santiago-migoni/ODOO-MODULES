@@ -4,8 +4,6 @@ import { _t } from "@web/core/l10n/translation";
 import { patch } from "@web/core/utils/patch";
 import { useEffect, useRef } from "@odoo/owl";
 
-NavBar.template = "dipl_web_theme.EnterpriseNavBar";
-
 patch(NavBar.prototype, {
     setup() {
         super.setup(...arguments);
