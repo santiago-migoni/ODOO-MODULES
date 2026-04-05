@@ -3,3 +3,11 @@
 // No CSS hacks, variables overrides only
 
 $o-navbar-background: $o-view-background-color !default;
+$o-navbar-entry-color: $o-gray-900 !default;
+$o-navbar-entry-bg--hover: mix($o-brand-primary, $o-gray-100, 18%) !default;
+$o-navbar-entry-color--hover: $o-gray-900 !default;
+$o-navbar-entry-bg--active: mix($o-action, $o-gray-100, 15%) !default;
+$o-navbar-entry-color--active: $o-gray-900 !default;
+$o-navbar-brand-color: $o-gray-900 !default;
+$o-navbar-badge-bg: $o-warning !default;
+$o-navbar-badge-color: $o-black !default;

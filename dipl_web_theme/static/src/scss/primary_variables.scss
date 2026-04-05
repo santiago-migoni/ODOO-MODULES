@@ -3,35 +3,60 @@
 /// They are available in every asset bundle.
 ///
 
+// DIPLEG Design Tokens
+// Source palette
+$dipl-color-ink: #1C1C1C !default;
+$dipl-color-surface-900: #2B3A42 !default;
+$dipl-color-brand-700: #2C3E50 !default;
+$dipl-color-accent-500: #D4B895 !default;
+$dipl-color-neutral-400: #A9B0B3 !default;
+$dipl-color-surface-0: #F8F9FA !default;
+
+// Derived backend tokens
+$dipl-color-surface-100: #E8ECEE !default;
+$dipl-color-surface-200: #D8DEE1 !default;
+$dipl-color-neutral-500: #7E8990 !default;
+$dipl-color-border-strong: #606A71 !default;
+$dipl-color-brand-600: #43515A !default;
+$dipl-color-action-600: $dipl-color-brand-700 !default;
+$dipl-color-success-500: #4F8B66 !default;
+$dipl-color-info-500: #557A98 !default;
+$dipl-color-warning-500: #C59B57 !default;
+$dipl-color-danger-500: #B85C66 !default;
+
 // Colors
 $o-white: #FFF !default;
-$o-black: #000 !default;
+$o-black: $dipl-color-ink !default;
 
-$o-gray-100: #F9FAFB !default;
-$o-gray-200: #e7e9ed !default;
-$o-gray-300: #d8dadd !default;
-$o-gray-400: #9a9ca5 !default;
-$o-gray-500: #7c7f89 !default;
-$o-gray-600: #5f636f !default;
-$o-gray-700: #374151 !default;
-$o-gray-800: #1F2937 !default;
-$o-gray-900: #111827 !default;
+$o-gray-100: $dipl-color-surface-0 !default;
+$o-gray-200: $dipl-color-surface-100 !default;
+$o-gray-300: $dipl-color-surface-200 !default;
+$o-gray-400: $dipl-color-neutral-400 !default;
+$o-gray-500: $dipl-color-neutral-500 !default;
+$o-gray-600: $dipl-color-border-strong !default;
+$o-gray-700: $dipl-color-brand-600 !default;
+$o-gray-800: $dipl-color-surface-900 !default;
+$o-gray-900: $dipl-color-ink !default;
 
-$o-enterprise-color: #714B67 !default;
-$o-enterprise-action-color: #017e84 !default;
+$o-enterprise-color: $dipl-color-brand-700 !default;
+$o-enterprise-action-color: $dipl-color-action-600 !default;
 
+$o-success: $dipl-color-success-500 !default;
+$o-info: $dipl-color-info-500 !default;
+$o-warning: $dipl-color-warning-500 !default;
+$o-danger: $dipl-color-danger-500 !default;
 
 $o-brand-odoo: $o-enterprise-color !default;
 $o-brand-primary: $o-brand-odoo !default;
-$o-brand-secondary: #8f8f8f !default;
-$o-brand-lightsecondary: $o-gray-100 !default;
+$o-brand-secondary: $dipl-color-surface-900 !default;
+$o-brand-lightsecondary: $dipl-color-surface-0 !default;
 
 $o-action: $o-enterprise-action-color !default;
-$o-main-link-color: $o-enterprise-action-color !default;
+$o-main-link-color: $o-brand-primary !default;
 
 // Components
 $o-component-active-color:  $o-black !default;
-$o-component-active-bg: mix($o-action, $o-white, 10%) !default;
+$o-component-active-bg: mix($o-action, $o-white, 12%) !default;
 $o-component-active-border: $o-action !default;
 
 $o-list-group-header-color: $o-black !default;
@@ -45,7 +70,7 @@ $o-form-lightsecondary: $o-gray-200 !default;
 $o-input-padding-y: 1px !default;
 $o-input-padding-x: 0 !default;
 
-$o-input-border-required: $o-black !default;
+$o-input-border-required: $o-brand-primary !default;
 
 // Badges
 $o-badge-min-width: 2.7ch !default !default;
@@ -96,8 +121,8 @@ $o-btns-bs-outline-override: map-merge((
         hover-border: $o-gray-300,
         hover-color: $o-black,
 
-        active-background: mix($o-enterprise-action-color, $o-white, 10%),
-        active-border:  $o-enterprise-action-color,
+        active-background: mix($o-action, $o-white, 12%),
+        active-border:  $o-action,
         active-color: $o-component-active-color,
     ),
 ), $o-btns-bs-outline-override);

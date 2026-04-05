@@ -13,13 +13,14 @@ $o-navbar-entry-padding-h: .63em !default;
 $o-navbar-entry-bg--hover: $o-gray-200 !default;
 $o-navbar-entry-color--hover: $o-black !default;
 
-$o-navbar-entry-bg--active: unset !default;
-$o-navbar-entry-color--active: unset !default;
+$o-navbar-entry-bg--active: $o-component-active-bg !default;
+$o-navbar-entry-color--active: $o-component-active-color !default;
 
-$o-navbar-brand-color: $o-main-text-color !default;
+$o-navbar-brand-color: $o-brand-primary !default;
+$o-navbar-brand-hover-color: $o-brand-secondary !default;
 
 $o-navbar-badge-size: .7em !default;
 $o-navbar-badge-padding: 6px !default;
-$o-navbar-badge-bg: $o-danger !default;
-$o-navbar-badge-color: $o-white !default;
+$o-navbar-badge-bg: $o-warning !default;
+$o-navbar-badge-color: $o-black !default;
 $o-navbar-badge-text-shadow: none !default;

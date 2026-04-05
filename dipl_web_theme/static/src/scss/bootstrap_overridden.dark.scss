@@ -36,7 +36,7 @@ $info-border-subtle: shift-color($o-info, 0%) !default;
 // == Links
 
 $link-shade-percentage: 15% !default;
-$link-hover-color: shift-color($o-action, 30%) !default;
+$link-hover-color: shift-color($o-action, 20%) !default;
 
 // == Paragraphs
 
@@ -60,8 +60,8 @@ $component-active-bg: $o-gray-300 !default;
 
 
 // == Typography
-$mark-bg: #ffdebc !default;
-$mark-color: shift-color($mark-bg, -75%) !default;
+$mark-bg: mix($o-warning, $o-gray-100, 25%) !default;
+$mark-color: $o-gray-900 !default;
 
 // == Tables
 $table-bg: $o-view-background-color !default;
@@ -82,6 +82,7 @@ $table-active-bg-factor: .1 !default;
 $input-border-color: $o-gray-300 !default;
 $input-placeholder-color: mix($o-gray-500, $o-gray-600) !default;
 $input-focus-bg: inherit !default;
+$input-focus-border-color: lighten($o-action, 8%) !default;
 $form-range-thumb-active-bg: lighten($o-brand-primary, 10%);
 $form-range-track-bg: $o-gray-300 !default;
 
@@ -150,6 +151,7 @@ $alert-color-scale: 90% !default;
 
 // == List group
 $list-group-bg: $o-view-background-color !default;
+$list-group-active-color: $o-gray-900 !default;
 
 
 // == Image thumbnails
