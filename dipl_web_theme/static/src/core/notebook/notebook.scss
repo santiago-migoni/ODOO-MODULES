@@ -4,6 +4,9 @@
     --Notebook__link-border-color: #{$border-color};
     --Notebook__link-border-color--hover: #{$border-color};
     --Notebook__link-border-top-color--active: #{$o-brand-odoo};
+    --Notebook__link-background-color: #{$o-gray-100};
+    --Notebook__link-background-color--hover: #{$dipl-interaction-hover-bg};
+    --Notebook__link-color--active: #{$o-brand-primary};
 
     .modal & {
         --Notebook-padding-x: #{$modal-inner-padding};
@@ -23,6 +26,7 @@
 
             &.active {
                 --#{$prefix}nav-tabs-link-active-color: var(--Notebook__link-color--active, #{$o-brand-odoo});
+                background-color: mix($o-white, $dipl-interaction-selected-bg, 75%);
 
                 &::after {
                     position: absolute;

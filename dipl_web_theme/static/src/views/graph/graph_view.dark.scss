@@ -1,0 +1,12 @@
+.o_graph_view {
+    .o_graph_alert {
+        background-color: $dipl-state-info-bg;
+        border-color: $dipl-state-info-border;
+        color: $dipl-state-info-color;
+    }
+
+    .o_graph_custom_tooltip.popover {
+        border-color: $o-gray-400;
+        box-shadow: 0 1rem 2rem rgba($o-white, 0.08);
+    }
+}

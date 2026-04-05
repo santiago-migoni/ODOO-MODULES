@@ -54,6 +54,39 @@ $o-brand-lightsecondary: $dipl-color-surface-0 !default;
 $o-action: $o-enterprise-action-color !default;
 $o-main-link-color: $o-brand-primary !default;
 
+// Semantic state tokens
+$dipl-state-neutral-bg: mix($o-gray-300, $o-white, 55%) !default;
+$dipl-state-neutral-border: mix($o-gray-400, $o-white, 40%) !default;
+$dipl-state-neutral-color: $o-gray-700 !default;
+
+$dipl-state-info-bg: mix($dipl-color-info-500, $o-white, 18%) !default;
+$dipl-state-info-border: mix($dipl-color-info-500, $o-white, 38%) !default;
+$dipl-state-info-color: darken($dipl-color-info-500, 16%) !default;
+
+$dipl-state-success-bg: mix($dipl-color-success-500, $o-white, 18%) !default;
+$dipl-state-success-border: mix($dipl-color-success-500, $o-white, 38%) !default;
+$dipl-state-success-color: darken($dipl-color-success-500, 14%) !default;
+
+$dipl-state-warning-bg: mix($dipl-color-warning-500, $o-white, 24%) !default;
+$dipl-state-warning-border: mix($dipl-color-warning-500, $o-white, 42%) !default;
+$dipl-state-warning-color: darken($dipl-color-warning-500, 24%) !default;
+
+$dipl-state-danger-bg: mix($dipl-color-danger-500, $o-white, 18%) !default;
+$dipl-state-danger-border: mix($dipl-color-danger-500, $o-white, 40%) !default;
+$dipl-state-danger-color: darken($dipl-color-danger-500, 14%) !default;
+
+$dipl-state-accent-bg: mix($dipl-color-accent-500, $o-white, 26%) !default;
+$dipl-state-accent-border: mix($dipl-color-accent-500, $o-white, 44%) !default;
+$dipl-state-accent-color: darken($dipl-color-accent-500, 30%) !default;
+
+// Interaction tokens
+$dipl-interaction-hover-bg: mix($o-brand-primary, $o-white, 10%) !default;
+$dipl-interaction-selected-bg: mix($o-brand-primary, $o-white, 16%) !default;
+$dipl-interaction-highlight-bg: mix($dipl-color-accent-500, $o-white, 20%) !default;
+$dipl-interaction-focus-ring: mix($o-action, $o-white, 40%) !default;
+$dipl-interaction-current-bg: mix($o-warning, $o-white, 20%) !default;
+$dipl-interaction-current-border: mix($o-warning, $o-white, 44%) !default;
+
 // Components
 $o-component-active-color:  $o-black !default;
 $o-component-active-bg: mix($o-action, $o-white, 12%) !default;

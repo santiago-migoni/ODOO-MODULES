@@ -1,5 +1,6 @@
 // Shared with web client and login screen
 .o_home_menu_background, .o_web_client.o_home_menu_background {
+    --homeMenu-bg-color: #{$dipl-interaction-highlight-bg};
     background: {
         size: cover;
         attachment: fixed;

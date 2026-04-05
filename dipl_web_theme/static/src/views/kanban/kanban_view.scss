@@ -1,14 +1,21 @@
 .o_kanban_view {
+    .o_kanban_renderer {
+        .o_kanban_record:hover {
+            box-shadow: 0 0 0 1px rgba($o-action, 0.12), 0 10px 24px rgba($o-brand-secondary, 0.08);
+            transform: translateY(-1px);
+            transition: box-shadow 0.12s ease, transform 0.12s ease;
+        }
+    }
 
     .o_column_quick_create .o_kanban_quick_create {
         input {
             &, &:focus, &:hover {
                 background: transparent;
-                border-bottom: 1px solid map-get($grays, '600');
+                border-bottom: 1px solid $dipl-interaction-focus-ring;
             }
         }
         .input-group-append, .input-group-prepend {
-            border-left: 10px solid map-get($grays, '200');
+            border-left: 10px solid $dipl-interaction-hover-bg;
         }
     }
 }

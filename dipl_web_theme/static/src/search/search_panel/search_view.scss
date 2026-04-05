@@ -1,14 +1,5 @@
-// = Mobile Search
-// ============================================================================
-// No CSS hacks, variables overrides only
-
-.o_mobile_search {
-    --mobileSearch-bg: #{$o-gray-200};
-    --mobileSearch__header-bg: #{$o-gray-100};
-}
-
 .o_searchview {
-   --SearchBar-background-color: #{$o-gray-100};
+    --SearchBar-background-color: #{$o-gray-100};
 }
 
 .o_search_panel {
@@ -20,4 +11,9 @@
         border-color: $dipl-interaction-focus-ring;
         color: $o-gray-900;
     }
+}
+
+.o_mobile_search {
+    --mobileSearch-bg: #{$o-gray-100};
+    --mobileSearch__header-bg: #{$o-white};
 }

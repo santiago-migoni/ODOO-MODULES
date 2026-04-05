@@ -56,6 +56,39 @@ $o-enterprise-color: $o-brand-odoo !default;
 $o-main-favorite-color: $dipl-color-accent-500 !default;
 $o-main-code-color: lighten($dipl-color-brand-700, 28%) !default;
 
+// Semantic state tokens
+$dipl-state-neutral-bg: mix($o-gray-300, $o-gray-100, 25%) !default;
+$dipl-state-neutral-border: mix($o-gray-600, $o-gray-100, 45%) !default;
+$dipl-state-neutral-color: $o-gray-800 !default;
+
+$dipl-state-info-bg: mix($dipl-color-dark-info-500, $o-gray-100, 22%) !default;
+$dipl-state-info-border: mix($dipl-color-dark-info-500, $o-gray-100, 42%) !default;
+$dipl-state-info-color: lighten($dipl-color-dark-info-500, 6%) !default;
+
+$dipl-state-success-bg: mix($dipl-color-dark-success-500, $o-gray-100, 22%) !default;
+$dipl-state-success-border: mix($dipl-color-dark-success-500, $o-gray-100, 42%) !default;
+$dipl-state-success-color: lighten($dipl-color-dark-success-500, 8%) !default;
+
+$dipl-state-warning-bg: mix($dipl-color-accent-500, $o-gray-100, 22%) !default;
+$dipl-state-warning-border: mix($dipl-color-accent-500, $o-gray-100, 42%) !default;
+$dipl-state-warning-color: lighten($dipl-color-accent-500, 6%) !default;
+
+$dipl-state-danger-bg: mix($dipl-color-dark-danger-500, $o-gray-100, 22%) !default;
+$dipl-state-danger-border: mix($dipl-color-dark-danger-500, $o-gray-100, 42%) !default;
+$dipl-state-danger-color: lighten($dipl-color-dark-danger-500, 8%) !default;
+
+$dipl-state-accent-bg: mix($dipl-color-dark-brand-600, $o-gray-100, 24%) !default;
+$dipl-state-accent-border: mix($dipl-color-dark-brand-600, $o-gray-100, 44%) !default;
+$dipl-state-accent-color: lighten($dipl-color-dark-brand-600, 12%) !default;
+
+// Interaction tokens
+$dipl-interaction-hover-bg: mix($o-brand-primary, $o-gray-100, 18%) !default;
+$dipl-interaction-selected-bg: mix($o-brand-primary, $o-gray-100, 26%) !default;
+$dipl-interaction-highlight-bg: mix($dipl-color-accent-500, $o-gray-100, 18%) !default;
+$dipl-interaction-focus-ring: lighten($o-action, 8%) !default;
+$dipl-interaction-current-bg: mix($o-warning, $o-gray-100, 18%) !default;
+$dipl-interaction-current-border: mix($o-warning, $o-gray-100, 40%) !default;
+
 // = Fine-tune contextual text colors.
 $o-theme-text-colors: (
     "primary": $o-brand-primary,

@@ -1,0 +1,31 @@
+.o_activity_view_table {
+    .o_activity_summary_cell:hover,
+    .o_activity_empty_cell:hover,
+    .o_activity_type_cell:hover {
+        background-color: $dipl-interaction-hover-bg;
+    }
+
+    .o_activity_summary_cell.o_activity_filter_planned,
+    .o_activity_type_cell.o_activity_filter_planned,
+    .o_data_row.o_activity_filter_planned {
+        background-color: $dipl-state-success-bg;
+    }
+
+    .o_activity_summary_cell.o_activity_filter_today,
+    .o_activity_type_cell.o_activity_filter_today,
+    .o_data_row.o_activity_filter_today {
+        background-color: $dipl-state-warning-bg;
+    }
+
+    .o_activity_summary_cell.o_activity_filter_overdue,
+    .o_activity_type_cell.o_activity_filter_overdue,
+    .o_data_row.o_activity_filter_overdue {
+        background-color: $dipl-state-danger-bg;
+    }
+
+    .o-mail-ActivityCell-counter.badge {
+        border: 1px solid $dipl-state-accent-border !important;
+        background-color: $dipl-state-accent-bg !important;
+        color: $dipl-state-accent-color !important;
+    }
+}

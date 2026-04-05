@@ -1,11 +1,19 @@
-// = Search Bar
-// ============================================================================
-// No CSS hacks, variables overrides only
-
 .o_searchview_facet {
     --SearchBar-facet-background: #{$dipl-state-accent-bg};
     --SearchBar-facet-color: #{$dipl-state-accent-color};
     background-color: $dipl-state-accent-bg;
     color: $dipl-state-accent-color;
     border: 1px solid $dipl-state-accent-border;
+
+    .btn,
+    .btn:focus {
+        z-index: 0;
+    }
+}
+
+.o_searchview_autocomplete {
+    .o-dropdown-item:hover,
+    .o-dropdown-item:focus {
+        background-color: $dipl-interaction-hover-bg;
+    }
 }

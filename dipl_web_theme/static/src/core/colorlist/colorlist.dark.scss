@@ -2,7 +2,7 @@
 // tag_list.dark.scss
 @for $size from 2 through length($o-colors) {
   .o_colorlist_item_color_#{$size - 1} {
-      --background-color: #{adjust-color(nth($o-colors, $size), $lightness: -5%, $saturation: -15%)};
-      --color: #{mix(nth($o-colors, $size), $o-view-background-color, 15%)};
+      --background-color: #{mix(nth($o-colors, $size), $o-view-background-color, 20%)};
+      --color: #{adjust-color(nth($o-colors, $size), $lightness: 8%, $saturation: -15%)};
   }
 }

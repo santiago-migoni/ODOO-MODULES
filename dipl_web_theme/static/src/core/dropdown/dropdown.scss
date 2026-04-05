@@ -1,15 +1,14 @@
-// = Dropdowns
-// ============================================================================
-// No CSS hacks, variables overrides only
-
-.o-dropdown {
-  --border-color: #{$dropdown-border-color};
-  --o-input-border-color: #{$dropdown-border-color};
+.o-dropdown,
+.dropdown-menu,
+.o-dropdown--menu {
+    --border-color: #{$o-gray-300};
+    --o-input-border-color: #{$o-gray-300};
 }
 
 .dropdown-menu,
 .o-dropdown--menu {
-    box-shadow: 0 1rem 2rem rgba($o-white, 0.08);
+    border-color: $o-gray-300;
+    box-shadow: 0 1rem 2rem rgba($o-gray-900, 0.08);
 }
 
 .dropdown-item:hover,

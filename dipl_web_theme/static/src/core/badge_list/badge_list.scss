@@ -1,0 +1,74 @@
+@mixin dipl-badge-state($bg, $color, $border) {
+    background-color: $bg !important;
+    color: $color !important;
+    border-color: $border !important;
+}
+
+.badge,
+.o_badge.badge {
+    border: 1px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.badge.text-bg-300,
+.badge.text-bg-light,
+.badge.text-bg-secondary,
+.badge.bg-light,
+.o_badge.badge.text-bg-300,
+.o_badge.badge.text-bg-light,
+.o_badge.badge.text-bg-secondary {
+    @include dipl-badge-state($dipl-state-neutral-bg, $dipl-state-neutral-color, $dipl-state-neutral-border);
+}
+
+.badge.text-bg-primary,
+.badge.text-bg-action,
+.o_badge.badge.text-bg-primary,
+.o_badge.badge.text-bg-action {
+    @include dipl-badge-state($dipl-state-accent-bg, $dipl-state-accent-color, $dipl-state-accent-border);
+}
+
+.badge.text-bg-info,
+.o_badge.badge.text-bg-info,
+.badge.bg-info.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-info-bg, $dipl-state-info-color, $dipl-state-info-border);
+}
+
+.badge.text-bg-success,
+.o_badge.badge.text-bg-success,
+.badge.bg-success.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-success-bg, $dipl-state-success-color, $dipl-state-success-border);
+}
+
+.badge.text-bg-warning,
+.o_badge.badge.text-bg-warning,
+.badge.bg-warning {
+    @include dipl-badge-state($dipl-state-warning-bg, $dipl-state-warning-color, $dipl-state-warning-border);
+}
+
+.badge.text-bg-danger,
+.o_badge.badge.text-bg-danger,
+.badge.bg-danger,
+.badge.bg-danger.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-danger-bg, $dipl-state-danger-color, $dipl-state-danger-border);
+}
+
+.badge.text-bg-dark,
+.o_badge.badge.text-bg-dark {
+    @include dipl-badge-state($o-brand-secondary, $o-gray-100, rgba($o-brand-secondary, 0.75));
+}
+
+.badge.text-primary.border.border-primary {
+    @include dipl-badge-state($dipl-state-accent-bg, $dipl-state-accent-color, $dipl-state-accent-border);
+}
+
+.badge {
+    @for $size from 1 through length($o-colors) {
+        &.o_badge_color_#{$size - 1} {
+            $-color: nth($o-colors, $size);
+            background-color: mix($-color, $o-white, 18%) !important;
+            color: adjust-color($-color, $lightness: -22%, $saturation: -8%) !important;
+            border-color: mix($-color, $o-white, 40%) !important;
+        }
+    }
+}
