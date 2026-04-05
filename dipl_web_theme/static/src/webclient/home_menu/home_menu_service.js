@@ -12,6 +12,21 @@ import { HomeMenu } from "./home_menu";
 
 import { Component, onMounted, onWillUnmount, reactive, xml } from "@odoo/owl";
 
+const readHomeMenuConfig = () => {
+    const storedConfig = user.settings?.homemenu_config;
+    if (Array.isArray(storedConfig)) {
+        return storedConfig;
+    }
+    if (typeof storedConfig === "string") {
+        try {
+            return JSON.parse(storedConfig);
+        } catch {
+            return null;
+        }
+    }
+    return null;
+};
+
 export const homeMenuService = {
     dependencies: ["action"],
     start(env) {
@@ -35,17 +50,7 @@ export const homeMenuService = {
                 useBus(this.env.bus, "MENUS:APP-CHANGED", () => this.render());
             }
             get homeMenuProps() {
-                const storedConfig = user.settings?.homemenu_config;
-                let homemenuConfig = null;
-                if (Array.isArray(storedConfig)) {
-                    homemenuConfig = storedConfig;
-                } else if (typeof storedConfig === "string") {
-                    try {
-                        homemenuConfig = JSON.parse(storedConfig);
-                    } catch {
-                        homemenuConfig = null;
-                    }
-                }
+                const homemenuConfig = readHomeMenuConfig();
                 const apps = reactive(
                     computeAppsAndMenuItems(this.menus.getMenuAsTree("root")).apps
                 );
@@ -58,9 +63,8 @@ export const homeMenuService = {
                 };
             }
             async onMounted() {
-                const { breadcrumbs } = this.env.config;
                 state.hasHomeMenu = true;
-                state.hasBackgroundAction = breadcrumbs.length > 0;
+                state.hasBackgroundAction = Boolean(this.env.config?.breadcrumbs?.length);
                 this.env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
             }
             onWillUnmount() {
@@ -77,24 +81,30 @@ export const homeMenuService = {
         });
 
         async function toggle(show) {
+            const actionService = env.services.action;
+            if (!actionService) {
+                return false;
+            }
             return mutex.exec(async () => {
                 show = show === undefined ? !state.hasHomeMenu : Boolean(show);
                 if (show !== state.hasHomeMenu) {
                     if (show) {
-                        await env.services.action.doAction("dipl_web_theme.home_menu");
+                        await actionService.doAction("dipl_web_theme.home_menu");
+                        return true;
                     } else {
                         try {
-                            await env.services.action.restore();
+                            await actionService.restore();
                         } catch (err) {
                             if (!(err instanceof ControllerNotFoundError)) {
                                 throw err;
                             }
+                            return false;
                         }
                     }
                 }
                 // hack: wait for a tick to ensure that the url has been updated before
                 // switching again
-                return new Promise((r) => setTimeout(r));
+                return new Promise((r) => setTimeout(() => r(true)));
             });
         }
 

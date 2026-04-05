@@ -6,13 +6,25 @@ import { ListRenderer } from "@web/views/list/list_renderer";
 import { _t } from "@web/core/l10n/translation";
 import { onWillDestroy, useState } from "@odoo/owl";
 
+const isTopLevelBackendActionList = (renderer) => {
+    const list = renderer.props.list;
+    const { actionId, actionType } = renderer.env.config || {};
+    return (
+        !isMobileOS() &&
+        !renderer.env.inDialog &&
+        user.isSystem &&
+        list &&
+        list.model?.root &&
+        list === list.model.root &&
+        actionId &&
+        actionType === "ir.actions.act_window"
+    );
+};
+
 export const patchListRendererDesktop = () => ({
     setup() {
         super.setup(...arguments);
         this.actionService = useService("action");
-        const list = this.props.list;
-
-        const { actionId, actionType } = this.env.config || {};
 
         // Start by determining if the current ListRenderer is in a context that would
         // allow the edition of the arch by studio.
@@ -20,13 +32,8 @@ export const patchListRendererDesktop = () => ({
         // (not a X2Many list, and not an "embedded" list in another component)
         // Also, there is not enough information when an action is in target new,
         // and this use case is fairly outside of the feature's scope
-        const isPotentiallyEditable =
-            !isMobileOS() &&
-            !this.env.inDialog &&
-            user.isSystem &&
-            list === list.model.root &&
-            actionId &&
-            actionType === "ir.actions.act_window";
+        const { actionId } = this.env.config || {};
+        const isPotentiallyEditable = isTopLevelBackendActionList(this);
         this.studioEditable = useState({ value: isPotentiallyEditable });
 
         if (isPotentiallyEditable) {
@@ -63,7 +70,11 @@ export const patchListRendererDesktop = () => ({
                 return Boolean(action.res_model);
             };
             const onUiUpdated = () => {
-                const action = this.actionService.currentController.action;
+                const action = this.actionService.currentController?.action;
+                if (!action) {
+                    stopListening();
+                    return;
+                }
                 if (action.id === actionId) {
                     this.studioEditable.value = computeStudioEditable(action);
                 }
