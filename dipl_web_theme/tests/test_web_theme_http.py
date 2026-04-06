@@ -65,7 +65,10 @@ class TestWebThemeHttp(TransactionCase):
     def test_post_logout_clears_color_scheme_cookie(self):
         fake_request, cookie_calls = self._fake_request(self.public_user)
 
-        with patch("odoo.addons.dipl_web_theme.models.ir_http.request", fake_request):
+        with patch("odoo.addons.dipl_web_theme.models.ir_http.request", fake_request), patch(
+            "odoo.addons.web.models.ir_http.request", fake_request
+        ):
             self.env["ir.http"]._post_logout()
 
         self.assertIn((("color_scheme",), {"max_age": 0}), cookie_calls)
+        self.assertIn((("cids",), {"max_age": 0}), cookie_calls)
