@@ -4,6 +4,8 @@
         background-color: $dipl-interaction-current-bg;
     }
 
+    // These classes are attached by the Odoo 19 calendar renderer when an event
+    // is highlighted or when its popover is open.
     .fc-event.o_cw_custom_highlight,
     .fc-event.o_calendar_popover_open {
         box-shadow: 0 0 0 1px $dipl-interaction-focus-ring, 0 0 0 4px rgba($o-action, 0.08);

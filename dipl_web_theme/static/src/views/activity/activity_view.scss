@@ -23,7 +23,9 @@
         background-color: $dipl-state-danger-bg;
     }
 
-    .o-mail-ActivityCell-counter.badge {
+    // Keep this override local and explicit: upstream renders the counter with
+    // Bootstrap utilities (`bg-light border-0`), so we need a scoped exception.
+    .o_activity_summary_cell .o-mail-ActivityCell-counter.badge {
         border: 1px solid $dipl-state-accent-border !important;
         background-color: $dipl-state-accent-bg !important;
         color: $dipl-state-accent-color !important;

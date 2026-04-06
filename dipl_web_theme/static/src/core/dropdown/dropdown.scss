@@ -1,28 +1,28 @@
-.o-dropdown,
-.dropdown-menu,
-.o-dropdown--menu {
+.o_web_client .o-dropdown,
+.o_web_client .dropdown-menu,
+.o_web_client .o-dropdown--menu {
     --border-color: #{$o-gray-300};
     --o-input-border-color: #{$o-gray-300};
 }
 
-.dropdown-menu,
-.o-dropdown--menu {
+.o_web_client .dropdown-menu,
+.o_web_client .o-dropdown--menu {
     border-color: $o-gray-300;
     box-shadow: 0 1rem 2rem rgba($o-gray-900, 0.08);
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus,
-.o-dropdown-item:hover,
-.o-dropdown-item:focus {
+.o_web_client .dropdown-item:hover,
+.o_web_client .dropdown-item:focus,
+.o_web_client .o-dropdown-item:hover,
+.o_web_client .o-dropdown-item:focus {
     background-color: $dipl-interaction-hover-bg;
     color: $o-gray-900;
 }
 
-.dropdown-item.active,
-.dropdown-item:active,
-.o-dropdown-item.active,
-.o-dropdown-item:active {
+.o_web_client .dropdown-item.active,
+.o_web_client .dropdown-item:active,
+.o_web_client .o-dropdown-item.active,
+.o_web_client .o-dropdown-item:active {
     background-color: $dipl-interaction-selected-bg;
     color: $o-gray-900;
 }
