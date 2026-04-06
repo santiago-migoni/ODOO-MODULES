@@ -8,6 +8,7 @@ description: Discovery stage workflow for Odoo custom modules. Use when starting
 ## Overview
 Produce a structured discovery report that describes the current process, key pain points, business objectives, and preliminary scope boundaries for an Odoo custom module initiative.
 Use `odoo-19` as a global technical knowledge source only when technical details are needed.
+Use `business-analyst` when requests are ambiguous, stakeholder intent is mixed, or scope boundaries are still unstable.
 
 ## Required Inputs
 - Business objective and target process area.
@@ -21,6 +22,7 @@ Use `odoo-19` as a global technical knowledge source only when technical details
 3. Define high-level TO-BE intent without prescribing technical solutions.
 4. Mark preliminary scope boundaries (in-scope, out-of-scope, unknown).
 5. Record open questions and decision owners.
+6. When ambiguity remains high, use `business-analyst` to normalize assumptions, decision owners, and requirement language before handoff.
 
 ## Outputs
 - Discovery report with AS-IS process map and pain-point matrix.
@@ -37,3 +39,7 @@ Provide the stage output to `$odoo-stage-02-functional-definition` including:
 - Validated business objectives and scope boundaries.
 - Prioritized pain points and unresolved questions.
 - Stakeholder approvals or pending decisions.
+
+## Related References
+- Use `references/deliverable-template.md` for the main discovery deliverable.
+- Use `references/discovery-refinement-template.md` when `business-analyst` is needed to stabilize assumptions, pain points, and decisions.

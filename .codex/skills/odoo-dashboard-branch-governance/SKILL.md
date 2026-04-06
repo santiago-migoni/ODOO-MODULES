@@ -22,18 +22,20 @@ Use `master` as production-only. Treat every non-master branch as ephemeral and 
 In dev, require full module buildout without production data dependency.
 In test, require production-data validation and regression checks with production services disabled.
 3. Decide branch transition.
-Promote `dev -> test` only when module implementation is functionally complete.
+Promote `dev -> test` only when module implementation is functionally complete and the affected module changelog is updated.
 Demote `test -> dev` when failures require additional development.
 4. Enforce production merge policy.
-Allow merge to `master` only through PR from a test branch.
+Allow merge to `master` only through PR from a test branch and only when the module changelog is frozen into a versioned release entry.
 Reject direct merge paths from dev branch state.
 5. Run manual audit gate before production recommendation.
-Validate traceability, effectiveness, efficiency, and adaptability for all modified module code.
+Validate traceability, effectiveness, efficiency, adaptability, and changelog readiness for all modified module code.
+6. Use `project-manager` and `product-manager` outputs when promotion depends on explicit readiness, scope, sequencing, or risk tradeoffs rather than raw completion status alone.
 
 ## Outputs
 - Branch governance decision: stay, promote, demote, or block.
 - Explicit gating report with pass/fail criteria.
 - Merge eligibility statement for `master`.
+- Readiness rationale that can cite project-management or product-tradeoff artifacts when they materially affect the decision.
 
 ## Definition of Done
 - Branch state decision is explicit and justified.
@@ -50,6 +52,8 @@ Validate traceability, effectiveness, efficiency, and adaptability for all modif
 - Do not bypass test-stage PR review for production merge.
 - Do not mark production-ready without manual exhaustive audit.
 - Do not assume production services are active in test clones.
+- Do not recommend promotion to test or master when the affected module changelog is missing or outdated.
 
 ## Related References
 - Use `references/manual-audit-checklist.md` for production-readiness review.
+- Use `references/module-changelog-policy.md` for changelog gate criteria.

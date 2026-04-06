@@ -52,6 +52,27 @@ Manual audit before merge to `master` is mandatory and must verify:
 - Efficiency and performance impact.
 - Adaptability and maintainability of the solution.
 
+## Changelog Policy
+
+Every installable `dipl_*` module must include `CHANGELOG.md` at the module root.
+Changelog ownership is per module, not global to the repository.
+
+Relevant changes that must be reflected in `CHANGELOG.md` include:
+- Functional behavior changes.
+- Technical architecture or hardening changes.
+- Compatibility changes across Odoo modules or environments.
+- Relevant testing additions, fixes, or release-safety improvements.
+
+Operational rules:
+- During development, record relevant changes under `## Unreleased`.
+- Before promoting a branch to test, `CHANGELOG.md` must be updated for the module scope under review.
+- Before opening a PR to `master`, `## Unreleased` must be frozen into a versioned and dated release entry.
+- Missing or outdated changelog entries block promotion to test and production recommendation.
+
+Repository support notes:
+- `.docs/` may complement delivery traceability, but it does not replace `CHANGELOG.md`.
+- Changelog content must be manual and curated; do not generate it mechanically from commits.
+
 ## Skill-first execution
 
 Use `$skill` activation for operational flows.
@@ -77,13 +98,19 @@ Governance skill:
 - `odoo-dashboard-branch-governance`
 
 Project subagents:
+- `business-analyst`
 - `code-mapper`
 - `frontend-developer`
 - `javascript-pro`
+- `product-manager`
+- `project-manager`
 - `python-pro`
 - `xml-pro`
 - `owl-pro`
 - `scss-pro`
+
+Business and coordination subagents (`business-analyst`, `product-manager`, `project-manager`) are transversal support roles for early lifecycle stages and governance decisions.
+They do not replace lifecycle skills; they help produce clearer artifacts, priorities, and readiness decisions inside the stage flow.
 
 ## Dependencies
 
