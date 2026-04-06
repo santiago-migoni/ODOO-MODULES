@@ -7,22 +7,41 @@ import "../../src/webclient/navbar/navbar";
 describe.current.tags("headless");
 
 function makeNavBar(overrides = {}) {
-    return Object.assign(Object.create(NavBar.prototype), {
-        currentApp: {
+    const currentApp =
+        overrides.currentApp ||
+        {
             name: "Sales",
             webIconData: "data:image/png;base64,AA==",
-        },
-        diplHomeMenu: {
+        };
+    const diplHomeMenu =
+        overrides.diplHomeMenu ||
+        {
             hasBackgroundAction: false,
             hasHomeMenu: false,
             toggle() {},
+        };
+    const isScopedApp = overrides.isScopedApp || false;
+    const state = overrides.state || {
+        isAppMenuSidebarOpened: false,
+    };
+
+    const navbar = Object.create(NavBar.prototype);
+    navbar.diplHomeMenu = diplHomeMenu;
+    navbar.state = state;
+    navbar.env = { _t: (s) => s };
+
+    Object.defineProperties(navbar, {
+        currentApp: {
+            configurable: true,
+            get: () => currentApp,
         },
-        isScopedApp: false,
-        state: {
-            isAppMenuSidebarOpened: false,
+        isScopedApp: {
+            configurable: true,
+            get: () => isScopedApp,
         },
-        ...overrides,
     });
+
+    return navbar;
 }
 
 test("navbar keeps web.NavBar as its template base", () => {
