@@ -67,11 +67,11 @@ test("navbar exposes previous-view state when the home menu overlays a backgroun
         },
     });
 
-    expect(navbar.showAppBrand).toBe(false);
-    expect(navbar.showBreadcrumbs).toBe(false);
-    expect(navbar.showSectionsMenu).toBe(false);
+    expect(navbar.hasBackgroundAction).toBe(true);
+    expect(navbar.hasHomeMenu).toBe(true);
+    expect(navbar.isInApp).toBe(false);
     expect(navbar.menuToggleClasses.o_menu_toggle_back).toBe(true);
-    expect(navbar.menuToggleTitle).toBe("Previous view");
+    expect(String(navbar.menuToggleTitle)).toBe("Previous view");
 });
 
 test("opening the sidebar from the home menu closes the custom shell instead", () => {
