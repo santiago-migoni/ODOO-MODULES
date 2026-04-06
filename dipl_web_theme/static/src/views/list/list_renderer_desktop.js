@@ -6,13 +6,16 @@ import { ListRenderer } from "@web/views/list/list_renderer";
 import { _t } from "@web/core/l10n/translation";
 import { onWillDestroy, useState } from "@odoo/owl";
 
-const isTopLevelBackendActionList = (renderer) => {
+export const isTopLevelBackendActionList = (
+    renderer,
+    { isMobile = isMobileOS, isSystem = user.isSystem } = {}
+) => {
     const list = renderer.props.list;
     const { actionId, actionType } = renderer.env.config || {};
     return (
-        !isMobileOS() &&
+        !isMobile() &&
         !renderer.env.inDialog &&
-        user.isSystem &&
+        isSystem &&
         list &&
         list.model?.root &&
         list === list.model.root &&

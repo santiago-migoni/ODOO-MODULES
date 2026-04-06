@@ -120,6 +120,9 @@
             # assets_backend
             "dipl_web_theme/static/src/**/*.dark.scss",
         ],
+        "web.assets_unit_tests": [
+            "dipl_web_theme/static/tests/**/*.test.js",
+        ],
     },
     "author": "Agga, IdeaCode Academy",
     "images": ["static/description/img.png"],

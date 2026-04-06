@@ -12,7 +12,7 @@ import { HomeMenu } from "./home_menu";
 
 import { Component, onMounted, onWillUnmount, reactive, xml } from "@odoo/owl";
 
-const readHomeMenuConfig = () => {
+export const readHomeMenuConfig = () => {
     const storedConfig = user.settings?.homemenu_config;
     if (Array.isArray(storedConfig)) {
         return storedConfig;
