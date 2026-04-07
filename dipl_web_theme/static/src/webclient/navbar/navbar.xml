@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="dipl_web_theme.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension">
+    <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="replace">
+        <a t-if="!isScopedApp" href="/odoo" class="o_menu_toggle border-0" t-att-class="menuToggleClasses" t-att-title="menuToggleTitle" t-att-aria-label="menuToggleTitle" accesskey="h" t-on-click.prevent="() => { env.isSmall ? this._openAppMenuSidebar() : this.diplHomeMenu.toggle() }">
+            <t t-if="env.isSmall and !diplHomeMenu.hasHomeMenu">
+                <t t-call="web.NavBar.AppsMenu.Sidebar"/>
+            </t>
+            <t t-else="">
+                <svg class="o_menu_toggle_icon pe-none" width="14px" height="14px" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                    <g t-foreach="[0, 5, 10]" t-as="Y" t-att-id="'o_menu_toggle_row_' + Y_index" fill="currentColor" t-key="'o_menu_toggle_row_' + Y_index">
+                        <rect t-foreach="[0, 5, 10]" t-as="X" width="3" height="3" t-att-x="X" t-att-y="Y" t-key="'o_menu_toggle_cell_' + X_index"/>
+                    </g>
+                </svg>
+                <t t-if="!env.isSmall and currentApp and showAppBrand">
+                    <img
+                        t-if="currentApp.webIconData"
+                        t-att-src="currentApp.webIconData"
+                        class="o_menu_brand_icon d-inline position-absolute start-0 h-100 ps-1 ms-2"
+                        t-att-alt="currentApp.name"/>
+                    <span t-esc="currentApp.name" class="o_menu_brand d-flex ms-3 pe-0"/>
+                </t>
+            </t>
+        </a>
+        <a t-else="" t-att-href="pwa.startUrl" class="o_menu_toggle" t-att-title="menuToggleTitle" t-att-aria-label="menuToggleTitle">
+            <img
+                t-if="currentApp &amp;&amp; currentApp.webIconData &amp;&amp; showAppBrand"
+                t-att-src="currentApp.webIconData"
+                class="o_menu_brand_icon d-none d-lg-inline position-absolute start-0 h-100 ps-1 ms-2"
+                t-att-alt="currentApp.name"/>
+
+            <span
+                t-if="currentApp and showAppBrand"
+                t-esc="currentApp.name"
+                class="o_menu_brand d-none d-md-flex ps-4 pe-0"/>
+        </a>
+    </xpath>
+
+    <xpath expr="//DropdownItem[@t-esc='currentApp.name']" position="replace"/>
+    <xpath expr="//div[hasclass('o_navbar_breadcrumbs')]" position="attributes">
+        <attribute name="t-att-class">{'o_navbar_breadcrumbs': true, 'd-contents': true, 'o_hidden': !showBreadcrumbs}</attribute>
+    </xpath>
+</t>
+
+<t t-name="dipl_web_theme.NavBar.SectionsMenu" t-inherit="web.NavBar.SectionsMenu" t-inherit-mode="extension">
+    <xpath expr="//div[hasclass('o_menu_sections')]" position="attributes">
+        <attribute name="t-att-class">{'o_menu_sections': true, 'd-flex': true, 'flex-grow-1': true, 'flex-shrink-1': true, 'w-0': true, 'o_hidden': !showSectionsMenu}</attribute>
+    </xpath>
+    <xpath expr="//Dropdown/button" position="attributes">
+        <attribute name="class" add="fw-normal" separator=" "/>
+    </xpath>
+</t>
+
+</templates>

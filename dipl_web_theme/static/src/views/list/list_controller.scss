@@ -1,0 +1,17 @@
+.o_list_renderer {
+    --ListRenderer-thead-border-end-color: transparent;
+
+    .o_data_row:not(.o_selected_row):not(.o_data_row_selected):hover > .o_data_cell {
+        background-color: $dipl-interaction-hover-bg;
+    }
+
+    .o_data_row.o_selected_row > .o_data_cell,
+    .o_data_row.o_data_row_selected > .o_data_cell {
+        background-color: $dipl-interaction-selected-bg;
+    }
+
+    .o_optional_columns_dropdown .btn:hover,
+    .o_optional_columns_dropdown .btn:focus {
+        background-color: $dipl-interaction-hover-bg;
+    }
+}

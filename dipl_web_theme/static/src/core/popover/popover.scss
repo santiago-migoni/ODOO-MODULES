@@ -1,0 +1,16 @@
+.o_popover,
+.popover {
+    --border-color: #{$o-gray-300};
+    border-color: $o-gray-300;
+    box-shadow: 0 1rem 2rem rgba($o-gray-900, 0.08);
+}
+
+.o_popover {
+    .table {
+        --table-bg: #{$o-white};
+    }
+
+    .o_input {
+        --o-input-border-color: #{$o-gray-300};
+    }
+}

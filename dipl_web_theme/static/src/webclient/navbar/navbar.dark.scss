@@ -1,0 +1,14 @@
+// = Navbar
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_main_navbar {
+    --o-navbar-badge-color: #{$o-navbar-badge-color};
+    --o-navbar-badge-text-shadow: none;
+    --NavBar-menuToggle-color: #{$o-black};
+    --NavBar-brand-color: #{$o-navbar-brand-color};
+    --NavBar-entry-borderColor-active: #{darken($o-action, 10%)};
+    --NavBar-entry-backgroundColor--active: #{$o-navbar-entry-bg--active};
+    --NavBar-entry-backgroundColor--hover: #{$o-navbar-entry-bg--hover};
+    --NavBar-entry-backgroundColor--focus: #{$o-navbar-entry-bg--hover};
+}

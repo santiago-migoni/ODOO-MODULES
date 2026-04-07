@@ -1,0 +1,29 @@
+// = Dropdowns
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_web_client .o-dropdown {
+  --border-color: #{$dropdown-border-color};
+  --o-input-border-color: #{$dropdown-border-color};
+}
+
+.o_web_client .dropdown-menu,
+.o_web_client .o-dropdown--menu {
+    box-shadow: 0 1rem 2rem rgba($o-white, 0.08);
+}
+
+.o_web_client .dropdown-item:hover,
+.o_web_client .dropdown-item:focus,
+.o_web_client .o-dropdown-item:hover,
+.o_web_client .o-dropdown-item:focus {
+    background-color: $dipl-interaction-hover-bg;
+    color: $o-gray-900;
+}
+
+.o_web_client .dropdown-item.active,
+.o_web_client .dropdown-item:active,
+.o_web_client .o-dropdown-item.active,
+.o_web_client .o-dropdown-item:active {
+    background-color: $dipl-interaction-selected-bg;
+    color: $o-gray-900;
+}

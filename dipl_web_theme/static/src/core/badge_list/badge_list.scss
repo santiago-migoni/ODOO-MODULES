@@ -1,0 +1,74 @@
+@mixin dipl-badge-state($bg, $color, $border) {
+    background-color: $bg !important;
+    color: $color !important;
+    border-color: $border !important;
+}
+
+.o_web_client .badge,
+.o_web_client .o_badge.badge {
+    border: 1px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.o_web_client .badge.text-bg-300,
+.o_web_client .badge.text-bg-light,
+.o_web_client .badge.text-bg-secondary,
+.o_web_client .badge.bg-light,
+.o_web_client .o_badge.badge.text-bg-300,
+.o_web_client .o_badge.badge.text-bg-light,
+.o_web_client .o_badge.badge.text-bg-secondary {
+    @include dipl-badge-state($dipl-state-neutral-bg, $dipl-state-neutral-color, $dipl-state-neutral-border);
+}
+
+.o_web_client .badge.text-bg-primary,
+.o_web_client .badge.text-bg-action,
+.o_web_client .o_badge.badge.text-bg-primary,
+.o_web_client .o_badge.badge.text-bg-action {
+    @include dipl-badge-state($dipl-state-accent-bg, $dipl-state-accent-color, $dipl-state-accent-border);
+}
+
+.o_web_client .badge.text-bg-info,
+.o_web_client .o_badge.badge.text-bg-info,
+.o_web_client .badge.bg-info.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-info-bg, $dipl-state-info-color, $dipl-state-info-border);
+}
+
+.o_web_client .badge.text-bg-success,
+.o_web_client .o_badge.badge.text-bg-success,
+.o_web_client .badge.bg-success.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-success-bg, $dipl-state-success-color, $dipl-state-success-border);
+}
+
+.o_web_client .badge.text-bg-warning,
+.o_web_client .o_badge.badge.text-bg-warning,
+.o_web_client .badge.bg-warning {
+    @include dipl-badge-state($dipl-state-warning-bg, $dipl-state-warning-color, $dipl-state-warning-border);
+}
+
+.o_web_client .badge.text-bg-danger,
+.o_web_client .o_badge.badge.text-bg-danger,
+.o_web_client .badge.bg-danger,
+.o_web_client .badge.bg-danger.bg-opacity-50 {
+    @include dipl-badge-state($dipl-state-danger-bg, $dipl-state-danger-color, $dipl-state-danger-border);
+}
+
+.o_web_client .badge.text-bg-dark,
+.o_web_client .o_badge.badge.text-bg-dark {
+    @include dipl-badge-state($o-brand-secondary, $o-gray-100, rgba($o-brand-secondary, 0.75));
+}
+
+.o_web_client .badge.text-primary.border.border-primary {
+    @include dipl-badge-state($dipl-state-accent-bg, $dipl-state-accent-color, $dipl-state-accent-border);
+}
+
+.o_web_client .badge {
+    @for $size from 1 through length($o-colors) {
+        &.o_badge_color_#{$size - 1} {
+            $-color: nth($o-colors, $size);
+            background-color: mix($-color, $o-white, 18%) !important;
+            color: adjust-color($-color, $lightness: -22%, $saturation: -8%) !important;
+            border-color: mix($-color, $o-white, 40%) !important;
+        }
+    }
+}

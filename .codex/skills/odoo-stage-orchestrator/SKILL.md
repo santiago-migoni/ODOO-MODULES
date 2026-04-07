@@ -41,6 +41,9 @@ Use these stage skills in order:
 - For `master`, allow only production-oriented review and deployment decisions sourced from a reviewed test branch.
 - Do not treat branch name as stage; use artifacts and evidence to decide actual lifecycle position.
 - Use `odoo-dashboard-branch-governance` when branch-state or promotion policy is part of the decision.
+- Stage 01 through 02 may use `business-analyst` when business intent, assumptions, or scope are not yet stable.
+- Stage 02 through 04 may use `product-manager` when prioritization, release intent, or scope tradeoffs materially affect the next handoff.
+- Stage 04 and governance decisions may use `project-manager` when sequencing, readiness, milestones, or risk ownership need explicit coordination.
 
 ## Outputs
 - Selected lifecycle stage and why it is the correct one.
@@ -57,3 +60,4 @@ Use these stage skills in order:
 - Route execution to the selected `odoo-stage-XX-*` skill.
 - Route branch-state concerns to `odoo-dashboard-branch-governance`.
 - Route technical implementation questions to `odoo-19` after stage selection is clear.
+- Route business clarification to `business-analyst`, product tradeoffs to `product-manager`, and planning/readiness structuring to `project-manager` when stage artifacts need those perspectives.

@@ -1,0 +1,20 @@
+.o_tag {
+    border: 1px solid transparent;
+    font-weight: 500;
+
+    @for $size from 1 through length($o-colors) {
+        &.o_tag_color_#{$size - 1} {
+            $-color: nth($o-colors, $size);
+            $-bg: mix($-color, $o-white, 18%);
+            $-text: adjust-color($-color, $lightness: -22%, $saturation: -8%);
+            $-border: mix($-color, $o-white, 40%);
+
+            &, &::after {
+                @include o-print-color($-bg, background-color, bg-opacity);
+                @include o-print-color($-text, color, text-opacity);
+            }
+
+            border-color: $-border;
+        }
+    }
+}

@@ -8,6 +8,7 @@ description: Functional definition stage workflow for Odoo custom modules. Use w
 ## Overview
 Transform discovery outputs into a complete functional specification that can be validated by business stakeholders and consumed by technical design.
 Use `odoo-19` only as a background reference for feasibility context.
+Use `business-analyst` to sharpen scenarios, rules, and acceptance criteria, and `product-manager` when scope tradeoffs or prioritization decisions materially affect the spec.
 
 ## Required Inputs
 - Approved discovery report from stage 01.
@@ -21,6 +22,7 @@ Use `odoo-19` only as a background reference for feasibility context.
 3. Establish explicit in-scope and out-of-scope behavior.
 4. Capture business rules, data expectations, and exceptions.
 5. Write testable acceptance criteria for each capability.
+6. When capability sprawl or release tension appears, use `product-manager` to cut or prioritize scope before handing off to technical design.
 
 ## Outputs
 - Functional specification with role-based scenarios.
@@ -37,3 +39,7 @@ Provide the stage output to `$odoo-stage-03-technical-design` including:
 - Final functional scenarios and business rules.
 - Acceptance criteria mapped by capability.
 - Open functional questions that may affect architecture.
+
+## Related References
+- Use `references/deliverable-template.md` for the main functional specification.
+- Use `references/scope-and-acceptance-template.md` when `business-analyst` or `product-manager` is needed to stabilize capability scope, priority, and acceptance criteria.

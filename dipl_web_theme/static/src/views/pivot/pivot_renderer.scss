@@ -1,0 +1,41 @@
+@include media-breakpoint-down(md) {
+    .o_pivot {
+        height: 100%;
+
+        .dropdown.show {
+            > .dropdown-toggle::after {
+                @include o-caret-down;
+            }
+        }
+
+        th > .o_group_by_menu  > .dropdown-menu {
+            .dropdown-item {
+                // caret centered vertically
+                .dropdown-toggle::after{
+                    top: 12px;
+                }
+
+                // nested dropdown should be *under* the parent, not on its side
+                .dropdown-menu {
+                    top: initial !important;
+                    left: 5% !important;
+                    width: 95%;
+                }
+            }
+        }
+    }
+}
+
+.o_pivot {
+    .o_pivot_cell_value.o_cell_hover,
+    .o_pivot_header_cell_closed:hover,
+    .o_pivot_header_cell_opened:hover,
+    .o_pivot_measure_row:hover {
+        background-color: $dipl-interaction-hover-bg;
+    }
+
+    .o_pivot_measure_row.o_pivot_sort_order_asc,
+    .o_pivot_measure_row.o_pivot_sort_order_desc {
+        background-color: $dipl-interaction-selected-bg;
+    }
+}

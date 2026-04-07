@@ -1,0 +1,13 @@
+.o_pivot {
+    .o_pivot_cell_value.o_cell_hover,
+    .o_pivot_header_cell_closed:hover,
+    .o_pivot_header_cell_opened:hover,
+    .o_pivot_measure_row:hover {
+        background-color: $dipl-interaction-hover-bg;
+    }
+
+    .o_pivot_measure_row.o_pivot_sort_order_asc,
+    .o_pivot_measure_row.o_pivot_sort_order_desc {
+        background-color: $dipl-interaction-selected-bg;
+    }
+}

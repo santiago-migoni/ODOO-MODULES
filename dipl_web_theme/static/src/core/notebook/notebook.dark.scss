@@ -1,0 +1,8 @@
+.o_notebook {
+    --Notebook__link-border-top-color--active: #{$o-brand-primary};
+    --Notebook__link-color--active: #{$o-gray-900};
+    --Notebook__link-background-color: #{$o-gray-300};
+    --Notebook__link-background-color--hover: #{$dipl-interaction-hover-bg};
+    --Notebook__link-border-color: #{$o-gray-200};
+    --Notebook__link-border-color--hover: #{$o-gray-200};
+}

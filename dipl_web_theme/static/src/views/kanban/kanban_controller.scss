@@ -1,0 +1,8 @@
+.o_kanban_renderer {
+    --KanbanGroup-grouped-bg: #{$o-gray-100};
+    --KanbanRecord__image-bg-color: #{$o-white};
+    --KanbanColumn__highlight-background: #{$dipl-interaction-selected-bg};
+    --KanbanColumn__highlight-border: #{$o-component-active-border};
+    --KanbanColumn__highlight-selected: #{$dipl-interaction-highlight-bg};
+    --Kanban-background: #{$o-gray-100};
+}

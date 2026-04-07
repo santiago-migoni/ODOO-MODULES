@@ -1,0 +1,21 @@
+// = Main Navbar
+// ============================================================================
+.o_main_navbar {
+    --NavBar-entry-color--active: #{$o-navbar-entry-color--active};
+    --NavBar-entry-borderColor-active: #{$o-component-active-border};
+    --NavBar-entry-backgroundColor--active: #{$o-navbar-entry-bg--active};
+    --NavBar-entry-backgroundColor--hover: #{$o-navbar-entry-bg--hover};
+    --NavBar-entry-backgroundColor--focus: #{$o-navbar-entry-bg--hover};
+
+    --Dropdown_menu-margin-y: #{map-get($spacers, 1)};
+
+    .o_menu_toggle {
+        color: var(--NavBar-menuToggle-color, #{$o-navbar-brand-color});
+    }
+}
+
+// Ensuring SuperUser Design menu is not compressed in Enterprise
+// ============================================================================
+body.o_is_superuser .o_menu_systray {
+    border-image-outset: map-get($border-widths, 5);
+}

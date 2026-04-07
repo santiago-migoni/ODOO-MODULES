@@ -1,0 +1,17 @@
+.o_tag {
+    border: 1px solid transparent;
+    font-weight: 500;
+
+    @for $size from 1 through length($o-colors) {
+        &.o_tag_color_#{$size - 1} {
+            --background-color: #{mix(nth($o-colors, $size), $o-view-background-color, 20%)};
+            --color: #{adjust-color(nth($o-colors, $size), $lightness: 8%, $saturation: -15%)};
+            border-color: #{mix(nth($o-colors, $size), $o-gray-100, 42%)};
+
+            &::after {
+                --background-color: var(--background-color);
+                --color: var(--color);
+            }
+        }
+    }
+}

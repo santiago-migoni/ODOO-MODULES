@@ -1,0 +1,14 @@
+// = ListRenderer
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_list_renderer {
+    .o_data_row:not(.o_selected_row):not(.o_data_row_selected):hover > .o_data_cell {
+        background-color: $dipl-interaction-hover-bg;
+    }
+
+    .o_data_row.o_selected_row > .o_data_cell,
+    .o_data_row.o_data_row_selected > .o_data_cell {
+        background-color: $dipl-interaction-selected-bg;
+    }
+}

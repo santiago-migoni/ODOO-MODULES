@@ -1,0 +1,161 @@
+///
+/// This file regroups the variables that style odoo components.
+/// They are available in every asset bundle.
+///
+
+// DIPLEG Design Tokens
+// Source palette
+$dipl-color-ink: #1C1C1C !default;
+$dipl-color-surface-900: #2B3A42 !default;
+$dipl-color-brand-700: #2C3E50 !default;
+$dipl-color-accent-500: #D4B895 !default;
+$dipl-color-neutral-400: #A9B0B3 !default;
+$dipl-color-surface-0: #F8F9FA !default;
+
+// Derived backend tokens
+$dipl-color-surface-100: #E8ECEE !default;
+$dipl-color-surface-200: #D8DEE1 !default;
+$dipl-color-neutral-500: #7E8990 !default;
+$dipl-color-border-strong: #606A71 !default;
+$dipl-color-brand-600: #43515A !default;
+$dipl-color-action-600: $dipl-color-brand-700 !default;
+$dipl-color-success-500: #4F8B66 !default;
+$dipl-color-info-500: #557A98 !default;
+$dipl-color-warning-500: #C59B57 !default;
+$dipl-color-danger-500: #B85C66 !default;
+
+// Colors
+$o-white: #FFF !default;
+$o-black: $dipl-color-ink !default;
+
+$o-gray-100: $dipl-color-surface-0 !default;
+$o-gray-200: $dipl-color-surface-100 !default;
+$o-gray-300: $dipl-color-surface-200 !default;
+$o-gray-400: $dipl-color-neutral-400 !default;
+$o-gray-500: $dipl-color-neutral-500 !default;
+$o-gray-600: $dipl-color-border-strong !default;
+$o-gray-700: $dipl-color-brand-600 !default;
+$o-gray-800: $dipl-color-surface-900 !default;
+$o-gray-900: $dipl-color-ink !default;
+
+$o-enterprise-color: $dipl-color-brand-700 !default;
+$o-enterprise-action-color: $dipl-color-action-600 !default;
+
+$o-success: $dipl-color-success-500 !default;
+$o-info: $dipl-color-info-500 !default;
+$o-warning: $dipl-color-warning-500 !default;
+$o-danger: $dipl-color-danger-500 !default;
+
+$o-brand-odoo: $o-enterprise-color !default;
+$o-brand-primary: $o-brand-odoo !default;
+$o-brand-secondary: $dipl-color-surface-900 !default;
+$o-brand-lightsecondary: $dipl-color-surface-0 !default;
+
+$o-action: $o-enterprise-action-color !default;
+$o-main-link-color: $o-brand-primary !default;
+
+// Semantic state tokens
+$dipl-state-neutral-bg: mix($o-gray-300, $o-white, 55%) !default;
+$dipl-state-neutral-border: mix($o-gray-400, $o-white, 40%) !default;
+$dipl-state-neutral-color: $o-gray-700 !default;
+
+$dipl-state-info-bg: mix($dipl-color-info-500, $o-white, 18%) !default;
+$dipl-state-info-border: mix($dipl-color-info-500, $o-white, 38%) !default;
+$dipl-state-info-color: darken($dipl-color-info-500, 16%) !default;
+
+$dipl-state-success-bg: mix($dipl-color-success-500, $o-white, 18%) !default;
+$dipl-state-success-border: mix($dipl-color-success-500, $o-white, 38%) !default;
+$dipl-state-success-color: darken($dipl-color-success-500, 14%) !default;
+
+$dipl-state-warning-bg: mix($dipl-color-warning-500, $o-white, 24%) !default;
+$dipl-state-warning-border: mix($dipl-color-warning-500, $o-white, 42%) !default;
+$dipl-state-warning-color: darken($dipl-color-warning-500, 24%) !default;
+
+$dipl-state-danger-bg: mix($dipl-color-danger-500, $o-white, 18%) !default;
+$dipl-state-danger-border: mix($dipl-color-danger-500, $o-white, 40%) !default;
+$dipl-state-danger-color: darken($dipl-color-danger-500, 14%) !default;
+
+$dipl-state-accent-bg: mix($dipl-color-accent-500, $o-white, 26%) !default;
+$dipl-state-accent-border: mix($dipl-color-accent-500, $o-white, 44%) !default;
+$dipl-state-accent-color: darken($dipl-color-accent-500, 30%) !default;
+
+// Interaction tokens
+$dipl-interaction-hover-bg: mix($o-brand-primary, $o-white, 10%) !default;
+$dipl-interaction-selected-bg: mix($o-brand-primary, $o-white, 16%) !default;
+$dipl-interaction-highlight-bg: mix($dipl-color-accent-500, $o-white, 20%) !default;
+$dipl-interaction-focus-ring: mix($o-action, $o-white, 40%) !default;
+$dipl-interaction-current-bg: mix($o-warning, $o-white, 20%) !default;
+$dipl-interaction-current-border: mix($o-warning, $o-white, 44%) !default;
+
+// Components
+$o-component-active-color:  $o-black !default;
+$o-component-active-bg: mix($o-action, $o-white, 12%) !default;
+$o-component-active-border: $o-action !default;
+
+$o-list-group-header-color: $o-black !default;
+$o-list-footer-color: $o-black !default;
+$o-list-footer-bg-color: transparent !default;
+$o-list-footer-font-weight: 500 !default;
+
+$o-form-lightsecondary: $o-gray-200 !default;
+
+// o-inputs
+$o-input-padding-y: 1px !default;
+$o-input-padding-x: 0 !default;
+
+$o-input-border-required: $o-brand-primary !default;
+
+// Badges
+$o-badge-min-width: 2.7ch !default !default;
+
+// Buttons
+// Map of customized values for each button. If a button's design is defined
+// here, the relative values will take priority over default BS ones.
+// Notice: each map's entry is passed directly to the Bootstrap mixin, meaning
+// that all states must be defined, there can't be omissions.
+$o-btns-bs-override: () !default;
+$o-btns-bs-override: map-merge((
+    "primary": (
+        background: $o-brand-primary,
+        border: $o-brand-primary,
+        color: $o-white,
+
+        hover-background: darken($o-brand-primary, 10%),
+        hover-border: darken($o-brand-primary, 10%),
+        hover-color: $o-white,
+
+        active-background: mix($o-brand-primary, $o-white, 10%),
+        active-border:  $o-brand-primary,
+        active-color:$o-brand-primary,
+    ),
+    "secondary": (
+        background: $o-gray-200,
+        border: $o-gray-200,
+        color: $o-gray-900,
+
+        hover-background: $o-gray-300,
+        hover-border: $o-gray-300,
+        hover-color: $o-black,
+
+        active-background: $o-component-active-bg,
+        active-border:  $o-component-active-border,
+        active-color: $o-component-active-color,
+    ),
+), $o-btns-bs-override);
+
+$o-btns-bs-outline-override: () !default;
+$o-btns-bs-outline-override: map-merge((
+    "secondary": (
+        background: transparent,
+        border: $o-gray-300,
+        color: $o-gray-900,
+
+        hover-background: $o-gray-200,
+        hover-border: $o-gray-300,
+        hover-color: $o-black,
+
+        active-background: mix($o-action, $o-white, 12%),
+        active-border:  $o-action,
+        active-color: $o-component-active-color,
+    ),
+), $o-btns-bs-outline-override);

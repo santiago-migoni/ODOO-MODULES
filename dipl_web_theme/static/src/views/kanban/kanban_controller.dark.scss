@@ -1,0 +1,18 @@
+// = Kanban Rendered
+// ============================================================================
+// No CSS hacks, variables overrides only
+
+.o_kanban_renderer {
+    --KanbanGroup-grouped-bg: #{$o-view-background-color};
+    --KanbanRecord__image-bg-color: #{$o-gray-900};
+    --KanbanColumn__highlight-background: #{mix($o-action, $o-gray-100, 15%)};
+    --KanbanColumn__highlight-border: #{$o-component-active-border};
+    --KanbanColumn__highlight-selected: #{$dipl-interaction-highlight-bg};
+    --Kanban-background: #{$gray-100};
+
+    .o_kanban_record:hover {
+        box-shadow: 0 0 0 1px rgba($o-action, 0.18), 0 14px 30px rgba($o-white, 0.08);
+        transform: translateY(-1px);
+        transition: box-shadow 0.12s ease, transform 0.12s ease;
+    }
+}

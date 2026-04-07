@@ -14,22 +14,26 @@ Use `odoo-19` references for migration-sensitive or framework-specific deploymen
 - Release candidate scope and dependency state.
 - Environment promotion path and release windows.
 - Operational readiness and rollback constraints.
+- Updated module `CHANGELOG.md` aligned with the release candidate scope.
 
 ## Workflow
 1. Define pre-deploy checks and release prerequisites.
-2. Plan promotion sequence across Odoo.sh environments.
-3. Define rollback strategy and activation criteria.
-4. Build post-deploy verification checklist by critical flow.
-5. Produce deployment communication and responsibility matrix.
+2. Freeze `## Unreleased` into a versioned and dated release entry before production recommendation.
+3. Plan promotion sequence across Odoo.sh environments.
+4. Define rollback strategy and activation criteria.
+5. Build post-deploy verification checklist by critical flow.
+6. Produce deployment communication and responsibility matrix.
 
 ## Outputs
 - End-to-end deployment runbook for Odoo.sh.
 - Pre-deploy and post-deploy checklists.
 - Rollback procedure with trigger conditions.
+- Release-ready changelog for each affected module.
 
 ## Definition of Done
 - Deployment sequence is explicit and rehearsable.
 - Rollback path is defined and operationally feasible.
+- Release candidate changelog is versioned, dated, and aligned with deployed scope.
 - Production verification criteria are complete.
 
 ## Handoff
@@ -37,3 +41,7 @@ Provide the stage output to `$odoo-stage-10-maintenance` including:
 - Production baseline and deployed scope.
 - Known deferred issues and risk notes.
 - Monitoring checkpoints and support ownership.
+
+## Related References
+- Use `references/deliverable-template.md` for the deployment handoff structure.
+- Use `references/module-changelog-template.md` as the release changelog format.
