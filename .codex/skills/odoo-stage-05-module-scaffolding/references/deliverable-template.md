@@ -6,14 +6,22 @@
 | | | |
 
 ## 2. Required File Map
-- `__manifest__.py`
-- `__init__.py`
-- `models/`
-- `views/`
-- `security/`
-- `data/`
-- `i18n/es.po`
-- `tests/`
+
+```bash
+mi_modulo/
+├── __init__.py
+├── __manifest__.py
+├── models/
+├── views/
+├── security/
+├── data/
+├── demo/
+├── report/
+├── wizard/
+├── controllers/
+├── tests/
+└── static/
+```
 
 ## 3. Manifest Baseline
 - Depends:
