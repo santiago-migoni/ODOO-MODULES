@@ -53,6 +53,8 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "order_id": self.order.id,
             "product_id": self.product_technical_a.product_variant_id.id,
             "product_uom_qty": 1.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
             "name": "Tech line change",
         })
         line.write({
@@ -64,6 +66,8 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertEqual(line.dipl_thickness_mm, 1.6)
         self.assertEqual(line.dipl_material_density, 8.15)
         self.assertEqual(line.dipl_price_per_kg, 125.0)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 8.15, places=2)
+        self.assertAlmostEqual(line.price_unit, 8.15, places=2)
 
     def test_snapshot_is_cleared_when_switching_to_non_technical_product(self):
         line = self.env["sale.order.line"].create({
@@ -107,6 +111,8 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_kg_total, line.dipl_kg_computed, places=4)
         self.assertAlmostEqual(line.dipl_technical_total, 9.42, places=2)
         self.assertAlmostEqual(line.dipl_technical_price_unit, 4.71, places=2)
+        self.assertAlmostEqual(line.price_unit, 4.71, places=2)
+        self.assertAlmostEqual(line.technical_price_unit, 4.71, places=2)
 
     def test_manual_kg_override_replaces_effective_kg(self):
         line = self.env["sale.order.line"].create({
@@ -124,6 +130,8 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_kg_total, 1.5, places=4)
         self.assertAlmostEqual(line.dipl_technical_total, 150.0, places=2)
         self.assertAlmostEqual(line.dipl_technical_price_unit, 75.0, places=2)
+        self.assertAlmostEqual(line.price_unit, 75.0, places=2)
+        self.assertAlmostEqual(line.technical_price_unit, 75.0, places=2)
 
     def test_disabling_manual_override_falls_back_to_computed_kg(self):
         line = self.env["sale.order.line"].create({
@@ -140,6 +148,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertFalse(line.dipl_use_manual_kg)
         self.assertEqual(line.dipl_kg_manual, 0.0)
         self.assertAlmostEqual(line.dipl_kg_total, line.dipl_kg_computed, places=4)
+        self.assertAlmostEqual(line.price_unit, line.dipl_technical_price_unit, places=4)
 
     def test_dimension_change_updates_computed_kg_but_preserves_manual_override(self):
         line = self.env["sale.order.line"].create({
@@ -157,3 +166,59 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_kg_computed, 0.1884, places=4)
         self.assertEqual(line.dipl_kg_manual, original_manual)
         self.assertAlmostEqual(line.dipl_kg_total, original_manual, places=4)
+        self.assertAlmostEqual(line.dipl_technical_total, 200.0, places=2)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 100.0, places=2)
+        self.assertAlmostEqual(line.price_unit, 100.0, places=2)
+
+    def test_changing_line_price_per_kg_recomputes_native_price_unit(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line price per kg update",
+        })
+        line.write({"dipl_price_per_kg": 200.0})
+        self.assertAlmostEqual(line.dipl_technical_total, 18.84, places=2)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 9.42, places=2)
+        self.assertAlmostEqual(line.price_unit, 9.42, places=2)
+        self.assertAlmostEqual(line.technical_price_unit, 9.42, places=2)
+
+    def test_non_technical_lines_keep_native_price_logic(self):
+        self.product_standard.write({"list_price": 42.0})
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_standard.product_variant_id.id,
+            "product_uom_qty": 3.0,
+            "name": "Standard line",
+        })
+        self.assertFalse(line.dipl_is_technical_line)
+        self.assertAlmostEqual(line.price_unit, 42.0, places=2)
+        self.assertAlmostEqual(line.technical_price_unit, 42.0, places=2)
+
+    def test_discount_remains_usable_on_technical_lines(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line discount",
+        })
+        line.write({"discount": 10.0})
+        self.assertEqual(line.discount, 10.0)
+        self.assertAlmostEqual(line.price_unit, line.dipl_technical_price_unit, places=4)
+
+    def test_incomplete_technical_line_resolves_pricing_to_zero(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "name": "Incomplete technical line",
+        })
+        self.assertEqual(line.dipl_kg_computed, 0.0)
+        self.assertEqual(line.dipl_kg_total, 0.0)
+        self.assertEqual(line.dipl_technical_total, 0.0)
+        self.assertEqual(line.dipl_technical_price_unit, 0.0)
+        self.assertEqual(line.price_unit, 0.0)

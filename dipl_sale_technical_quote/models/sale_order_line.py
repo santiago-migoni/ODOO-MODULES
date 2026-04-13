@@ -85,6 +85,63 @@ class SaleOrderLine(models.Model):
         store=True,
     )
 
+    def _dipl_compute_technical_base(self):
+        self.ensure_one()
+        if not self.dipl_is_technical_line:
+            return {
+                "computed_kg": 0.0,
+                "effective_kg": 0.0,
+                "technical_total": 0.0,
+                "technical_price_unit": 0.0,
+            }
+
+        computed_kg = 0.0
+        if (
+            self.product_uom_qty > 0
+            and self.dipl_development_mm > 0
+            and self.dipl_width_mm > 0
+            and self.dipl_thickness_mm > 0
+            and self.dipl_material_density > 0
+        ):
+            computed_kg = (
+                self.dipl_material_density
+                * self.dipl_thickness_mm
+                * self.dipl_development_mm
+                * self.dipl_width_mm
+                * self.product_uom_qty
+                / 1000000.0
+            )
+
+        effective_kg = self.dipl_kg_manual if self.dipl_use_manual_kg else computed_kg
+        technical_total = 0.0
+        technical_price_unit = 0.0
+        if self.product_uom_qty > 0:
+            technical_total = effective_kg * self.dipl_price_per_kg
+            technical_price_unit = technical_total / self.product_uom_qty
+
+        return {
+            "computed_kg": computed_kg,
+            "effective_kg": effective_kg,
+            "technical_total": technical_total,
+            "technical_price_unit": technical_price_unit,
+        }
+
+    def _dipl_get_target_price_unit(self):
+        self.ensure_one()
+        if not self.dipl_is_technical_line or not self.dipl_can_compute:
+            return 0.0
+        # Slice 03 uses the technical base price directly. Slice 04 can refine
+        # this helper to let pricelists adjust the technical base explicitly.
+        return self.dipl_technical_price_unit
+
+    def _dipl_apply_technical_price_unit(self):
+        self.ensure_one()
+        target_price_unit = self._dipl_get_target_price_unit()
+        self.update({
+            "price_unit": target_price_unit,
+            "technical_price_unit": target_price_unit,
+        })
+
     @api.depends(
         "dipl_is_technical_line",
         "product_uom_qty",
@@ -131,25 +188,9 @@ class SaleOrderLine(models.Model):
                 line.dipl_kg_total = 0.0
                 continue
 
-            computed_kg = 0.0
-            if (
-                line.product_uom_qty > 0
-                and line.dipl_development_mm > 0
-                and line.dipl_width_mm > 0
-                and line.dipl_thickness_mm > 0
-                and line.dipl_material_density > 0
-            ):
-                computed_kg = (
-                    line.dipl_material_density
-                    * line.dipl_thickness_mm
-                    * line.dipl_development_mm
-                    * line.dipl_width_mm
-                    * line.product_uom_qty
-                    / 1000000.0
-                )
-
-            line.dipl_kg_computed = computed_kg
-            line.dipl_kg_total = line.dipl_kg_manual if line.dipl_use_manual_kg else computed_kg
+            technical_base = line._dipl_compute_technical_base()
+            line.dipl_kg_computed = technical_base["computed_kg"]
+            line.dipl_kg_total = technical_base["effective_kg"]
 
     @api.depends(
         "dipl_is_technical_line",
@@ -163,9 +204,46 @@ class SaleOrderLine(models.Model):
                 line.dipl_technical_total = 0.0
                 line.dipl_technical_price_unit = 0.0
                 continue
-            technical_total = line.dipl_kg_total * line.dipl_price_per_kg
-            line.dipl_technical_total = technical_total
-            line.dipl_technical_price_unit = technical_total / line.product_uom_qty if line.product_uom_qty else 0.0
+
+            technical_base = line._dipl_compute_technical_base()
+            line.dipl_technical_total = technical_base["technical_total"]
+            line.dipl_technical_price_unit = technical_base["technical_price_unit"]
+
+    @api.depends(
+        "product_id",
+        "product_uom_id",
+        "product_uom_qty",
+        "dipl_is_technical_line",
+        "dipl_technical_price_unit",
+        "dipl_can_compute",
+    )
+    def _compute_price_unit(self):
+        technical_lines = self.filtered(
+            lambda line: line.dipl_is_technical_line and not line.is_downpayment and not line._is_global_discount()
+        )
+        regular_lines = self - technical_lines
+
+        super(SaleOrderLine, regular_lines)._compute_price_unit()
+
+        for line in technical_lines:
+            if (
+                not line.order_id
+                or line.qty_invoiced > 0
+                or (line.product_id.expense_policy == "cost" and line.is_expense)
+            ):
+                continue
+            line = line.with_context(sale_write_from_compute=True)
+            if not line.product_uom_id or not line.product_id:
+                line.price_unit = 0.0
+                line.technical_price_unit = 0.0
+            else:
+                line._reset_price_unit()
+
+    def _reset_price_unit(self):
+        self.ensure_one()
+        if not self.dipl_is_technical_line:
+            return super()._reset_price_unit()
+        return self._dipl_apply_technical_price_unit()
 
     @api.model
     def _dipl_get_product_template_for_snapshot(self, product):
