@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dipl_product_template_form_view_technical_quote" model="ir.ui.view">
+        <field name="name">product.template.form.technical.quote</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']/group[@name='sale']" position="after">
+                <group string="Technical Quotation" name="dipl_technical_quote">
+                    <group>
+                        <field name="dipl_is_technical_quote_product"/>
+                        <field name="dipl_requires_dimensions" invisible="not dipl_is_technical_quote_product"/>
+                        <field name="dipl_material_code" invisible="not dipl_is_technical_quote_product"/>
+                    </group>
+                    <group>
+                        <field name="dipl_thickness_label" invisible="not dipl_is_technical_quote_product"/>
+                        <field name="dipl_thickness_mm" invisible="not dipl_is_technical_quote_product"/>
+                        <field name="dipl_material_density" invisible="not dipl_is_technical_quote_product"/>
+                        <field name="dipl_price_per_kg" invisible="not dipl_is_technical_quote_product"/>
+                    </group>
+                    <group invisible="not dipl_is_technical_quote_product">
+                        <field name="dipl_technical_notes" colspan="2" placeholder="Internal note for technical quotation maintenance."/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
