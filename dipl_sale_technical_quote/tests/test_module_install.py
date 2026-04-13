@@ -24,3 +24,5 @@ class TestTechnicalQuoteModuleInstall(TransactionCase):
         self.assertIn("dipl_technical_total", line._fields)
         self.assertIn("dipl_technical_price_unit", line._fields)
         self.assertIn("dipl_can_compute", line._fields)
+        self.assertIn("dipl_has_manual_final_price", line._fields)
+        self.assertIn("dipl_pricing_state", line._fields)

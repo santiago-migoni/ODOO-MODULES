@@ -10,6 +10,7 @@
                 <field name="dipl_kg_manual" invisible="not dipl_is_technical_line or not dipl_use_manual_kg"/>
                 <field name="dipl_development_mm" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_width_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_pricing_state" readonly="1" invisible="not dipl_is_technical_line" widget="badge"/>
                 <field name="dipl_price_per_kg" readonly="1" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_kg_computed" readonly="1" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_kg_total" readonly="1" invisible="not dipl_is_technical_line"/>

@@ -84,6 +84,42 @@ class SaleOrderLine(models.Model):
         compute="_compute_dipl_can_compute",
         store=True,
     )
+    dipl_has_manual_final_price = fields.Boolean(
+        string="Has Manual Final Price",
+        compute="_compute_dipl_pricing_state",
+    )
+    dipl_pricing_state = fields.Selection(
+        selection=[
+            ("incomplete", "Incomplete"),
+            ("technical", "Technical"),
+            ("pricelist_adjusted", "Pricelist Adjusted"),
+            ("manual_final", "Manual Final Price"),
+        ],
+        string="Pricing State",
+        compute="_compute_dipl_pricing_state",
+    )
+
+    def _dipl_get_amount_compare_currency(self):
+        self.ensure_one()
+        return self.currency_id or self.company_id.currency_id or self.env.company.currency_id
+
+    def _dipl_compare_amounts(self, amount_a, amount_b):
+        self.ensure_one()
+        return self._dipl_get_amount_compare_currency().compare_amounts(amount_a, amount_b)
+
+    def _dipl_is_reward_line(self):
+        self.ensure_one()
+        return "is_reward_line" in self._fields and self.is_reward_line
+
+    def _dipl_uses_technical_pricing(self):
+        self.ensure_one()
+        return (
+            self.dipl_is_technical_line
+            and not self.display_type
+            and not self.is_downpayment
+            and not self._is_global_discount()
+            and not self._dipl_is_reward_line()
+        )
 
     def _dipl_compute_technical_base(self):
         self.ensure_one()
@@ -125,22 +161,6 @@ class SaleOrderLine(models.Model):
             "technical_total": technical_total,
             "technical_price_unit": technical_price_unit,
         }
-
-    def _dipl_get_target_price_unit(self):
-        self.ensure_one()
-        if not self.dipl_is_technical_line or not self.dipl_can_compute:
-            return 0.0
-        # Slice 03 uses the technical base price directly. Slice 04 can refine
-        # this helper to let pricelists adjust the technical base explicitly.
-        return self.dipl_technical_price_unit
-
-    def _dipl_apply_technical_price_unit(self):
-        self.ensure_one()
-        target_price_unit = self._dipl_get_target_price_unit()
-        self.update({
-            "price_unit": target_price_unit,
-            "technical_price_unit": target_price_unit,
-        })
 
     @api.depends(
         "dipl_is_technical_line",
@@ -210,17 +230,66 @@ class SaleOrderLine(models.Model):
             line.dipl_technical_price_unit = technical_base["technical_price_unit"]
 
     @api.depends(
+        "dipl_is_technical_line",
+        "dipl_can_compute",
+        "dipl_technical_price_unit",
+        "technical_price_unit",
+        "price_unit",
+        "pricelist_item_id",
+        "discount",
+    )
+    def _compute_dipl_pricing_state(self):
+        for line in self:
+            if not line.dipl_is_technical_line:
+                line.dipl_has_manual_final_price = False
+                line.dipl_pricing_state = False
+                continue
+
+            line.dipl_has_manual_final_price = bool(
+                line._dipl_uses_technical_pricing()
+                and line._dipl_compare_amounts(line.technical_price_unit, line.price_unit)
+            )
+            if line.dipl_has_manual_final_price:
+                line.dipl_pricing_state = "manual_final"
+            elif not line.dipl_can_compute:
+                line.dipl_pricing_state = "incomplete"
+            elif line.pricelist_item_id and (
+                line.discount
+                or line._dipl_compare_amounts(line.technical_price_unit, line.dipl_technical_price_unit)
+            ):
+                line.dipl_pricing_state = "pricelist_adjusted"
+            else:
+                line.dipl_pricing_state = "technical"
+
+    def _get_pricelist_kwargs(self):
+        kwargs = super()._get_pricelist_kwargs()
+        if self._dipl_uses_technical_pricing() and self.currency_id:
+            kwargs.update({
+                "dipl_is_technical_line": True,
+                "dipl_technical_base_price": self.dipl_technical_price_unit,
+                "dipl_technical_base_currency": self.currency_id,
+            })
+        return kwargs
+
+    @api.depends(
         "product_id",
         "product_uom_id",
         "product_uom_qty",
         "dipl_is_technical_line",
         "dipl_technical_price_unit",
         "dipl_can_compute",
+        "dipl_development_mm",
+        "dipl_width_mm",
+        "dipl_use_manual_kg",
+        "dipl_kg_manual",
+        "dipl_price_per_kg",
     )
     def _compute_price_unit(self):
-        technical_lines = self.filtered(
-            lambda line: line.dipl_is_technical_line and not line.is_downpayment and not line._is_global_discount()
-        )
+        def has_manual_price(line):
+            return bool(line._dipl_compare_amounts(line.technical_price_unit, line.price_unit))
+
+        force_recompute = self.env.context.get("force_price_recomputation")
+        technical_lines = self.filtered(lambda line: line._dipl_uses_technical_pricing())
         regular_lines = self - technical_lines
 
         super(SaleOrderLine, regular_lines)._compute_price_unit()
@@ -228,6 +297,7 @@ class SaleOrderLine(models.Model):
         for line in technical_lines:
             if (
                 not line.order_id
+                or (not force_recompute and has_manual_price(line))
                 or line.qty_invoiced > 0
                 or (line.product_id.expense_policy == "cost" and line.is_expense)
             ):
@@ -241,9 +311,21 @@ class SaleOrderLine(models.Model):
 
     def _reset_price_unit(self):
         self.ensure_one()
-        if not self.dipl_is_technical_line:
+        if not self._dipl_uses_technical_pricing():
             return super()._reset_price_unit()
-        return self._dipl_apply_technical_price_unit()
+
+        line = self.with_company(self.company_id)
+        price = line._get_display_price()
+        product_taxes = line.product_id.taxes_id._filter_taxes_by_company(line.company_id)
+        price_unit = line.product_id._get_tax_included_unit_price_from_price(
+            price,
+            product_taxes=product_taxes,
+            fiscal_position=line.order_id.fiscal_position_id,
+        )
+        line.update({
+            "price_unit": price_unit,
+            "technical_price_unit": price_unit,
+        })
 
     @api.model
     def _dipl_get_product_template_for_snapshot(self, product):

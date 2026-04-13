@@ -34,6 +34,14 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "partner_id": cls.partner.id,
         })
 
+    def _create_pricelist(self, name, **extra_vals):
+        vals = {
+            "name": name,
+            "currency_id": self.order.currency_id.id,
+        }
+        vals.update(extra_vals)
+        return self.env["product.pricelist"].create(vals)
+
     def test_snapshot_is_copied_on_create(self):
         line = self.env["sale.order.line"].create({
             "order_id": self.order.id,
@@ -113,6 +121,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_technical_price_unit, 4.71, places=2)
         self.assertAlmostEqual(line.price_unit, 4.71, places=2)
         self.assertAlmostEqual(line.technical_price_unit, 4.71, places=2)
+        self.assertEqual(line.dipl_pricing_state, "technical")
 
     def test_manual_kg_override_replaces_effective_kg(self):
         line = self.env["sale.order.line"].create({
@@ -132,6 +141,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_technical_price_unit, 75.0, places=2)
         self.assertAlmostEqual(line.price_unit, 75.0, places=2)
         self.assertAlmostEqual(line.technical_price_unit, 75.0, places=2)
+        self.assertEqual(line.dipl_pricing_state, "technical")
 
     def test_disabling_manual_override_falls_back_to_computed_kg(self):
         line = self.env["sale.order.line"].create({
@@ -222,3 +232,123 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertEqual(line.dipl_technical_total, 0.0)
         self.assertEqual(line.dipl_technical_price_unit, 0.0)
         self.assertEqual(line.price_unit, 0.0)
+        self.assertEqual(line.dipl_pricing_state, "incomplete")
+
+    def test_percentage_pricelist_applies_over_technical_base(self):
+        pricelist = self._create_pricelist("Tech %")
+        rule = self.env["product.pricelist.item"].create({
+            "pricelist_id": pricelist.id,
+            "applied_on": "1_product",
+            "product_tmpl_id": self.product_technical_a.id,
+            "compute_price": "percentage",
+            "percent_price": 10.0,
+        })
+        order = self.env["sale.order"].create({
+            "partner_id": self.partner.id,
+            "pricelist_id": pricelist.id,
+        })
+        line = self.env["sale.order.line"].create({
+            "order_id": order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line percentage pricelist",
+        })
+        effective_unit_price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+        self.assertEqual(line.pricelist_item_id, rule)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 4.71, places=2)
+        self.assertAlmostEqual(effective_unit_price, 4.239, places=3)
+        self.assertEqual(line.dipl_pricing_state, "pricelist_adjusted")
+
+    def test_formula_pricelist_applies_over_technical_base(self):
+        pricelist = self._create_pricelist("Tech Formula")
+        rule = self.env["product.pricelist.item"].create({
+            "pricelist_id": pricelist.id,
+            "applied_on": "1_product",
+            "product_tmpl_id": self.product_technical_a.id,
+            "compute_price": "formula",
+            "base": "list_price",
+            "price_discount": 10.0,
+            "price_surcharge": 1.5,
+        })
+        order = self.env["sale.order"].create({
+            "partner_id": self.partner.id,
+            "pricelist_id": pricelist.id,
+        })
+        line = self.env["sale.order.line"].create({
+            "order_id": order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line formula pricelist",
+        })
+        self.assertEqual(line.pricelist_item_id, rule)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 4.71, places=2)
+        self.assertAlmostEqual(line.price_unit, 5.739, places=3)
+        self.assertAlmostEqual(line.technical_price_unit, 5.739, places=3)
+        self.assertEqual(line.discount, 0.0)
+        self.assertEqual(line.dipl_pricing_state, "pricelist_adjusted")
+
+    def test_fixed_pricelist_rule_is_ignored_for_technical_lines(self):
+        pricelist = self._create_pricelist("Tech Fixed")
+        self.env["product.pricelist.item"].create({
+            "pricelist_id": pricelist.id,
+            "applied_on": "1_product",
+            "product_tmpl_id": self.product_technical_a.id,
+            "compute_price": "fixed",
+            "fixed_price": 99.0,
+        })
+        order = self.env["sale.order"].create({
+            "partner_id": self.partner.id,
+            "pricelist_id": pricelist.id,
+        })
+        line = self.env["sale.order.line"].create({
+            "order_id": order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line fixed pricelist",
+        })
+        self.assertFalse(line.pricelist_item_id)
+        self.assertAlmostEqual(line.price_unit, line.dipl_technical_price_unit, places=4)
+        self.assertEqual(line.dipl_pricing_state, "technical")
+
+    def test_manual_final_price_is_preserved_until_update_prices(self):
+        pricelist = self._create_pricelist("Tech Formula Keep Manual")
+        self.env["product.pricelist.item"].create({
+            "pricelist_id": pricelist.id,
+            "applied_on": "1_product",
+            "product_tmpl_id": self.product_technical_a.id,
+            "compute_price": "formula",
+            "base": "list_price",
+            "price_discount": 10.0,
+            "price_surcharge": 1.5,
+        })
+        order = self.env["sale.order"].create({
+            "partner_id": self.partner.id,
+            "pricelist_id": pricelist.id,
+        })
+        line = self.env["sale.order.line"].create({
+            "order_id": order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line manual final",
+        })
+        computed_price = line.price_unit
+        line.write({"price_unit": 123.45})
+        self.assertTrue(line.dipl_has_manual_final_price)
+        self.assertEqual(line.dipl_pricing_state, "manual_final")
+        line.write({"dipl_width_mm": 100.0})
+        self.assertAlmostEqual(line.price_unit, 123.45, places=2)
+        self.assertTrue(line.dipl_has_manual_final_price)
+        order.action_update_prices()
+        line.invalidate_recordset(["price_unit", "technical_price_unit", "dipl_pricing_state", "dipl_has_manual_final_price"])
+        self.assertFalse(line.dipl_has_manual_final_price)
+        self.assertNotAlmostEqual(line.price_unit, 123.45, places=2)
+        self.assertNotAlmostEqual(line.price_unit, computed_price, places=2)
+        self.assertEqual(line.dipl_pricing_state, "pricelist_adjusted")
