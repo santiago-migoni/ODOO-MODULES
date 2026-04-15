@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Project Management"
+  short_description: "Govern agile backlog, sprint cadence, and delivery learning."
+  default_prompt: "Use $odoo-project-management to manage vision, backlog, sprint cadence, adaptation, and project closure for this Odoo delivery."

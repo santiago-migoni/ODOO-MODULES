@@ -8,6 +8,7 @@ description: Maintenance stage workflow for Odoo custom modules. Use when runnin
 ## Overview
 Operate a structured post-release maintenance cycle covering incident management, hotfix execution, service-level response, and planned improvements.
 Use `odoo-19` references when diagnosing framework-level root causes or designing safe fixes.
+Use `odoo-project-management` when maintenance learnings must be consolidated into retrospectives, backlog recycling, continuous-improvement actions, or formal project closure.
 
 ## Required Inputs
 - Deployment baseline and known issues from stage 09.
@@ -37,3 +38,7 @@ Provide the stage output back to `$odoo-stage-01-discovery` for the next cycle i
 - Production learnings and recurring pain patterns.
 - Prioritized improvement opportunities.
 - Confirmed constraints discovered in operations.
+
+## Related References
+- Use `../odoo-project-management/references/review-retrospective-template.md` when maintenance incidents should feed retrospective improvement actions.
+- Use `../odoo-project-management/references/project-closeout-template.md` when a release cycle or project must be closed with reusable learning and explicit next-cycle seeds.

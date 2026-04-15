@@ -81,6 +81,9 @@ Skills must be self-contained: no hard dependency on other skills or workflow do
 Global technical skill:
 - `odoo-19`
 
+Transversal delivery skill:
+- `odoo-project-management`
+
 Lifecycle skills:
 - `odoo-stage-orchestrator`
 - `odoo-stage-01-discovery`
@@ -111,6 +114,9 @@ Project subagents:
 
 Business and coordination subagents (`business-analyst`, `product-manager`, `project-manager`) are transversal support roles for early lifecycle stages and governance decisions.
 They do not replace lifecycle skills; they help produce clearer artifacts, priorities, and readiness decisions inside the stage flow.
+
+`odoo-project-management` is the transversal delivery governance skill for Agile, Lean, Kanban, and Scrum execution.
+It does not replace lifecycle stages or the `project-manager` subagent; it coordinates backlog, sprint cadence, adaptation, and closure across them.
 
 ## Dependencies
 

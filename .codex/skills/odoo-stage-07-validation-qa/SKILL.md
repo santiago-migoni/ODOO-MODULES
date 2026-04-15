@@ -8,6 +8,7 @@ description: Validation and QA stage workflow for Odoo custom modules. Use when 
 ## Overview
 Build and execute a validation strategy that verifies functional behavior, technical quality, and regression safety before user acceptance testing.
 Use `odoo-19` testing and security references when defining coverage and risk depth.
+Use `odoo-project-management` when QA outputs must feed sprint review decisions, release adaptation, or backlog reprioritization.
 
 ## Required Inputs
 - Implementation outputs and evidence from stage 06.
@@ -45,3 +46,4 @@ Provide the stage output to `$odoo-stage-08-uat` including:
 ## Related References
 - Use `references/deliverable-template.md` for the QA handoff structure.
 - Use `../odoo-dashboard-branch-governance/references/module-changelog-policy.md` for changelog gate criteria.
+- Use `../odoo-project-management/references/review-retrospective-template.md` when QA findings must be consolidated into sprint review inputs, retrospective improvements, or replanning decisions.

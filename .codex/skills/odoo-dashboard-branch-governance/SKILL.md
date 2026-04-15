@@ -9,6 +9,22 @@ description: Governance workflow for ODOO-MODULES branch lifecycle managed by th
 Apply repository-specific governance for `ODOO-MODULES` where dashboard-created branches move across dev and test states before production merge.
 This skill controls branch-state decisions, promotion eligibility, manual audit requirements, and production merge constraints.
 
+```mermaid
+stateDiagram-v2
+    [*] --> Dev
+    Dev --> Test: Promote\nimplementation complete\nchangelog updated\nvalidation evidence ready
+    Test --> Dev: Demote\nvalidation failed\nmore development needed
+    Test --> PR: Open PR\nchangelog frozen\nmanual audit passed
+    PR --> Master: Merge\nPR review approved
+    PR --> Test: Blocked\nmissing review or failed gate
+    Dev --> BlockedDev: No promotion\nmissing changelog or incomplete work
+    Test --> BlockedTest: No production rec\nmissing audit or frozen changelog
+    BlockedDev --> Dev: Fix blockers
+    BlockedTest --> Test: Fix blockers
+    Dev --> NoDirectMerge: Direct merge forbidden
+    NoDirectMerge --> Dev
+```
+
 ## Required Inputs
 - Current branch name and current environment state (dev or test).
 - Module scope and change summary.

@@ -8,6 +8,7 @@ description: Implementation stage workflow for Odoo custom modules. Use when exe
 ## Overview
 Execute coding slices in a controlled sequence that preserves traceability to functional criteria and technical design decisions.
 Use `odoo-19` as the primary technical reference during development.
+Use `odoo-project-management` when implementation needs sprint backlog control, daily coordination, flow visualization, blocker escalation, or increment framing.
 
 ## Required Inputs
 - Approved scaffolding and planning package from stages 04-05.
@@ -45,3 +46,4 @@ Provide the stage output to `$odoo-stage-07-validation-qa` including:
 ## Related References
 - Use `references/deliverable-template.md` for the implementation handoff structure.
 - Use `../odoo-dashboard-branch-governance/references/module-changelog-policy.md` for module changelog gate rules.
+- Use `../odoo-project-management/references/sprint-management-template.md` when implementation work is being managed as a sprint with daily synchronization, blocker tracking, and increment reporting.

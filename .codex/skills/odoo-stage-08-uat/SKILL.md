@@ -8,6 +8,7 @@ description: User acceptance testing stage workflow for Odoo custom modules. Use
 ## Overview
 Coordinate user acceptance testing with role-specific scripts, structured feedback capture, and explicit acceptance decisions.
 Use `odoo-19` references only when UAT findings require technical clarification.
+Use `odoo-project-management` when stakeholder feedback must be folded into sprint review outcomes, backlog adjustments, or release-scope adaptation.
 
 ## Required Inputs
 - QA approval package from stage 07.
@@ -37,3 +38,6 @@ Provide the stage output to `$odoo-stage-09-deployment` including:
 - Final acceptance status and approved scope.
 - Mandatory fixes or approved deferrals.
 - Deployment preconditions accepted by business stakeholders.
+
+## Related References
+- Use `../odoo-project-management/references/review-retrospective-template.md` when UAT outcomes must be merged with review feedback, acceptance learnings, or reprioritization decisions for the next iteration.

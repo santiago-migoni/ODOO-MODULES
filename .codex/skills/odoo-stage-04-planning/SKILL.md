@@ -9,6 +9,7 @@ description: Planning stage workflow for Odoo custom modules. Use when convertin
 Convert technical design into a delivery plan with iteration slices, priorities, risks, dependencies, and explicit acceptance gates.
 Use `odoo-19` references only when planning depends on framework-specific implementation constraints.
 Use `project-manager` when sequencing, milestones, or readiness gates need stronger structure, and `product-manager` when planning requires explicit scope cuts or release tradeoffs.
+Use `odoo-project-management` when planning must be expressed as product vision, release slices, prioritized product backlog, and Scrum-ready sprint preparation rather than as a one-time delivery schedule alone.
 
 ## Required Inputs
 - Approved technical design from stage 03.
@@ -44,3 +45,5 @@ Provide the stage output to `$odoo-stage-05-module-scaffolding` including:
 ## Related References
 - Use `references/deliverable-template.md` for the main planning artifact.
 - Use `references/milestone-and-risk-template.md` when `project-manager` or `product-manager` is needed to stabilize milestones, risks, and release gate assumptions.
+- Use `../odoo-project-management/references/vision-and-working-model-template.md` when planning must restate project vision, stakeholders, success measures, or working agreements.
+- Use `../odoo-project-management/references/backlog-and-release-template.md` when the delivery plan must be converted into a prioritized product backlog and release slices.
