@@ -6,16 +6,10 @@
         <field name="inherit_id" ref="sale.sale_order_line_view_form_readonly"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='price_unit']" position="after">
-                <field name="dipl_use_manual_kg" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_manual" invisible="not dipl_is_technical_line or not dipl_use_manual_kg"/>
                 <field name="dipl_development_mm" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_width_mm" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_pricing_state" readonly="1" invisible="not dipl_is_technical_line" widget="badge"/>
                 <field name="dipl_price_per_kg" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_computed" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_total" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_technical_total" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_technical_price_unit" readonly="1" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_kg_total" invisible="not dipl_is_technical_line"/>
             </xpath>
         </field>
     </record>

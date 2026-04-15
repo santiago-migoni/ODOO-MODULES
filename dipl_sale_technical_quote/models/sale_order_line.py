@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import float_compare
 
 
 class SaleOrderLine(models.Model):
@@ -11,11 +12,11 @@ class SaleOrderLine(models.Model):
         help="Indicates that this sales line uses the technical quotation flow.",
     )
     dipl_development_mm = fields.Float(
-        string="Development (mm)",
+        string="Flat Pattern",
         digits=(16, 2),
     )
     dipl_width_mm = fields.Float(
-        string="Width (mm)",
+        string="Flat Length",
         digits=(16, 2),
     )
     dipl_material_code = fields.Selection(
@@ -39,7 +40,7 @@ class SaleOrderLine(models.Model):
         digits=(16, 6),
     )
     dipl_price_per_kg = fields.Monetary(
-        string="Technical Price per Kg",
+        string="Technical Price",
         currency_field="currency_id",
     )
     dipl_use_manual_kg = fields.Boolean(
@@ -59,10 +60,11 @@ class SaleOrderLine(models.Model):
         digits=(16, 4),
     )
     dipl_kg_total = fields.Float(
-        string="Effective Kg",
+        string="Kilograms",
         digits=(16, 4),
-        readonly=True,
+        readonly=False,
         compute="_compute_dipl_kg_values",
+        inverse="_inverse_dipl_kg_total",
         store=True,
     )
     dipl_technical_total = fields.Monetary(
@@ -101,11 +103,17 @@ class SaleOrderLine(models.Model):
 
     def _dipl_get_amount_compare_currency(self):
         self.ensure_one()
-        return self.currency_id or self.company_id.currency_id or self.env.company.currency_id
+        return (
+            self.currency_id
+            or self.company_id.currency_id
+            or self.env.company.currency_id
+        )
 
     def _dipl_compare_amounts(self, amount_a, amount_b):
         self.ensure_one()
-        return self._dipl_get_amount_compare_currency().compare_amounts(amount_a, amount_b)
+        return self._dipl_get_amount_compare_currency().compare_amounts(
+            amount_a, amount_b
+        )
 
     def _dipl_is_reward_line(self):
         self.ensure_one()
@@ -212,6 +220,23 @@ class SaleOrderLine(models.Model):
             line.dipl_kg_computed = technical_base["computed_kg"]
             line.dipl_kg_total = technical_base["effective_kg"]
 
+    def _inverse_dipl_kg_total(self):
+        for line in self:
+            if not line.dipl_is_technical_line:
+                continue
+            if (
+                line.dipl_kg_total <= 0
+                or float_compare(
+                    line.dipl_kg_total, line.dipl_kg_computed, precision_digits=4
+                )
+                == 0
+            ):
+                line.dipl_use_manual_kg = False
+                line.dipl_kg_manual = 0.0
+            else:
+                line.dipl_use_manual_kg = True
+                line.dipl_kg_manual = line.dipl_kg_total
+
     @api.depends(
         "dipl_is_technical_line",
         "product_uom_qty",
@@ -247,7 +272,9 @@ class SaleOrderLine(models.Model):
 
             line.dipl_has_manual_final_price = bool(
                 line._dipl_uses_technical_pricing()
-                and line._dipl_compare_amounts(line.technical_price_unit, line.price_unit)
+                and line._dipl_compare_amounts(
+                    line.technical_price_unit, line.price_unit
+                )
             )
             if line.dipl_has_manual_final_price:
                 line.dipl_pricing_state = "manual_final"
@@ -255,7 +282,9 @@ class SaleOrderLine(models.Model):
                 line.dipl_pricing_state = "incomplete"
             elif line.pricelist_item_id and (
                 line.discount
-                or line._dipl_compare_amounts(line.technical_price_unit, line.dipl_technical_price_unit)
+                or line._dipl_compare_amounts(
+                    line.technical_price_unit, line.dipl_technical_price_unit
+                )
             ):
                 line.dipl_pricing_state = "pricelist_adjusted"
             else:
@@ -264,11 +293,13 @@ class SaleOrderLine(models.Model):
     def _get_pricelist_kwargs(self):
         kwargs = super()._get_pricelist_kwargs()
         if self._dipl_uses_technical_pricing() and self.currency_id:
-            kwargs.update({
-                "dipl_is_technical_line": True,
-                "dipl_technical_base_price": self.dipl_technical_price_unit,
-                "dipl_technical_base_currency": self.currency_id,
-            })
+            kwargs.update(
+                {
+                    "dipl_is_technical_line": True,
+                    "dipl_technical_base_price": self.dipl_technical_price_unit,
+                    "dipl_technical_base_currency": self.currency_id,
+                }
+            )
         return kwargs
 
     @api.depends(
@@ -286,10 +317,14 @@ class SaleOrderLine(models.Model):
     )
     def _compute_price_unit(self):
         def has_manual_price(line):
-            return bool(line._dipl_compare_amounts(line.technical_price_unit, line.price_unit))
+            return bool(
+                line._dipl_compare_amounts(line.technical_price_unit, line.price_unit)
+            )
 
         force_recompute = self.env.context.get("force_price_recomputation")
-        technical_lines = self.filtered(lambda line: line._dipl_uses_technical_pricing())
+        technical_lines = self.filtered(
+            lambda line: line._dipl_uses_technical_pricing()
+        )
         regular_lines = self - technical_lines
 
         super(SaleOrderLine, regular_lines)._compute_price_unit()
@@ -316,16 +351,20 @@ class SaleOrderLine(models.Model):
 
         line = self.with_company(self.company_id)
         price = line._get_display_price()
-        product_taxes = line.product_id.taxes_id._filter_taxes_by_company(line.company_id)
+        product_taxes = line.product_id.taxes_id._filter_taxes_by_company(
+            line.company_id
+        )
         price_unit = line.product_id._get_tax_included_unit_price_from_price(
             price,
             product_taxes=product_taxes,
             fiscal_position=line.order_id.fiscal_position_id,
         )
-        line.update({
-            "price_unit": price_unit,
-            "technical_price_unit": price_unit,
-        })
+        line.update(
+            {
+                "price_unit": price_unit,
+                "technical_price_unit": price_unit,
+            }
+        )
 
     @api.model
     def _dipl_get_product_template_for_snapshot(self, product):
@@ -335,7 +374,7 @@ class SaleOrderLine(models.Model):
 
     def _dipl_prepare_snapshot_vals(self, product):
         product_tmpl = self._dipl_get_product_template_for_snapshot(product)
-        if not product_tmpl or not product_tmpl.dipl_is_technical_quote_product:
+        if not product_tmpl or not product_tmpl._dipl_is_technical_product():
             return self._dipl_prepare_snapshot_clear_vals()
         return {
             "dipl_is_technical_line": True,
@@ -389,7 +428,9 @@ class SaleOrderLine(models.Model):
             new_vals = dict(vals)
             if "product_id" in new_vals:
                 product = product_model.browse(new_vals["product_id"])
-                snapshot_vals = self.env["sale.order.line"]._dipl_prepare_snapshot_vals(product)
+                snapshot_vals = self.env["sale.order.line"]._dipl_prepare_snapshot_vals(
+                    product
+                )
                 new_vals.update(snapshot_vals)
                 for preserved_key in ("dipl_use_manual_kg", "dipl_kg_manual"):
                     if preserved_key in vals:
@@ -423,5 +464,11 @@ class SaleOrderLine(models.Model):
     @api.constrains("dipl_use_manual_kg", "dipl_kg_manual", "dipl_is_technical_line")
     def _check_dipl_manual_kg(self):
         for line in self:
-            if line.dipl_is_technical_line and line.dipl_use_manual_kg and line.dipl_kg_manual <= 0:
-                raise ValidationError("Manual kg must be greater than zero when manual override is enabled.")
+            if (
+                line.dipl_is_technical_line
+                and line.dipl_use_manual_kg
+                and line.dipl_kg_manual <= 0
+            ):
+                raise ValidationError(
+                    "Manual kg must be greater than zero when manual override is enabled."
+                )

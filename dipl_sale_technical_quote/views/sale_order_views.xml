@@ -14,6 +14,7 @@
                 <field name="dipl_use_manual_kg" invisible="1"/>
                 <field name="dipl_can_compute" invisible="1"/>
                 <field name="dipl_has_manual_final_price" invisible="1"/>
+                <field name="dipl_pricing_state" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//div[@name='ordered_qty']" position="after">
                 <label for="dipl_development_mm" invisible="display_type or not dipl_is_technical_line"/>
@@ -26,33 +27,22 @@
                     <field name="dipl_width_mm" class="oe_inline"/>
                     <span class="ms-1">mm</span>
                 </div>
-                <field name="dipl_use_manual_kg" invisible="display_type or not dipl_is_technical_line"/>
-                <field name="dipl_kg_manual" invisible="display_type or not dipl_is_technical_line or not dipl_use_manual_kg"/>
-                <field name="dipl_pricing_state" readonly="1" invisible="display_type or not dipl_is_technical_line" widget="badge"/>
+                <field name="dipl_kg_total" invisible="display_type or not dipl_is_technical_line"/>
                 <field name="dipl_price_per_kg" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
-                <field name="dipl_kg_computed" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
-                <field name="dipl_kg_total" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
-                <field name="dipl_technical_total" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
-                <field name="dipl_technical_price_unit" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
                 <field name="dipl_is_technical_line" column_invisible="True"/>
                 <field name="dipl_use_manual_kg" column_invisible="True"/>
                 <field name="dipl_development_mm" optional="show" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_width_mm" optional="show" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_manual" optional="show" invisible="not dipl_is_technical_line or not dipl_use_manual_kg"/>
-                <field name="dipl_pricing_state" optional="show" readonly="1" invisible="not dipl_is_technical_line" widget="badge"/>
+                <field name="dipl_kg_total" optional="show" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_price_per_kg" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_computed" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_total" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_technical_total" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_technical_price_unit" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/list" position="attributes">
-                <attribute name="decoration-info">dipl_use_manual_kg</attribute>
-                <attribute name="decoration-warning">dipl_pricing_state == 'manual_final'</attribute>
-                <attribute name="decoration-danger">dipl_pricing_state == 'incomplete'</attribute>
-                <attribute name="decoration-success">dipl_pricing_state == 'pricelist_adjusted'</attribute>
+                <attribute name="decoration-info"/>
+                <attribute name="decoration-warning"/>
+                <attribute name="decoration-danger"/>
+                <attribute name="decoration-success"/>
             </xpath>
         </field>
     </record>

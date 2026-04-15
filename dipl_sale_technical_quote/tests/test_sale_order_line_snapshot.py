@@ -105,6 +105,9 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         line.invalidate_recordset(["dipl_price_per_kg"])
         self.assertEqual(line.dipl_price_per_kg, 100.0)
 
+    def test_theoretical_kilograms_are_computed_on_product(self):
+        self.assertAlmostEqual(self.product_technical_a.dipl_theoretical_kg, 9.42, places=2)
+
     def test_computed_kg_is_used_by_default(self):
         line = self.env["sale.order.line"].create({
             "order_id": self.order.id,
@@ -142,6 +145,20 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.price_unit, 75.0, places=2)
         self.assertAlmostEqual(line.technical_price_unit, 75.0, places=2)
         self.assertEqual(line.dipl_pricing_state, "technical")
+
+    def test_editing_kilograms_directly_enables_manual_override(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line direct kilograms edit",
+        })
+        line.dipl_kg_total = 2.25
+        self.assertTrue(line.dipl_use_manual_kg)
+        self.assertAlmostEqual(line.dipl_kg_manual, 2.25, places=4)
+        self.assertAlmostEqual(line.dipl_kg_total, 2.25, places=4)
 
     def test_disabling_manual_override_falls_back_to_computed_kg(self):
         line = self.env["sale.order.line"].create({
