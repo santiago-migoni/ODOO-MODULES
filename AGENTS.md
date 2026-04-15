@@ -35,6 +35,24 @@ Repository support areas:
 - `.src/`: local Odoo Community clone for framework and base-module analysis.
 - `requirements.txt`: global Python dependency baseline for modules in this repository.
 
+## Terminal tooling
+
+Use `rtk` as the preferred terminal proxy for read-heavy inspection and compact command output when it improves signal quality.
+
+Preferred `rtk` commands:
+- `rtk read` for file reading.
+- `rtk find` and `rtk tree` for repository exploration.
+- `rtk diff` for compact change review.
+- `rtk grep` for filtered text search output.
+- `rtk git` for read-only Git inspection when concise output is useful.
+- `rtk test`, `rtk err`, and `rtk summary` for compact validation and failure-focused output.
+
+Usage boundaries:
+- Do not use `rtk` to bypass repository safety, branch governance, or dependency rules.
+- Treat `rtk git` as read-only by default unless the user explicitly requests a Git mutation.
+- Treat `rtk trust`, `rtk untrust`, `rtk proxy`, and `rtk config` as governance-sensitive commands.
+- If `rtk gain` fails because its tracking database is unavailable, continue with normal `rtk` subcommands instead of blocking work.
+
 ## Operating model
 
 1. Analyze current module state before proposing changes.
