@@ -9,22 +9,22 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         cls.product_technical_a = cls.env["product.template"].create({
             "name": "Tech Product A",
             "sale_ok": True,
+            "list_price": 100.0,
             "dipl_is_technical_quote_product": True,
             "dipl_material_code": "sae",
             "dipl_thickness_label": "18",
             "dipl_thickness_mm": 1.2,
             "dipl_material_density": 7.85,
-            "dipl_price_per_kg": 100.0,
         })
         cls.product_technical_b = cls.env["product.template"].create({
             "name": "Tech Product B",
             "sale_ok": True,
+            "list_price": 125.0,
             "dipl_is_technical_quote_product": True,
             "dipl_material_code": "galv",
             "dipl_thickness_label": "16",
             "dipl_thickness_mm": 1.6,
             "dipl_material_density": 8.15,
-            "dipl_price_per_kg": 125.0,
         })
         cls.product_standard = cls.env["product.template"].create({
             "name": "Standard Product",
@@ -101,7 +101,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "product_uom_qty": 1.0,
             "name": "Tech line frozen",
         })
-        self.product_technical_a.write({"dipl_price_per_kg": 200.0})
+        self.product_technical_a.write({"list_price": 200.0})
         line.invalidate_recordset(["dipl_price_per_kg"])
         self.assertEqual(line.dipl_price_per_kg, 100.0)
 

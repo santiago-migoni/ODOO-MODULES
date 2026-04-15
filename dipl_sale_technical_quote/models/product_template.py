@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import SUPERUSER_ID, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -38,11 +38,6 @@ class ProductTemplate(models.Model):
         store=True,
         help="Theoretical kilograms per square meter derived from density and thickness.",
     )
-    dipl_price_per_kg = fields.Monetary(
-        string="Technical Price",
-        currency_field="currency_id",
-        help="Technical tariff per kg used as the quotation base.",
-    )
     dipl_requires_dimensions = fields.Boolean(
         string="Requires Dimensions",
         default=True,
@@ -67,11 +62,39 @@ class ProductTemplate(models.Model):
         self.ensure_one()
         return bool(self.dipl_is_technical_quote_product)
 
+    def init(self):
+        self._cr.execute(
+            """
+            SELECT 1
+              FROM information_schema.columns
+             WHERE table_name = 'product_template'
+               AND column_name = 'dipl_price_per_kg'
+             LIMIT 1
+            """
+        )
+        if not self._cr.fetchone():
+            return
+
+        env = api.Environment(self._cr, SUPERUSER_ID, {})
+        param_key = "dipl_sale_technical_quote.list_price_backfill_done"
+        if env["ir.config_parameter"].sudo().get_param(param_key):
+            return
+
+        self._cr.execute(
+            """
+            UPDATE product_template
+               SET list_price = dipl_price_per_kg
+             WHERE dipl_is_technical_quote_product = TRUE
+               AND dipl_price_per_kg IS NOT NULL
+            """
+        )
+        env["ir.config_parameter"].sudo().set_param(param_key, "1")
+
     @api.constrains(
         "dipl_is_technical_quote_product",
         "dipl_thickness_mm",
         "dipl_material_density",
-        "dipl_price_per_kg",
+        "list_price",
     )
     def _check_dipl_technical_quote_fields(self):
         for product in self:
@@ -85,5 +108,5 @@ class ProductTemplate(models.Model):
                 raise ValidationError(
                     "Technical quote products require a material density greater than zero."
                 )
-            if product.dipl_price_per_kg < 0:
+            if product.list_price < 0:
                 raise ValidationError("Technical price per kg cannot be negative.")

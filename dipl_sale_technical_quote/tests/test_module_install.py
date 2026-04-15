@@ -6,7 +6,7 @@ class TestTechnicalQuoteModuleInstall(TransactionCase):
         product = self.env["product.template"]
         self.assertIn("dipl_is_technical_quote_product", product._fields)
         self.assertIn("dipl_theoretical_kg", product._fields)
-        self.assertIn("dipl_price_per_kg", product._fields)
+        self.assertNotIn("dipl_price_per_kg", product._fields)
 
     def test_sale_order_line_technical_fields_exist(self):
         line = self.env["sale.order.line"]

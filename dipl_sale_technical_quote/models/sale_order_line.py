@@ -382,7 +382,7 @@ class SaleOrderLine(models.Model):
             "dipl_thickness_label": product_tmpl.dipl_thickness_label,
             "dipl_thickness_mm": product_tmpl.dipl_thickness_mm,
             "dipl_material_density": product_tmpl.dipl_material_density,
-            "dipl_price_per_kg": product_tmpl.dipl_price_per_kg,
+            "dipl_price_per_kg": product_tmpl.list_price,
             "dipl_use_manual_kg": False,
             "dipl_kg_manual": 0.0,
             "dipl_kg_computed": 0.0,

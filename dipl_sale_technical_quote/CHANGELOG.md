@@ -16,6 +16,7 @@
 - Technical sales lines now expose technical total and technical unit price in the sales UI and use the technical unit price as the native line `price_unit` bridge.
 - Technical sales lines now treat `dipl_technical_price_unit` as the technical base, let compatible pricelist rules adjust the commercial price, ignore fixed-price pricelist rules, and preserve manual final price edits until native `Update Prices` is used.
 - Technical sales lines now expose only `Flat Pattern`, `Flat Length`, `Kilograms`, and `Technical Price` as the main technical inputs in quotations, and products show only density, thickness, theoretical kilograms, and technical price in a dedicated tab.
+- Technical products now use `list_price` as the master price-per-kg source, while sales lines keep `dipl_price_per_kg` as the historical snapshot used by the technical calculation engine.
 
 ### Fixed
 - None.

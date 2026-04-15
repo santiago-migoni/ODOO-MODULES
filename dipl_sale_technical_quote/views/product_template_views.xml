@@ -16,7 +16,6 @@
                         <field name="dipl_material_density" invisible="not dipl_is_technical_quote_product"/>
                         <field name="dipl_thickness_mm" invisible="not dipl_is_technical_quote_product"/>
                         <field name="dipl_theoretical_kg" readonly="1" invisible="not dipl_is_technical_quote_product"/>
-                        <field name="dipl_price_per_kg" invisible="not dipl_is_technical_quote_product"/>
                     </group>
                 </page>
             </xpath>
