@@ -407,6 +407,45 @@ class SaleOrderLine(models.Model):
             "dipl_technical_price_unit": 0.0,
         }
 
+    def _dipl_needs_snapshot_rehydration(self):
+        self.ensure_one()
+        if (
+            not self.dipl_is_technical_line
+            or not self.product_id
+            or self.display_type
+            or not self.product_id.product_tmpl_id._dipl_is_technical_product()
+        ):
+            return False
+
+        return bool(
+            not self.dipl_material_code
+            or not self.dipl_thickness_label
+            or self.dipl_thickness_mm <= 0
+            or self.dipl_material_density <= 0
+            or (
+                self.dipl_price_per_kg == 0.0
+                and self.product_id.product_tmpl_id.list_price != 0.0
+            )
+        )
+
+    def _dipl_prepare_missing_snapshot_vals(self, product):
+        product_tmpl = self._dipl_get_product_template_for_snapshot(product)
+        if not product_tmpl or not product_tmpl._dipl_is_technical_product():
+            return {}
+
+        vals = {}
+        if not self.dipl_material_code:
+            vals["dipl_material_code"] = product_tmpl.dipl_material_code
+        if not self.dipl_thickness_label:
+            vals["dipl_thickness_label"] = product_tmpl.dipl_thickness_label
+        if self.dipl_thickness_mm <= 0:
+            vals["dipl_thickness_mm"] = product_tmpl.dipl_thickness_mm
+        if self.dipl_material_density <= 0:
+            vals["dipl_material_density"] = product_tmpl.dipl_material_density
+        if self.dipl_price_per_kg == 0.0 and product_tmpl.list_price != 0.0:
+            vals["dipl_price_per_kg"] = product_tmpl.list_price
+        return vals
+
     @api.onchange("product_id")
     def _onchange_dipl_product_snapshot(self):
         for line in self:
@@ -444,7 +483,13 @@ class SaleOrderLine(models.Model):
             vals["dipl_kg_manual"] = 0.0
 
         if "product_id" not in vals:
-            return super().write(vals)
+            result = True
+            for line in self:
+                line_vals = dict(vals)
+                if line._dipl_needs_snapshot_rehydration():
+                    line_vals.update(line._dipl_prepare_missing_snapshot_vals(line.product_id))
+                result = result and super(SaleOrderLine, line).write(line_vals)
+            return result
 
         result = True
         product_model = self.env["product.product"]

@@ -33,6 +33,10 @@
             <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
                 <field name="dipl_is_technical_line" column_invisible="True"/>
                 <field name="dipl_use_manual_kg" column_invisible="True"/>
+                <field name="dipl_material_code" column_invisible="True"/>
+                <field name="dipl_thickness_label" column_invisible="True"/>
+                <field name="dipl_thickness_mm" column_invisible="True"/>
+                <field name="dipl_material_density" column_invisible="True"/>
                 <field name="dipl_development_mm" optional="show" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_width_mm" optional="show" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_kg_total" optional="show" invisible="not dipl_is_technical_line"/>

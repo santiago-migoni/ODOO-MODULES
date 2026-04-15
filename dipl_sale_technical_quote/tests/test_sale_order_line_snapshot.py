@@ -105,6 +105,77 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         line.invalidate_recordset(["dipl_price_per_kg"])
         self.assertEqual(line.dipl_price_per_kg, 100.0)
 
+    def test_snapshot_stays_available_after_reload(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line reload snapshot",
+        })
+        line.invalidate_recordset([
+            "dipl_material_code",
+            "dipl_thickness_label",
+            "dipl_thickness_mm",
+            "dipl_material_density",
+            "dipl_price_per_kg",
+            "dipl_kg_total",
+        ])
+        self.assertEqual(line.dipl_material_code, "sae")
+        self.assertEqual(line.dipl_thickness_label, "18")
+        self.assertEqual(line.dipl_thickness_mm, 1.2)
+        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_price_per_kg, 100.0)
+        self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
+
+    def test_inconsistent_snapshot_is_rehydrated_on_write(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "name": "Tech line rehydrate snapshot",
+        })
+        line.write({
+            "dipl_material_code": False,
+            "dipl_thickness_label": False,
+            "dipl_thickness_mm": 0.0,
+            "dipl_material_density": 0.0,
+            "dipl_price_per_kg": 0.0,
+        })
+        self.assertEqual(line.dipl_kg_total, 0.0)
+        line.write({"name": "Tech line rehydrated"})
+        self.assertEqual(line.dipl_material_code, "sae")
+        self.assertEqual(line.dipl_thickness_label, "18")
+        self.assertEqual(line.dipl_thickness_mm, 1.2)
+        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_price_per_kg, 100.0)
+        self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
+
+    def test_rehydration_preserves_manual_kg_override(self):
+        line = self.env["sale.order.line"].create({
+            "order_id": self.order.id,
+            "product_id": self.product_technical_a.product_variant_id.id,
+            "product_uom_qty": 2.0,
+            "dipl_development_mm": 100.0,
+            "dipl_width_mm": 50.0,
+            "dipl_use_manual_kg": True,
+            "dipl_kg_manual": 1.5,
+            "name": "Tech line rehydrate preserves manual kg",
+        })
+        line.write({
+            "dipl_thickness_mm": 0.0,
+            "dipl_material_density": 0.0,
+            "dipl_price_per_kg": 0.0,
+        })
+        line.write({"name": "Tech line rehydrate preserves manual kg 2"})
+        self.assertTrue(line.dipl_use_manual_kg)
+        self.assertAlmostEqual(line.dipl_kg_manual, 1.5, places=4)
+        self.assertAlmostEqual(line.dipl_kg_total, 1.5, places=4)
+        self.assertAlmostEqual(line.dipl_technical_total, 150.0, places=2)
+
     def test_theoretical_kilograms_are_computed_on_product(self):
         self.assertAlmostEqual(self.product_technical_a.dipl_theoretical_kg, 9.42, places=2)
 
