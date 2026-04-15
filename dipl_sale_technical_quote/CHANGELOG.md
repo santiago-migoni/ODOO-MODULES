@@ -18,9 +18,10 @@
 - Technical sales lines now expose only `Flat Pattern`, `Flat Length`, `Kilograms`, and `Technical Price` as the main technical inputs in quotations, and products show only density, thickness, theoretical kilograms, and technical price in a dedicated tab.
 - Technical products now use `list_price` as the master price-per-kg source, while sales lines keep `dipl_price_per_kg` as the historical snapshot used by the technical calculation engine.
 - Technical sales lines now rehydrate missing technical snapshot fields opportunistically on write and keep hidden snapshot fields in the inline sales list to prevent `Kilograms` from falling back to zero after reopening quotations.
+- Technical sales lines now treat only thickness, density, and price-per-kg as the critical snapshot for calculation integrity, and backend writes protect those fields from degradant inline values before persisting.
 
 ### Fixed
-- None.
+- Hardened `sale.order.line.write()` so partial inline saves can no longer zero-out a healthy technical snapshot and collapse `Kilograms` during save/reload flows.
 
 ### Removed
 - None.

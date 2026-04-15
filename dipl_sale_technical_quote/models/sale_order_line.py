@@ -6,6 +6,12 @@ from odoo.tools import float_compare
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    _DIPL_CRITICAL_SNAPSHOT_FIELDS = (
+        "dipl_thickness_mm",
+        "dipl_material_density",
+        "dipl_price_per_kg",
+    )
+
     dipl_is_technical_line = fields.Boolean(
         string="Technical Quote Line",
         default=False,
@@ -407,7 +413,7 @@ class SaleOrderLine(models.Model):
             "dipl_technical_price_unit": 0.0,
         }
 
-    def _dipl_needs_snapshot_rehydration(self):
+    def _dipl_is_snapshot_rehydratable(self):
         self.ensure_one()
         if (
             not self.dipl_is_technical_line
@@ -416,33 +422,85 @@ class SaleOrderLine(models.Model):
             or not self.product_id.product_tmpl_id._dipl_is_technical_product()
         ):
             return False
+        return True
 
+    def _dipl_get_critical_snapshot_state(self, extra_vals=None):
+        self.ensure_one()
+        extra_vals = extra_vals or {}
+        state = {}
+        for field_name in self._DIPL_CRITICAL_SNAPSHOT_FIELDS:
+            if field_name in extra_vals:
+                state[field_name] = extra_vals[field_name]
+            else:
+                state[field_name] = self[field_name]
+        return state
+
+    def _dipl_is_incomplete_snapshot_state(self, snapshot_state):
         return bool(
-            not self.dipl_material_code
-            or not self.dipl_thickness_label
-            or self.dipl_thickness_mm <= 0
-            or self.dipl_material_density <= 0
-            or (
-                self.dipl_price_per_kg == 0.0
-                and self.product_id.product_tmpl_id.list_price != 0.0
-            )
+            snapshot_state["dipl_thickness_mm"] <= 0
+            or snapshot_state["dipl_material_density"] <= 0
+            or snapshot_state["dipl_price_per_kg"] < 0
         )
 
-    def _dipl_prepare_missing_snapshot_vals(self, product):
+    def _dipl_needs_snapshot_rehydration(self, extra_vals=None):
+        self.ensure_one()
+        if not self._dipl_is_snapshot_rehydratable():
+            return False
+
+        snapshot_state = self._dipl_get_critical_snapshot_state(extra_vals=extra_vals)
+        if snapshot_state["dipl_price_per_kg"] == 0.0:
+            return bool(self.product_id.product_tmpl_id.list_price != 0.0) or (
+                snapshot_state["dipl_thickness_mm"] <= 0
+                or snapshot_state["dipl_material_density"] <= 0
+            )
+        return self._dipl_is_incomplete_snapshot_state(snapshot_state)
+
+    def _dipl_is_valid_snapshot_value(self, field_name, value):
+        if field_name in ("dipl_thickness_mm", "dipl_material_density"):
+            return value and value > 0
+        if field_name == "dipl_price_per_kg":
+            return value is not False and value is not None and value > 0
+        return bool(value)
+
+    def _dipl_protect_snapshot_vals(self, vals):
+        self.ensure_one()
+        if not self._dipl_is_snapshot_rehydratable():
+            return dict(vals)
+
+        protected_vals = dict(vals)
+        for field_name in self._DIPL_CRITICAL_SNAPSHOT_FIELDS:
+            if (
+                field_name in protected_vals
+                and not self._dipl_is_valid_snapshot_value(
+                    field_name, protected_vals[field_name]
+                )
+                and self._dipl_is_valid_snapshot_value(field_name, self[field_name])
+            ):
+                protected_vals[field_name] = self[field_name]
+
+        if self._dipl_needs_snapshot_rehydration(extra_vals=protected_vals):
+            protected_vals.update(
+                self._dipl_prepare_missing_snapshot_vals(
+                    self.product_id,
+                    extra_vals=protected_vals,
+                )
+            )
+        return protected_vals
+
+    def _dipl_prepare_missing_snapshot_vals(self, product, extra_vals=None):
+        self.ensure_one()
+        extra_vals = extra_vals or {}
         product_tmpl = self._dipl_get_product_template_for_snapshot(product)
         if not product_tmpl or not product_tmpl._dipl_is_technical_product():
             return {}
 
+        snapshot_state = self._dipl_get_critical_snapshot_state(extra_vals=extra_vals)
         vals = {}
-        if not self.dipl_material_code:
-            vals["dipl_material_code"] = product_tmpl.dipl_material_code
-        if not self.dipl_thickness_label:
-            vals["dipl_thickness_label"] = product_tmpl.dipl_thickness_label
-        if self.dipl_thickness_mm <= 0:
+        if snapshot_state["dipl_thickness_mm"] <= 0:
             vals["dipl_thickness_mm"] = product_tmpl.dipl_thickness_mm
-        if self.dipl_material_density <= 0:
+        if snapshot_state["dipl_material_density"] <= 0:
             vals["dipl_material_density"] = product_tmpl.dipl_material_density
-        if self.dipl_price_per_kg == 0.0 and product_tmpl.list_price != 0.0:
+        if snapshot_state["dipl_price_per_kg"] == 0.0 and product_tmpl.list_price != 0.0:
             vals["dipl_price_per_kg"] = product_tmpl.list_price
         return vals
 
@@ -485,9 +543,7 @@ class SaleOrderLine(models.Model):
         if "product_id" not in vals:
             result = True
             for line in self:
-                line_vals = dict(vals)
-                if line._dipl_needs_snapshot_rehydration():
-                    line_vals.update(line._dipl_prepare_missing_snapshot_vals(line.product_id))
+                line_vals = line._dipl_protect_snapshot_vals(vals)
                 result = result and super(SaleOrderLine, line).write(line_vals)
             return result
 
