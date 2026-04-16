@@ -21,6 +21,7 @@
 - Technical sales lines now treat only thickness, density, and price-per-kg as the critical snapshot for calculation integrity, and backend writes protect those fields from degradant inline values before persisting.
 - Technical sales lines now reset manual kilograms when product, quantity, flat pattern, or flat length changes, and normalize inline kilograms payloads consistently during create/write.
 - Technical products now keep only checkbox, thickness, density, and theoretical kilograms in their operational UI, while technical sales lines keep only `Flat Pattern`, `Flat Length`, `Kilograms`, and `Technical Price` as configurable visible columns.
+- Technical sales lines now treat manual final prices as temporary overrides that are cleared by any technical change, while `Update Prices` remains the only explicit action that recomputes commercial pricing after a pricelist change.
 
 ### Fixed
 - Hardened `sale.order.line.write()` so partial inline saves can no longer zero-out a healthy technical snapshot and collapse `Kilograms` during save/reload flows.

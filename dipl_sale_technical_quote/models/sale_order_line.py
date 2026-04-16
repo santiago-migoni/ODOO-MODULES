@@ -16,6 +16,12 @@ class SaleOrderLine(models.Model):
         "dipl_development_mm",
         "dipl_width_mm",
     )
+    _DIPL_FINAL_PRICE_RESET_TRIGGER_FIELDS = (
+        "product_id",
+        "product_uom_qty",
+        "dipl_development_mm",
+        "dipl_width_mm",
+    )
 
     dipl_is_technical_line = fields.Boolean(
         string="Technical Quote Line",
@@ -419,6 +425,22 @@ class SaleOrderLine(models.Model):
             "dipl_kg_manual": 0.0,
         }
 
+    def _dipl_needs_manual_final_price_reset(self, extra_vals=None):
+        self.ensure_one()
+        extra_vals = extra_vals or {}
+        if not self._dipl_uses_technical_pricing():
+            return False
+        return any(
+            field_name in extra_vals
+            for field_name in self._DIPL_FINAL_PRICE_RESET_TRIGGER_FIELDS
+        )
+
+    def _dipl_prepare_manual_final_price_reset_vals(self, vals):
+        reset_vals = dict(vals)
+        reset_vals.pop("price_unit", None)
+        reset_vals.pop("technical_price_unit", None)
+        return reset_vals
+
     def _dipl_needs_manual_kg_reset(self, extra_vals=None):
         self.ensure_one()
         extra_vals = extra_vals or {}
@@ -573,7 +595,17 @@ class SaleOrderLine(models.Model):
                 if line._dipl_needs_manual_kg_reset(extra_vals=line_vals):
                     line_vals.pop("dipl_kg_total", None)
                     line_vals.update(line._dipl_prepare_manual_kg_reset_vals())
-                result = result and super(SaleOrderLine, line).write(line_vals)
+                force_recompute = line._dipl_needs_manual_final_price_reset(
+                    extra_vals=line_vals
+                )
+                if force_recompute:
+                    line_vals = line._dipl_prepare_manual_final_price_reset_vals(
+                        line_vals
+                    )
+                result = result and super(
+                    SaleOrderLine,
+                    line.with_context(force_price_recomputation=force_recompute),
+                ).write(line_vals)
             return result
 
         result = True
@@ -588,7 +620,15 @@ class SaleOrderLine(models.Model):
             line_vals = dict(vals)
             if not line.display_type:
                 line_vals.update(snapshot_vals)
-            result = result and super(SaleOrderLine, line).write(line_vals)
+            force_recompute = line._dipl_needs_manual_final_price_reset(
+                extra_vals=line_vals
+            )
+            if force_recompute:
+                line_vals = line._dipl_prepare_manual_final_price_reset_vals(line_vals)
+            result = result and super(
+                SaleOrderLine,
+                line.with_context(force_price_recomputation=force_recompute),
+            ).write(line_vals)
         return result
 
     @api.constrains("dipl_use_manual_kg", "dipl_kg_manual", "dipl_is_technical_line")
