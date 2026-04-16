@@ -7,10 +7,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/form/field[@name='display_type']" position="after">
                 <field name="dipl_is_technical_line" invisible="1"/>
-                <field name="dipl_material_code" invisible="1"/>
-                <field name="dipl_thickness_label" invisible="1"/>
                 <field name="dipl_thickness_mm" invisible="1"/>
                 <field name="dipl_material_density" invisible="1"/>
+                <field name="dipl_price_per_kg" invisible="1"/>
                 <field name="dipl_use_manual_kg" invisible="1"/>
                 <field name="dipl_can_compute" invisible="1"/>
                 <field name="dipl_has_manual_final_price" invisible="1"/>
@@ -33,14 +32,12 @@
             <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
                 <field name="dipl_is_technical_line" column_invisible="True"/>
                 <field name="dipl_use_manual_kg" column_invisible="True"/>
-                <field name="dipl_material_code" column_invisible="True"/>
-                <field name="dipl_thickness_label" column_invisible="True"/>
                 <field name="dipl_thickness_mm" column_invisible="True"/>
                 <field name="dipl_material_density" column_invisible="True"/>
-                <field name="dipl_development_mm" optional="show" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_width_mm" optional="show" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_kg_total" optional="show" invisible="not dipl_is_technical_line"/>
-                <field name="dipl_price_per_kg" optional="show" readonly="1" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_development_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_width_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_kg_total" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_price_per_kg" readonly="1" invisible="not dipl_is_technical_line"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/list" position="attributes">
                 <attribute name="decoration-info"/>

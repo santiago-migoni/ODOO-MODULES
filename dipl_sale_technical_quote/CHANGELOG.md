@@ -20,10 +20,12 @@
 - Technical sales lines now rehydrate missing technical snapshot fields opportunistically on write and keep hidden snapshot fields in the inline sales list to prevent `Kilograms` from falling back to zero after reopening quotations.
 - Technical sales lines now treat only thickness, density, and price-per-kg as the critical snapshot for calculation integrity, and backend writes protect those fields from degradant inline values before persisting.
 - Technical sales lines now reset manual kilograms when product, quantity, flat pattern, or flat length changes, and normalize inline kilograms payloads consistently during create/write.
+- Technical products now keep only checkbox, thickness, density, and theoretical kilograms in their operational UI, while technical sales lines keep only `Flat Pattern`, `Flat Length`, `Kilograms`, and `Technical Price` as configurable visible columns.
 
 ### Fixed
 - Hardened `sale.order.line.write()` so partial inline saves can no longer zero-out a healthy technical snapshot and collapse `Kilograms` during save/reload flows.
 - Prevented valid inline manual-kilogram payloads from being lost during line creation and blocked stale visible `Kilograms` values from reactivating manual override during technical edits.
 
 ### Removed
-- None.
+- Legacy product metadata fields `dipl_material_code`, `dipl_thickness_label`, `dipl_requires_dimensions`, and `dipl_technical_notes` from the technical quotation model.
+- Legacy sales-line metadata fields `dipl_material_code` and `dipl_thickness_label` from the technical snapshot.

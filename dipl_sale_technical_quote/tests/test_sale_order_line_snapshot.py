@@ -11,8 +11,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "sale_ok": True,
             "list_price": 100.0,
             "dipl_is_technical_quote_product": True,
-            "dipl_material_code": "sae",
-            "dipl_thickness_label": "18",
             "dipl_thickness_mm": 1.2,
             "dipl_material_density": 7.85,
         })
@@ -21,8 +19,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "sale_ok": True,
             "list_price": 125.0,
             "dipl_is_technical_quote_product": True,
-            "dipl_material_code": "galv",
-            "dipl_thickness_label": "16",
             "dipl_thickness_mm": 1.6,
             "dipl_material_density": 8.15,
         })
@@ -50,8 +46,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "name": "Tech line",
         })
         self.assertTrue(line.dipl_is_technical_line)
-        self.assertEqual(line.dipl_material_code, "sae")
-        self.assertEqual(line.dipl_thickness_label, "18")
         self.assertEqual(line.dipl_thickness_mm, 1.2)
         self.assertEqual(line.dipl_material_density, 7.85)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
@@ -71,8 +65,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "product_id": self.product_technical_b.product_variant_id.id,
         })
         self.assertTrue(line.dipl_is_technical_line)
-        self.assertEqual(line.dipl_material_code, "galv")
-        self.assertEqual(line.dipl_thickness_label, "16")
         self.assertEqual(line.dipl_thickness_mm, 1.6)
         self.assertEqual(line.dipl_material_density, 8.15)
         self.assertEqual(line.dipl_price_per_kg, 125.0)
@@ -92,8 +84,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "product_id": self.product_standard.product_variant_id.id,
         })
         self.assertFalse(line.dipl_is_technical_line)
-        self.assertFalse(line.dipl_material_code)
-        self.assertFalse(line.dipl_thickness_label)
         self.assertEqual(line.dipl_thickness_mm, 0.0)
         self.assertEqual(line.dipl_material_density, 0.0)
         self.assertEqual(line.dipl_price_per_kg, 0.0)
@@ -119,15 +109,11 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "name": "Tech line reload snapshot",
         })
         line.invalidate_recordset([
-            "dipl_material_code",
-            "dipl_thickness_label",
             "dipl_thickness_mm",
             "dipl_material_density",
             "dipl_price_per_kg",
             "dipl_kg_total",
         ])
-        self.assertEqual(line.dipl_material_code, "sae")
-        self.assertEqual(line.dipl_thickness_label, "18")
         self.assertEqual(line.dipl_thickness_mm, 1.2)
         self.assertEqual(line.dipl_material_density, 7.85)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
@@ -143,16 +129,12 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             "name": "Tech line rehydrate snapshot",
         })
         line.write({
-            "dipl_material_code": False,
-            "dipl_thickness_label": False,
             "dipl_thickness_mm": 0.0,
             "dipl_material_density": 0.0,
             "dipl_price_per_kg": 0.0,
         })
         self.assertEqual(line.dipl_kg_total, 0.0)
         line.write({"name": "Tech line rehydrated"})
-        self.assertFalse(line.dipl_material_code)
-        self.assertFalse(line.dipl_thickness_label)
         self.assertEqual(line.dipl_thickness_mm, 1.2)
         self.assertEqual(line.dipl_material_density, 7.85)
         self.assertEqual(line.dipl_price_per_kg, 100.0)

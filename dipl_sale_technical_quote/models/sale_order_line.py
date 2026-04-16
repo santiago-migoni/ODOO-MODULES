@@ -30,18 +30,6 @@ class SaleOrderLine(models.Model):
         string="Flat Length",
         digits=(16, 2),
     )
-    dipl_material_code = fields.Selection(
-        selection=[
-            ("sae", "SAE"),
-            ("galv", "Galvanizado"),
-            ("aisi", "Inoxidable"),
-            ("sem", "Semillado"),
-        ],
-        string="Material",
-    )
-    dipl_thickness_label = fields.Char(
-        string="Thickness Label",
-    )
     dipl_thickness_mm = fields.Float(
         string="Thickness (mm)",
         digits=(16, 4),
@@ -389,8 +377,6 @@ class SaleOrderLine(models.Model):
             return self._dipl_prepare_snapshot_clear_vals()
         return {
             "dipl_is_technical_line": True,
-            "dipl_material_code": product_tmpl.dipl_material_code,
-            "dipl_thickness_label": product_tmpl.dipl_thickness_label,
             "dipl_thickness_mm": product_tmpl.dipl_thickness_mm,
             "dipl_material_density": product_tmpl.dipl_material_density,
             "dipl_price_per_kg": product_tmpl.list_price,
@@ -405,8 +391,6 @@ class SaleOrderLine(models.Model):
     def _dipl_prepare_snapshot_clear_vals(self):
         return {
             "dipl_is_technical_line": False,
-            "dipl_material_code": False,
-            "dipl_thickness_label": False,
             "dipl_thickness_mm": 0.0,
             "dipl_material_density": 0.0,
             "dipl_price_per_kg": 0.0,

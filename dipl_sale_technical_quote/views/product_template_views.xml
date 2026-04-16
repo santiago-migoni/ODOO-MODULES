@@ -9,10 +9,6 @@
                 <page string="Technical Quotation" name="dipl_technical_quotation">
                     <group>
                         <field name="dipl_is_technical_quote_product"/>
-                        <field name="dipl_requires_dimensions" invisible="1"/>
-                        <field name="dipl_material_code" invisible="1"/>
-                        <field name="dipl_thickness_label" invisible="1"/>
-                        <field name="dipl_technical_notes" invisible="1"/>
                         <field name="dipl_material_density" invisible="not dipl_is_technical_quote_product"/>
                         <field name="dipl_thickness_mm" invisible="not dipl_is_technical_quote_product"/>
                         <field name="dipl_theoretical_kg" readonly="1" invisible="not dipl_is_technical_quote_product"/>
