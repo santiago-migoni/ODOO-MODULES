@@ -19,9 +19,11 @@
 - Technical products now use `list_price` as the master price-per-kg source, while sales lines keep `dipl_price_per_kg` as the historical snapshot used by the technical calculation engine.
 - Technical sales lines now rehydrate missing technical snapshot fields opportunistically on write and keep hidden snapshot fields in the inline sales list to prevent `Kilograms` from falling back to zero after reopening quotations.
 - Technical sales lines now treat only thickness, density, and price-per-kg as the critical snapshot for calculation integrity, and backend writes protect those fields from degradant inline values before persisting.
+- Technical sales lines now reset manual kilograms when product, quantity, flat pattern, or flat length changes, and normalize inline kilograms payloads consistently during create/write.
 
 ### Fixed
 - Hardened `sale.order.line.write()` so partial inline saves can no longer zero-out a healthy technical snapshot and collapse `Kilograms` during save/reload flows.
+- Prevented valid inline manual-kilogram payloads from being lost during line creation and blocked stale visible `Kilograms` values from reactivating manual override during technical edits.
 
 ### Removed
 - None.

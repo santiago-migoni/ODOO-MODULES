@@ -11,6 +11,11 @@ class SaleOrderLine(models.Model):
         "dipl_material_density",
         "dipl_price_per_kg",
     )
+    _DIPL_MANUAL_RESET_TRIGGER_FIELDS = (
+        "product_uom_qty",
+        "dipl_development_mm",
+        "dipl_width_mm",
+    )
 
     dipl_is_technical_line = fields.Boolean(
         string="Technical Quote Line",
@@ -424,6 +429,22 @@ class SaleOrderLine(models.Model):
             return False
         return True
 
+    def _dipl_prepare_manual_kg_reset_vals(self):
+        return {
+            "dipl_use_manual_kg": False,
+            "dipl_kg_manual": 0.0,
+        }
+
+    def _dipl_needs_manual_kg_reset(self, extra_vals=None):
+        self.ensure_one()
+        extra_vals = extra_vals or {}
+        if not self.dipl_is_technical_line or self.display_type:
+            return False
+        return any(
+            field_name in extra_vals
+            for field_name in self._DIPL_MANUAL_RESET_TRIGGER_FIELDS
+        )
+
     def _dipl_get_critical_snapshot_state(self, extra_vals=None):
         self.ensure_one()
         extra_vals = extra_vals or {}
@@ -517,33 +538,57 @@ class SaleOrderLine(models.Model):
             if not line.dipl_use_manual_kg:
                 line.dipl_kg_manual = 0.0
 
+    @api.model
+    def _dipl_normalize_manual_kg_payload(self, vals):
+        normalized_vals = dict(vals)
+        if (
+            normalized_vals.get("dipl_use_manual_kg")
+            and normalized_vals.get("dipl_kg_manual", 0.0) <= 0
+        ):
+            if normalized_vals.get("dipl_kg_total", 0.0) > 0:
+                normalized_vals["dipl_kg_manual"] = normalized_vals["dipl_kg_total"]
+            else:
+                normalized_vals["dipl_use_manual_kg"] = False
+                normalized_vals["dipl_kg_manual"] = 0.0
+        elif (
+            normalized_vals.get("dipl_use_manual_kg") is False
+            and "dipl_kg_manual" not in normalized_vals
+        ):
+            normalized_vals["dipl_kg_manual"] = 0.0
+        return normalized_vals
+
     @api.model_create_multi
     def create(self, vals_list):
         prepared_vals_list = []
         product_model = self.env["product.product"]
         for vals in vals_list:
-            new_vals = dict(vals)
-            if "product_id" in new_vals:
-                product = product_model.browse(new_vals["product_id"])
+            payload_vals = self._dipl_normalize_manual_kg_payload(vals)
+            new_vals = dict(payload_vals)
+            if "product_id" in payload_vals:
+                product = product_model.browse(payload_vals["product_id"])
                 snapshot_vals = self.env["sale.order.line"]._dipl_prepare_snapshot_vals(
                     product
                 )
                 new_vals.update(snapshot_vals)
                 for preserved_key in ("dipl_use_manual_kg", "dipl_kg_manual"):
-                    if preserved_key in vals:
-                        new_vals[preserved_key] = vals[preserved_key]
+                    if preserved_key in payload_vals and (
+                        payload_vals[preserved_key]
+                        or payload_vals[preserved_key] == 0.0
+                    ):
+                        new_vals[preserved_key] = payload_vals[preserved_key]
             prepared_vals_list.append(new_vals)
         return super().create(prepared_vals_list)
 
     def write(self, vals):
-        if vals.get("dipl_use_manual_kg") is False and "dipl_kg_manual" not in vals:
-            vals = dict(vals)
-            vals["dipl_kg_manual"] = 0.0
+        vals = self._dipl_normalize_manual_kg_payload(vals)
 
         if "product_id" not in vals:
             result = True
             for line in self:
                 line_vals = line._dipl_protect_snapshot_vals(vals)
+                if line._dipl_needs_manual_kg_reset(extra_vals=line_vals):
+                    line_vals.pop("dipl_kg_total", None)
+                    line_vals.update(line._dipl_prepare_manual_kg_reset_vals())
                 result = result and super(SaleOrderLine, line).write(line_vals)
             return result
 
