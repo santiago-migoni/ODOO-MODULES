@@ -62,9 +62,7 @@ class SaleOrderLine(models.Model):
     dipl_kg_total = fields.Float(
         string="Kilograms",
         digits=(16, 4),
-        readonly=False,
         compute="_compute_dipl_kg_values",
-        inverse="_inverse_dipl_kg_total",
         store=True,
     )
     dipl_kg_mode = fields.Selection(
@@ -258,7 +256,6 @@ class SaleOrderLine(models.Model):
         "dipl_width_mm",
         "dipl_thickness_mm",
         "dipl_material_density",
-        "dipl_use_manual_kg",
         "dipl_kg_manual",
     )
     def _compute_dipl_kg_values(self):
@@ -271,19 +268,6 @@ class SaleOrderLine(models.Model):
             technical_base = line._dipl_compute_technical_base()
             line.dipl_kg_computed = technical_base["computed_kg"]
             line.dipl_kg_total = technical_base["effective_kg"]
-
-    def _inverse_dipl_kg_total(self):
-        for line in self:
-            if not line.dipl_is_technical_line:
-                continue
-            if line._dipl_get_kg_mode() != "manual_kg":
-                continue
-            if line.dipl_kg_total <= 0:
-                line.dipl_use_manual_kg = False
-                line.dipl_kg_manual = 0.0
-            else:
-                line.dipl_use_manual_kg = True
-                line.dipl_kg_manual = line.dipl_kg_total
 
     @api.depends(
         "dipl_is_technical_line",
@@ -359,7 +343,6 @@ class SaleOrderLine(models.Model):
         "dipl_can_compute",
         "dipl_development_mm",
         "dipl_width_mm",
-        "dipl_use_manual_kg",
         "dipl_kg_manual",
         "dipl_price_per_kg",
     )
@@ -563,29 +546,37 @@ class SaleOrderLine(models.Model):
             if not line.dipl_use_manual_kg:
                 line.dipl_kg_manual = 0.0
 
+    @api.onchange("dipl_kg_manual")
+    def _onchange_dipl_kg_manual(self):
+        for line in self:
+            if line._dipl_get_kg_mode() != "manual_kg":
+                continue
+            line.dipl_use_manual_kg = line.dipl_kg_manual > 0
+            line._compute_dipl_can_compute()
+            line._compute_dipl_kg_values()
+            line._compute_dipl_pricing_values()
+            line._compute_price_unit()
+            line._compute_dipl_pricing_state()
+
     @api.model
     def _dipl_normalize_create_kg_mode_vals(self, vals):
         normalized_vals = dict(vals)
+        normalized_vals.pop("dipl_kg_total", None)
         kg_mode = self._dipl_resolve_kg_mode(
             normalized_vals.get("dipl_is_technical_line"),
             normalized_vals.get("dipl_development_mm", 0.0),
             normalized_vals.get("dipl_width_mm", 0.0),
         )
         if kg_mode == "geometry":
-            normalized_vals.pop("dipl_kg_total", None)
             normalized_vals["dipl_use_manual_kg"] = False
             normalized_vals["dipl_kg_manual"] = 0.0
         elif kg_mode == "manual_kg":
-            if "dipl_kg_total" in normalized_vals and "dipl_kg_manual" not in normalized_vals:
-                normalized_vals["dipl_kg_manual"] = normalized_vals["dipl_kg_total"]
-            normalized_vals.pop("dipl_kg_total", None)
             if normalized_vals.get("dipl_kg_manual", 0.0) > 0:
                 normalized_vals["dipl_use_manual_kg"] = True
             else:
                 normalized_vals["dipl_use_manual_kg"] = False
                 normalized_vals["dipl_kg_manual"] = 0.0
         else:
-            normalized_vals.pop("dipl_kg_total", None)
             normalized_vals["dipl_use_manual_kg"] = False
             if "dipl_kg_manual" not in normalized_vals:
                 normalized_vals["dipl_kg_manual"] = 0.0
@@ -594,15 +585,12 @@ class SaleOrderLine(models.Model):
     def _dipl_normalize_kg_mode_vals(self, vals):
         self.ensure_one()
         normalized_vals = dict(vals)
+        normalized_vals.pop("dipl_kg_total", None)
         kg_mode = self._dipl_get_kg_mode(extra_vals=normalized_vals)
         if kg_mode == "geometry":
-            normalized_vals.pop("dipl_kg_total", None)
             normalized_vals["dipl_use_manual_kg"] = False
             normalized_vals["dipl_kg_manual"] = 0.0
         elif kg_mode == "manual_kg":
-            if "dipl_kg_total" in normalized_vals and "dipl_kg_manual" not in normalized_vals:
-                normalized_vals["dipl_kg_manual"] = normalized_vals["dipl_kg_total"]
-            normalized_vals.pop("dipl_kg_total", None)
             if "dipl_kg_manual" in normalized_vals:
                 if normalized_vals["dipl_kg_manual"] > 0:
                     normalized_vals["dipl_use_manual_kg"] = True
@@ -615,7 +603,6 @@ class SaleOrderLine(models.Model):
                 normalized_vals["dipl_use_manual_kg"] = False
                 normalized_vals["dipl_kg_manual"] = 0.0
         else:
-            normalized_vals.pop("dipl_kg_total", None)
             normalized_vals["dipl_use_manual_kg"] = False
             normalized_vals["dipl_kg_manual"] = 0.0
         return normalized_vals

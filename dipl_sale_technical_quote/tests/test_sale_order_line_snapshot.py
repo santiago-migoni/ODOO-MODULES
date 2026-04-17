@@ -1,4 +1,5 @@
 from odoo.exceptions import ValidationError
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
@@ -205,14 +206,14 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.price_unit, 75.0, places=2)
         self.assertEqual(line.dipl_pricing_state, "technical")
 
-    def test_manual_mode_can_use_inline_kilograms_payload(self):
+    def test_manual_mode_create_uses_manual_kilograms_field(self):
         line = self.env["sale.order.line"].create(
             {
                 "order_id": self.order.id,
                 "product_id": self.product_technical_a.product_variant_id.id,
                 "product_uom_qty": 2.0,
-                "dipl_kg_total": 2.25,
-                "name": "Tech manual line from visible kilograms",
+                "dipl_kg_manual": 2.25,
+                "name": "Tech manual line from manual kilograms",
             }
         )
         self.assertEqual(line.dipl_kg_mode, "manual_kg")
@@ -220,9 +221,9 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_kg_manual, 2.25, places=4)
         self.assertAlmostEqual(line.dipl_kg_total, 2.25, places=4)
 
-    def test_manual_mode_write_maps_visible_kilograms_to_manual_kilograms(self):
+    def test_manual_mode_write_uses_manual_kilograms_field(self):
         line = self._create_manual_line(dipl_kg_manual=1.0, name="Tech manual line write")
-        line.write({"dipl_kg_total": 2.25})
+        line.write({"dipl_kg_manual": 2.25})
         self.assertEqual(line.dipl_kg_mode, "manual_kg")
         self.assertTrue(line.dipl_use_manual_kg)
         self.assertAlmostEqual(line.dipl_kg_manual, 2.25, places=4)
@@ -243,9 +244,8 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertEqual(line.dipl_kg_manual, 0.0)
         self.assertEqual(line.dipl_kg_total, 0.0)
 
-    def test_geometry_mode_discards_manual_kilograms_payload_on_create(self):
+    def test_geometry_mode_discards_manual_kilograms_field_on_create(self):
         line = self._create_geometry_line(
-            dipl_kg_total=2.25,
             dipl_kg_manual=2.25,
             dipl_use_manual_kg=True,
             name="Tech geometry line ignores manual kg create",
@@ -255,11 +255,10 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertEqual(line.dipl_kg_manual, 0.0)
         self.assertAlmostEqual(line.dipl_kg_total, line.dipl_kg_computed, places=4)
 
-    def test_geometry_mode_discards_manual_kilograms_payload_on_write(self):
+    def test_geometry_mode_discards_manual_kilograms_field_on_write(self):
         line = self._create_geometry_line(name="Tech geometry line ignores manual kg write")
         line.write(
             {
-                "dipl_kg_total": 2.25,
                 "dipl_kg_manual": 2.25,
                 "dipl_use_manual_kg": True,
             }
@@ -268,6 +267,41 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertFalse(line.dipl_use_manual_kg)
         self.assertEqual(line.dipl_kg_manual, 0.0)
         self.assertAlmostEqual(line.dipl_kg_total, line.dipl_kg_computed, places=4)
+
+    def test_manual_mode_onchange_recomputes_price_from_manual_kilograms(self):
+        line = self.env["sale.order.line"].new(
+            {
+                "order_id": self.order.id,
+                "product_id": self.product_technical_a.product_variant_id.id,
+                "product_uom_qty": 2.0,
+                "dipl_is_technical_line": True,
+                "dipl_price_per_kg": 100.0,
+                "dipl_thickness_mm": 1.2,
+                "dipl_material_density": 7.85,
+            }
+        )
+        line.dipl_kg_manual = 4.0477
+        line._onchange_dipl_kg_manual()
+        self.assertEqual(line.dipl_kg_mode, "manual_kg")
+        self.assertAlmostEqual(line.dipl_kg_total, 4.0477, places=4)
+        self.assertAlmostEqual(line.dipl_technical_total, 404.77, places=2)
+        self.assertAlmostEqual(line.dipl_technical_price_unit, 202.385, places=3)
+        self.assertAlmostEqual(line.price_unit, 202.385, places=3)
+
+    def test_form_manual_mode_recomputes_price_unit_immediately(self):
+        with Form(self.env["sale.order"]) as order_form:
+            order_form.partner_id = self.partner
+            with order_form.order_line.new() as line_form:
+                line_form.product_id = self.product_technical_a.product_variant_id
+                line_form.product_uom_qty = 2.0
+                line_form.dipl_kg_manual = 4.0477
+                self.assertAlmostEqual(line_form.price_unit, 202.385, places=3)
+        order = order_form.save()
+        line = order.order_line[-1]
+        self.assertEqual(line.dipl_kg_mode, "manual_kg")
+        self.assertAlmostEqual(line.dipl_kg_manual, 4.0477, places=4)
+        self.assertAlmostEqual(line.dipl_kg_total, 4.0477, places=4)
+        self.assertAlmostEqual(line.price_unit, 202.385, places=3)
 
     def test_incomplete_manual_line_stays_allowed_and_incomplete(self):
         line = self.env["sale.order.line"].create(
