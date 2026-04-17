@@ -1,11 +1,9 @@
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    _DIPL_KG_POLICY = "manual_kg+geometry"
     _DIPL_CRITICAL_SNAPSHOT_FIELDS = (
         "dipl_thickness_mm",
         "dipl_material_density",
@@ -43,33 +41,23 @@ class SaleOrderLine(models.Model):
         string="Technical Price",
         currency_field="currency_id",
     )
-    dipl_use_manual_kg = fields.Boolean(
-        string="Use Manual Kg",
-        default=False,
-        help="If enabled, the line uses manually entered kg instead of the computed kg.",
-    )
     dipl_kg_computed = fields.Float(
-        string="Computed Kg",
+        string="Technical Kilograms",
         digits=(16, 4),
         readonly=True,
         compute="_compute_dipl_kg_values",
         store=True,
     )
-    dipl_kg_manual = fields.Float(
-        string="Manual Kg",
-        digits=(16, 4),
-    )
     dipl_kg_total = fields.Float(
-        string="Kilograms",
+        string="Technical Kilograms",
         digits=(16, 4),
         compute="_compute_dipl_kg_values",
         store=True,
     )
     dipl_kg_mode = fields.Selection(
         selection=[
-            ("manual_kg", "Manual Kg"),
             ("geometry", "Geometry"),
-            ("invalid", "Invalid"),
+            ("incomplete", "Incomplete"),
         ],
         string="Kg Mode",
         compute="_compute_dipl_kg_mode",
@@ -164,9 +152,7 @@ class SaleOrderLine(models.Model):
                 / 1000000.0
             )
 
-        if kg_mode == "manual_kg":
-            effective_kg = self.dipl_kg_manual if self.dipl_kg_manual > 0 else 0.0
-        elif kg_mode == "geometry":
+        if kg_mode == "geometry":
             effective_kg = computed_kg
         else:
             effective_kg = 0.0
@@ -184,22 +170,12 @@ class SaleOrderLine(models.Model):
         }
 
     @api.model
-    def _dipl_get_kg_policy(self):
-        return self._DIPL_KG_POLICY
-
-    @api.model
     def _dipl_resolve_kg_mode(self, is_technical_line, development_mm, width_mm):
         if not is_technical_line:
             return False
-        if self._dipl_get_kg_policy() == "geometry_only":
-            return "geometry" if development_mm > 0 and width_mm > 0 else "invalid"
-        if development_mm < 0 or width_mm < 0:
-            return "invalid"
         if development_mm > 0 and width_mm > 0:
             return "geometry"
-        if development_mm == 0 and width_mm == 0:
-            return "manual_kg"
-        return "invalid"
+        return "incomplete"
 
     def _dipl_get_kg_mode(self, extra_vals=None):
         self.ensure_one()
@@ -228,25 +204,17 @@ class SaleOrderLine(models.Model):
         "dipl_thickness_mm",
         "dipl_material_density",
         "dipl_price_per_kg",
-        "dipl_use_manual_kg",
-        "dipl_kg_manual",
     )
     def _compute_dipl_can_compute(self):
         for line in self:
             kg_mode = line._dipl_get_kg_mode()
             line.dipl_can_compute = bool(
                 line.dipl_is_technical_line
-                and kg_mode in ("manual_kg", "geometry")
+                and kg_mode == "geometry"
                 and line.product_uom_qty > 0
                 and line.dipl_price_per_kg >= 0
-                and (
-                    (kg_mode == "manual_kg" and line.dipl_kg_manual > 0)
-                    or (
-                        kg_mode == "geometry"
-                        and line.dipl_thickness_mm > 0
-                        and line.dipl_material_density > 0
-                    )
-                )
+                and line.dipl_thickness_mm > 0
+                and line.dipl_material_density > 0
             )
 
     @api.depends(
@@ -256,7 +224,6 @@ class SaleOrderLine(models.Model):
         "dipl_width_mm",
         "dipl_thickness_mm",
         "dipl_material_density",
-        "dipl_kg_manual",
     )
     def _compute_dipl_kg_values(self):
         for line in self:
@@ -343,7 +310,6 @@ class SaleOrderLine(models.Model):
         "dipl_can_compute",
         "dipl_development_mm",
         "dipl_width_mm",
-        "dipl_kg_manual",
         "dipl_price_per_kg",
     )
     def _compute_price_unit(self):
@@ -412,8 +378,6 @@ class SaleOrderLine(models.Model):
             "dipl_thickness_mm": product_tmpl.dipl_thickness_mm,
             "dipl_material_density": product_tmpl.dipl_material_density,
             "dipl_price_per_kg": product_tmpl.list_price,
-            "dipl_use_manual_kg": False,
-            "dipl_kg_manual": 0.0,
         }
 
     def _dipl_prepare_snapshot_clear_vals(self):
@@ -422,8 +386,6 @@ class SaleOrderLine(models.Model):
             "dipl_thickness_mm": 0.0,
             "dipl_material_density": 0.0,
             "dipl_price_per_kg": 0.0,
-            "dipl_use_manual_kg": False,
-            "dipl_kg_manual": 0.0,
         }
 
     def _dipl_is_snapshot_rehydratable(self):
@@ -540,71 +502,12 @@ class SaleOrderLine(models.Model):
                 continue
             line.update(line._dipl_prepare_snapshot_vals(line.product_id))
 
-    @api.onchange("dipl_use_manual_kg")
-    def _onchange_dipl_use_manual_kg(self):
-        for line in self:
-            if not line.dipl_use_manual_kg:
-                line.dipl_kg_manual = 0.0
-
-    @api.onchange("dipl_kg_manual")
-    def _onchange_dipl_kg_manual(self):
-        for line in self:
-            if line._dipl_get_kg_mode() != "manual_kg":
-                continue
-            line.dipl_use_manual_kg = line.dipl_kg_manual > 0
-            line._compute_dipl_can_compute()
-            line._compute_dipl_kg_values()
-            line._compute_dipl_pricing_values()
-            line._compute_price_unit()
-            line._compute_dipl_pricing_state()
-
     @api.model
-    def _dipl_normalize_create_kg_mode_vals(self, vals):
+    def _dipl_sanitize_technical_vals(self, vals):
         normalized_vals = dict(vals)
         normalized_vals.pop("dipl_kg_total", None)
-        kg_mode = self._dipl_resolve_kg_mode(
-            normalized_vals.get("dipl_is_technical_line"),
-            normalized_vals.get("dipl_development_mm", 0.0),
-            normalized_vals.get("dipl_width_mm", 0.0),
-        )
-        if kg_mode == "geometry":
-            normalized_vals["dipl_use_manual_kg"] = False
-            normalized_vals["dipl_kg_manual"] = 0.0
-        elif kg_mode == "manual_kg":
-            if normalized_vals.get("dipl_kg_manual", 0.0) > 0:
-                normalized_vals["dipl_use_manual_kg"] = True
-            else:
-                normalized_vals["dipl_use_manual_kg"] = False
-                normalized_vals["dipl_kg_manual"] = 0.0
-        else:
-            normalized_vals["dipl_use_manual_kg"] = False
-            if "dipl_kg_manual" not in normalized_vals:
-                normalized_vals["dipl_kg_manual"] = 0.0
-        return normalized_vals
-
-    def _dipl_normalize_kg_mode_vals(self, vals):
-        self.ensure_one()
-        normalized_vals = dict(vals)
-        normalized_vals.pop("dipl_kg_total", None)
-        kg_mode = self._dipl_get_kg_mode(extra_vals=normalized_vals)
-        if kg_mode == "geometry":
-            normalized_vals["dipl_use_manual_kg"] = False
-            normalized_vals["dipl_kg_manual"] = 0.0
-        elif kg_mode == "manual_kg":
-            if "dipl_kg_manual" in normalized_vals:
-                if normalized_vals["dipl_kg_manual"] > 0:
-                    normalized_vals["dipl_use_manual_kg"] = True
-                else:
-                    normalized_vals["dipl_use_manual_kg"] = False
-                    normalized_vals["dipl_kg_manual"] = 0.0
-            elif normalized_vals.get("dipl_use_manual_kg") is False:
-                normalized_vals["dipl_kg_manual"] = 0.0
-            elif normalized_vals.get("dipl_use_manual_kg") and self.dipl_kg_manual <= 0:
-                normalized_vals["dipl_use_manual_kg"] = False
-                normalized_vals["dipl_kg_manual"] = 0.0
-        else:
-            normalized_vals["dipl_use_manual_kg"] = False
-            normalized_vals["dipl_kg_manual"] = 0.0
+        normalized_vals.pop("dipl_kg_manual", None)
+        normalized_vals.pop("dipl_use_manual_kg", None)
         return normalized_vals
 
     @api.model_create_multi
@@ -612,25 +515,23 @@ class SaleOrderLine(models.Model):
         prepared_vals_list = []
         product_model = self.env["product.product"]
         for vals in vals_list:
-            new_vals = dict(vals)
+            new_vals = self._dipl_sanitize_technical_vals(vals)
             if "product_id" in new_vals:
                 product = product_model.browse(new_vals["product_id"])
                 snapshot_vals = self.env["sale.order.line"]._dipl_prepare_snapshot_vals(
                     product
                 )
                 new_vals.update(snapshot_vals)
-            new_vals = self._dipl_normalize_create_kg_mode_vals(new_vals)
             prepared_vals_list.append(new_vals)
         return super().create(prepared_vals_list)
 
     def write(self, vals):
-        vals = dict(vals)
+        vals = self._dipl_sanitize_technical_vals(vals)
 
         if "product_id" not in vals:
             result = True
             for line in self:
                 line_vals = line._dipl_protect_snapshot_vals(vals)
-                line_vals = line._dipl_normalize_kg_mode_vals(line_vals)
                 force_recompute = line._dipl_needs_manual_final_price_reset(
                     extra_vals=line_vals
                 )
@@ -656,7 +557,6 @@ class SaleOrderLine(models.Model):
             line_vals = dict(vals)
             if not line.display_type:
                 line_vals.update(snapshot_vals)
-            line_vals = line._dipl_normalize_kg_mode_vals(line_vals)
             force_recompute = line._dipl_needs_manual_final_price_reset(
                 extra_vals=line_vals
             )
@@ -667,25 +567,3 @@ class SaleOrderLine(models.Model):
                 line.with_context(force_price_recomputation=force_recompute),
             ).write(line_vals)
         return result
-
-    @api.constrains("dipl_use_manual_kg", "dipl_kg_manual", "dipl_is_technical_line")
-    def _check_dipl_manual_kg(self):
-        for line in self:
-            if (
-                line._dipl_get_kg_mode() == "manual_kg"
-                and line.dipl_use_manual_kg
-                and line.dipl_kg_manual <= 0
-            ):
-                raise ValidationError(
-                    "Manual kg must be greater than zero when manual override is enabled."
-                )
-
-    @api.constrains("dipl_is_technical_line", "dipl_development_mm", "dipl_width_mm")
-    def _check_dipl_kg_mode(self):
-        for line in self:
-            if not line.dipl_is_technical_line:
-                continue
-            if line._dipl_get_kg_mode() == "invalid":
-                raise ValidationError(
-                    "Flat Pattern and Flat Length must both be set or both be empty."
-                )

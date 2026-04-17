@@ -3,7 +3,7 @@
 {
     "name": "Technical Sales Quotation",
     "summary": "Industrial technical quotation over Sales orders",
-    "version": "19.0.1.0.8",
+    "version": "19.0.1.0.9",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",

@@ -24,13 +24,16 @@
 - Technical sales lines now treat manual final prices as temporary overrides that are cleared by any technical change, while `Update Prices` remains the only explicit action that recomputes commercial pricing after a pricelist change.
 - Technical sales lines now resolve kilograms through an explicit internal mode policy: `manual_kg` when both dimensions are empty and `geometry` when both are complete, while invalid mixed-dimension states are rejected.
 - Manual kilogram entry now uses `dipl_kg_manual` as the only editable input in manual mode, while `dipl_kg_total` remains the derived effective value shown readonly for geometry lines.
+- Technical sales lines now follow a geometry-only policy: `Flat Pattern` and `Flat Length` are the only technical inputs, while `Technical Kilograms` is always calculated and readonly.
 
 ### Fixed
 - Hardened `sale.order.line.write()` so partial inline saves can no longer zero-out a healthy technical snapshot and collapse `Kilograms` during save/reload flows.
 - Prevented valid inline manual-kilogram payloads from being lost during line creation and blocked stale visible `Kilograms` values from reactivating manual override during technical edits.
 - Removed the ambiguous kilos override contract so `Kilograms` no longer flips unpredictably between computed and manual states during inline saves; geometry lines now ignore manual kg payloads and manual lines consume only `dipl_kg_manual`.
 - Fixed the manual kilos UI flow so editing `Kilograms` in manual mode recalculates `Technical Price` and native `Unit Price` immediately instead of leaving the line at zero until save.
+- Removed the remaining manual-kilograms branch so incomplete technical lines now stay saved in zero without validation errors, and complete lines always price from geometry.
 
 ### Removed
 - Legacy product metadata fields `dipl_material_code`, `dipl_thickness_label`, `dipl_requires_dimensions`, and `dipl_technical_notes` from the technical quotation model.
 - Legacy sales-line metadata fields `dipl_material_code` and `dipl_thickness_label` from the technical snapshot.
+- Manual kilograms fields and related UI flow from the technical sales line model.
