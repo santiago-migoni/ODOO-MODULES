@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dipl_sale_technical_quote 19.0\n"
-"POT-Creation-Date: 2026-04-13 00:00+0000\n"
-"PO-Revision-Date: 2026-04-13 00:00+0000\n"
+"POT-Creation-Date: 2026-04-18 00:00+0000\n"
+"PO-Revision-Date: 2026-04-18 00:00+0000\n"
 "Last-Translator: Codex\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -10,3 +10,93 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Technical Quote Product"
+msgstr "Producto de cotización técnica"
+
+msgid "Enable industrial quotation behavior for this product."
+msgstr "Habilita el comportamiento de cotización industrial para este producto."
+
+msgid "Thickness"
+msgstr "Espesor"
+
+msgid "Density"
+msgstr "Densidad"
+
+msgid "Physical density used by the technical quotation formula."
+msgstr "Densidad física utilizada por la fórmula de cotización técnica."
+
+msgid "Theoretical Kilograms"
+msgstr "Kilogramos teóricos"
+
+msgid "Theoretical kilograms per square meter derived from density and thickness."
+msgstr "Kilogramos teóricos por metro cuadrado derivados de densidad y espesor."
+
+msgid "Technical quote products require a thickness greater than zero."
+msgstr "Los productos de cotización técnica requieren un espesor mayor que cero."
+
+msgid "Technical quote products require a material density greater than zero."
+msgstr "Los productos de cotización técnica requieren una densidad de material mayor que cero."
+
+msgid "Technical price per kg cannot be negative."
+msgstr "El precio técnico por kilogramo no puede ser negativo."
+
+msgid "Technical Quote Line"
+msgstr "Línea de cotización técnica"
+
+msgid "Indicates that this sales line uses the technical quotation flow."
+msgstr "Indica que esta línea de venta utiliza el flujo de cotización técnica."
+
+msgid "Flat Pattern"
+msgstr "Desarrollo"
+
+msgid "Flat Length"
+msgstr "Largo"
+
+msgid "Thickness (mm)"
+msgstr "Espesor (mm)"
+
+msgid "Material Density"
+msgstr "Densidad del material"
+
+msgid "Technical Price"
+msgstr "Precio técnico"
+
+msgid "Technical Kilograms"
+msgstr "Kilogramos técnicos"
+
+msgid "Geometry"
+msgstr "Geometría"
+
+msgid "Incomplete"
+msgstr "Incompleto"
+
+msgid "Kg Mode"
+msgstr "Modo de kilogramos"
+
+msgid "Technical Total"
+msgstr "Total técnico"
+
+msgid "Technical Unit Price"
+msgstr "Precio unitario técnico"
+
+msgid "Can Compute Technical Pricing"
+msgstr "Puede calcular precio técnico"
+
+msgid "Has Manual Final Price"
+msgstr "Tiene precio final manual"
+
+msgid "Technical"
+msgstr "Técnico"
+
+msgid "Pricelist Adjusted"
+msgstr "Ajustado por tarifa"
+
+msgid "Manual Final Price"
+msgstr "Precio final manual"
+
+msgid "Pricing State"
+msgstr "Estado de precio"
+
+msgid "Technical Quotation"
+msgstr "Cotización técnica"
