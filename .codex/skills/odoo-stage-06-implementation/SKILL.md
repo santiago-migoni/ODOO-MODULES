@@ -21,19 +21,22 @@ Use `odoo-project-management` when implementation needs sprint backlog control, 
 2. Apply backend, view, security, data, test, and i18n changes coherently.
 3. Keep traceability from code changes to acceptance criteria.
 4. Update the affected module `CHANGELOG.md` under `## Unreleased` whenever a slice introduces relevant functional, technical, compatibility, hardening, or testing impact.
-5. Validate each slice before moving to the next one.
-6. Record deviations, tradeoffs, follow-up items, and changelog exceptions when relevant.
+5. Update the affected module `README.md` whenever a slice changes current functionality, operator workflow, integration behavior, or the module's declared operating policy.
+6. Validate each slice before moving to the next one.
+7. Record deviations, tradeoffs, follow-up items, and changelog or README exceptions when relevant.
 
 ## Outputs
 - Slice-by-slice implementation plan and execution log.
 - Traceability map from code changes to acceptance criteria.
 - Implementation notes for QA and UAT preparation.
 - Changelog status for each affected module before QA handoff.
+- README status for each affected module before QA handoff.
 
 ## Definition of Done
 - Each planned slice is implemented and validated.
 - No accepted slice lacks test or translation consideration.
 - No completed slice omits required changelog consideration for the affected module.
+- No completed slice omits required README consideration for the affected module.
 - Technical and functional traceability is preserved.
 
 ## Handoff
@@ -42,6 +45,7 @@ Provide the stage output to `$odoo-stage-07-validation-qa` including:
 - Test targets and known risk areas.
 - Evidence links for acceptance-criterion coverage.
 - Current `CHANGELOG.md` status for the affected modules.
+- Current `README.md` status for the affected modules.
 
 ## Related References
 - Use `references/deliverable-template.md` for the implementation handoff structure.

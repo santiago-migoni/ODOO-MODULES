@@ -21,19 +21,22 @@ Use `odoo-project-management` when QA outputs must feed sprint review decisions,
 2. Prioritize tests by business criticality and risk exposure.
 3. Define severity model and release-blocking conditions.
 4. Verify that module `CHANGELOG.md` entries match the implemented and validated scope.
-5. Execute or plan targeted tests with evidence requirements.
-6. Produce go/no-go recommendation for UAT.
+5. Verify that module `README.md` matches the current validated scope and operator-facing behavior.
+6. Execute or plan targeted tests with evidence requirements.
+7. Produce go/no-go recommendation for UAT.
 
 ## Outputs
 - QA matrix with test scope, ownership, and priority.
 - Defect severity model with blocking thresholds.
 - Validation summary and UAT entry recommendation.
 - Confirmation that the changelog reflects the validated scope, or an explicit mismatch report.
+- Confirmation that the README reflects the validated scope, or an explicit mismatch report.
 
 ## Definition of Done
 - Coverage minimum is defined and evidence-backed.
 - Blocking severity conditions are explicit.
 - Changelog content does not contradict the approved scope or validation evidence.
+- README content does not contradict the approved scope or validation evidence.
 - UAT entry criteria are met or clearly blocked.
 
 ## Handoff

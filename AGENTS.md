@@ -91,6 +91,28 @@ Repository support notes:
 - `.docs/` may complement delivery traceability, but it does not replace `CHANGELOG.md`.
 - Changelog content must be manual and curated; do not generate it mechanically from commits.
 
+## README Policy
+
+Every installable `dipl_*` module must include `README.md` at the module root.
+README ownership is per module, not global to the repository.
+
+Minimum README content must cover:
+- Module purpose and business intent.
+- Current functional policy and operating model.
+- Main dependencies and configuration assumptions.
+- Main user-visible flows, fields, or integration contracts.
+- Known limitations, validation notes, or operational caveats when relevant.
+
+Operational rules:
+- When scaffolding a new module, create `README.md` as part of the baseline module structure.
+- When a module changes in ways that affect functionality, operator workflow, pricing logic, integration behavior, or current implementation policy, update `README.md`.
+- Before promoting a branch to test, `README.md` must match the validated module scope and current behavior.
+- Missing or outdated module README content blocks promotion recommendation to test and production.
+
+Repository support notes:
+- `.docs/` may complement implementation or QA detail, but it does not replace the module `README.md`.
+- `README.md` should describe the module as it currently behaves, not as it behaved in previous intermediate iterations.
+
 ## Skill-first execution
 
 Use `$skill` activation for operational flows.
