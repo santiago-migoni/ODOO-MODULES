@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 19.0.1.1.0 - 2026-04-21
+
 ### Added
 - Initial Odoo 19 module scaffolding for technical industrial quotations over Sales.
 - Product-side technical quotation fields for technical products, including thickness, density, and theoretical kilograms.

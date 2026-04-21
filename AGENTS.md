@@ -91,6 +91,21 @@ Repository support notes:
 - `.docs/` may complement delivery traceability, but it does not replace `CHANGELOG.md`.
 - Changelog content must be manual and curated; do not generate it mechanically from commits.
 
+## Manifest Version Policy
+
+For Dipleg installable modules, `__manifest__.py["version"]` must use the format `19.0.x.y.z`.
+
+Semantic meaning:
+- `x` = version
+- `y` = improvement
+- `z` = corrections
+
+Operational rules:
+- Increment `x` for a new functional release line or scope version that materially changes the delivered module contract.
+- Increment `y` for additive or release-level improvements that remain within the same functional release line.
+- Increment `z` for corrective fixes, hardening, or patch-level adjustments within the same release/improvement line.
+- Keep the Odoo major prefix aligned with the target framework version (`19.0` for Odoo 19).
+
 ## README Policy
 
 Every installable `dipl_*` module must include `README.md` at the module root.
