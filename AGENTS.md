@@ -60,7 +60,7 @@ Usage boundaries:
 3. Promote to test branches for production-data validation.
 4. Run exhaustive manual audit before production promotion.
 5. Merge to `master` only through reviewed PRs from test branches.
-6. Keep translations in `i18n/es.po`.
+6. Keep translations in `i18n/<locale>.po`; use `i18n/es.po` as the default Spanish fallback, and use regional files such as `i18n/es_AR.po` when the operating language requires locale-specific translations.
 
 ## Quality gates
 

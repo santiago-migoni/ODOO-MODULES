@@ -3,7 +3,7 @@
 prefix_rule(
     ["git", "push"],
     decision = "prompt",
-    justification = "Before push, confirm Odoo critical gates: tests, i18n/es.po, and manifest coherence."
+    justification = "Before push, confirm Odoo critical gates: tests, i18n/<locale>.po coverage, and manifest coherence."
 )
 
 prefix_rule(
