@@ -1,0 +1,204 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dipl_sale_technical_quote
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260409\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-21 15:01+0000\n"
+"PO-Revision-Date: 2026-04-21 15:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dipl_sale_technical_quote
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_form_view_technical_lines
+msgid "<span class=\"ms-1\">mm</span>"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_can_compute
+msgid "Can Compute Technical Pricing"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_material_density
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_material_density
+msgid "Density"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist__display_name
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist_item__display_name
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__display_name
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nombre en pantalla"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_is_technical_quote_product
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_template__dipl_is_technical_quote_product
+msgid "Enable industrial quotation behavior for this product."
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_width_mm
+msgid "Flat Length"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_development_mm
+msgid "Flat Pattern"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_kg_mode__geometry
+msgid "Geometry"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_has_manual_final_price
+msgid "Has Manual Final Price"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist__id
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist_item__id
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__id
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_kg_mode__incomplete
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_pricing_state__incomplete
+msgid "Incomplete"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_sale_order_line__dipl_is_technical_line
+msgid "Indicates that this sales line uses the technical quotation flow."
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_mode
+msgid "Kg Mode"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_pricing_state__manual_final
+msgid "Manual Final Price"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_material_density
+msgid "Material Density"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_material_density
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_template__dipl_material_density
+msgid "Physical density used by the technical quotation formula."
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model,name:dipl_sale_technical_quote.model_product_pricelist
+msgid "Pricelist"
+msgstr "Lista de precios"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_pricing_state__pricelist_adjusted
+msgid "Pricelist Adjusted"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model,name:dipl_sale_technical_quote.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Regla de la lista de precios"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_pricing_state
+msgid "Pricing State"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model,name:dipl_sale_technical_quote.model_product_template
+msgid "Product"
+msgstr "Producto"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model,name:dipl_sale_technical_quote.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de la orden de venta"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_pricing_state__technical
+msgid "Technical"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_computed
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_total
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_form_view_technical_lines
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_line_view_form_readonly_technical
+msgid "Technical Kilograms"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_price_per_kg
+msgid "Technical Price"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_product_template_form_view_technical_quote
+msgid "Technical Quotation"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_is_technical_line
+msgid "Technical Quote Line"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_is_technical_quote_product
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_is_technical_quote_product
+msgid "Technical Quote Product"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_technical_total
+msgid "Technical Total"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_technical_price_unit
+msgid "Technical Unit Price"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_theoretical_kg
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_theoretical_kg
+msgid "Theoretical Kilograms"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_theoretical_kg
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_template__dipl_theoretical_kg
+msgid ""
+"Theoretical kilograms per square meter derived from density and thickness."
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_thickness_mm
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_thickness_mm
+msgid "Thickness"
+msgstr ""
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_thickness_mm
+msgid "Thickness (mm)"
+msgstr ""
