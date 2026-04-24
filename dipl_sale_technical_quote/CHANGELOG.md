@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 19.0.1.2.0 - 2026-04-24
+
+### Added
+- Product-side `Geometric Factor` for technical products to support special sheet geometries such as expanded, perforated, or other non-flat effective-weight products.
+- Sales-line snapshot of `Theoretical Kilograms` as the technical kg-per-square-meter source used by quotation calculations.
+
+### Changed
+- `Theoretical Kilograms` now derives from density, thickness, and geometric factor.
+- Technical sales lines now calculate kilograms from the product theoretical kg snapshot instead of recalculating from density and thickness on the line.
+- Technical sales lines now keep only theoretical kilograms and price per kg as critical calculation snapshots.
+
 ## 19.0.1.1.0 - 2026-04-21
 
 ### Added

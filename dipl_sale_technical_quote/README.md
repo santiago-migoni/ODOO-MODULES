@@ -3,7 +3,7 @@
 Modulo custom para Odoo 19 que agrega cotizacion tecnica industrial sobre `sale.order.line`.
 
 El modulo esta orientado al flujo actual de Dipleg:
-- productos tecnicos configurados con espesor, densidad y precio por kilogramo,
+- productos tecnicos configurados con espesor, densidad, factor geometrico y precio por kilogramo,
 - lineas de venta tecnicas calculadas por `Flat Pattern` + `Flat Length`,
 - `Technical Kilograms` siempre calculado,
 - integracion con `price_unit`, impuestos y pricelists nativas de Odoo.
@@ -32,11 +32,14 @@ En `product.template` el modulo agrega:
 - `Technical Quote Product`
 - `Thickness`
 - `Density`
+- `Geometric Factor`
 - `Theoretical Kilograms`
 
 Reglas:
 - si el producto es tecnico, `Thickness` debe ser mayor a `0`,
 - `Density` debe ser mayor a `0`,
+- `Geometric Factor` debe ser mayor a `0`,
+- `Theoretical Kilograms` se calcula como densidad x espesor x factor geometrico,
 - `Sales Price` (`list_price`) se usa como precio maestro por kilogramo.
 
 ### Linea de venta tecnica
@@ -48,19 +51,17 @@ En `sale.order.line` el modulo usa:
 - `Technical Price`
 
 Campos internos de snapshot:
-- `dipl_thickness_mm`
-- `dipl_material_density`
+- `dipl_theoretical_kg`
 - `dipl_price_per_kg`
 
-Esos campos quedan ocultos del flujo normal de ventas y se usan para preservar el historico tecnico de la linea.
+Esos campos quedan ocultos del flujo normal de ventas y se usan para preservar el historico tecnico de calculo de la linea.
 
 ## Comportamiento funcional
 
 ### 1. Snapshot tecnico
 
 Cuando una linea toma un producto tecnico, el modulo copia a la linea:
-- espesor,
-- densidad,
+- kilogramos teoricos por metro cuadrado,
 - precio por kilogramo.
 
 Ese snapshot:
@@ -78,6 +79,9 @@ entonces calcula:
 - `Technical Kilograms`
 - `Technical Total`
 - `Technical Unit Price`
+
+La formula de linea usa el snapshot de `Theoretical Kilograms` del producto:
+- `Technical Kilograms = Theoretical Kilograms x Flat Pattern x Flat Length x Quantity / 1.000.000`
 
 Si falta una o ambas medidas:
 - la linea queda `incomplete`,
@@ -107,7 +111,9 @@ Contrato actual:
 2. Activar `Technical Quote Product`.
 3. Cargar `Thickness`.
 4. Cargar `Density`.
-5. Definir `Sales Price` como precio por kilogramo.
+5. Cargar `Geometric Factor`.
+6. Verificar `Theoretical Kilograms`.
+7. Definir `Sales Price` como precio por kilogramo.
 
 ### Cotizacion tecnica
 

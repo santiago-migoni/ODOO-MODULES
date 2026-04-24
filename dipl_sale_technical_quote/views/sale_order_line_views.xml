@@ -8,6 +8,7 @@
             <xpath expr="//field[@name='price_unit']" position="after">
                 <field name="dipl_development_mm" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_width_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_theoretical_kg" invisible="1"/>
                 <field name="dipl_price_per_kg" readonly="1" invisible="not dipl_is_technical_line"/>
                 <field name="dipl_kg_mode" invisible="1"/>
                 <field name="dipl_kg_total" string="Technical Kilograms" invisible="not dipl_is_technical_line"/>

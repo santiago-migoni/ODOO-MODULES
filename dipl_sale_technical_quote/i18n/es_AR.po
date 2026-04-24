@@ -32,6 +32,18 @@ msgid "Density"
 msgstr "Densidad"
 
 #. module: dipl_sale_technical_quote
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_geometric_factor
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_geometric_factor
+msgid "Geometric Factor"
+msgstr "Factor geométrico"
+
+#. module: dipl_sale_technical_quote
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_geometric_factor
+#: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_template__dipl_geometric_factor
+msgid "Geometry correction factor used to derive theoretical kilograms per square meter."
+msgstr "Factor de corrección geométrica usado para obtener los kilogramos teóricos por metro cuadrado."
+
+#. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist__display_name
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist_item__display_name
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__display_name
@@ -93,11 +105,6 @@ msgstr "Modo de kilogramos"
 #: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_pricing_state__manual_final
 msgid "Manual Final Price"
 msgstr "Precio final manual"
-
-#. module: dipl_sale_technical_quote
-#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_material_density
-msgid "Material Density"
-msgstr "Densidad del material"
 
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_material_density
@@ -182,6 +189,7 @@ msgstr "Precio unitario técnico"
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_theoretical_kg
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_theoretical_kg
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_theoretical_kg
 msgid "Theoretical Kilograms"
 msgstr "Kilogramos teóricos"
 
@@ -189,16 +197,16 @@ msgstr "Kilogramos teóricos"
 #: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_product__dipl_theoretical_kg
 #: model:ir.model.fields,help:dipl_sale_technical_quote.field_product_template__dipl_theoretical_kg
 msgid ""
-"Theoretical kilograms per square meter derived from density and thickness."
-msgstr "Kilogramos teóricos por metro cuadrado derivados de la densidad y el espesor."
+"Theoretical kilograms per square meter derived from density, thickness, and geometric factor."
+msgstr "Kilogramos teóricos por metro cuadrado derivados de la densidad, el espesor y el factor geométrico."
+
+#. module: dipl_sale_technical_quote
+#: code:addons/dipl_sale_technical_quote/models/product_template.py:0
+msgid "Technical quote products require a geometric factor greater than zero."
+msgstr "Los productos de cotización técnica requieren un factor geométrico mayor que cero."
 
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_thickness_mm
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_thickness_mm
 msgid "Thickness"
 msgstr "Espesor"
-
-#. module: dipl_sale_technical_quote
-#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_thickness_mm
-msgid "Thickness (mm)"
-msgstr "Espesor (mm)"

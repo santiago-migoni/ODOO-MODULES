@@ -5,8 +5,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     _DIPL_CRITICAL_SNAPSHOT_FIELDS = (
-        "dipl_thickness_mm",
-        "dipl_material_density",
+        "dipl_theoretical_kg",
         "dipl_price_per_kg",
     )
     _DIPL_FINAL_PRICE_RESET_TRIGGER_FIELDS = (
@@ -29,13 +28,9 @@ class SaleOrderLine(models.Model):
         string="Flat Length",
         digits=(16, 2),
     )
-    dipl_thickness_mm = fields.Float(
-        string="Thickness (mm)",
+    dipl_theoretical_kg = fields.Float(
+        string="Theoretical Kilograms",
         digits=(16, 4),
-    )
-    dipl_material_density = fields.Float(
-        string="Material Density",
-        digits=(16, 6),
     )
     dipl_price_per_kg = fields.Monetary(
         string="Technical Price",
@@ -140,12 +135,10 @@ class SaleOrderLine(models.Model):
         if (
             kg_mode == "geometry"
             and self.product_uom_qty > 0
-            and self.dipl_thickness_mm > 0
-            and self.dipl_material_density > 0
+            and self.dipl_theoretical_kg > 0
         ):
             computed_kg = (
-                self.dipl_material_density
-                * self.dipl_thickness_mm
+                self.dipl_theoretical_kg
                 * self.dipl_development_mm
                 * self.dipl_width_mm
                 * self.product_uom_qty
@@ -201,8 +194,7 @@ class SaleOrderLine(models.Model):
         "product_uom_qty",
         "dipl_development_mm",
         "dipl_width_mm",
-        "dipl_thickness_mm",
-        "dipl_material_density",
+        "dipl_theoretical_kg",
         "dipl_price_per_kg",
     )
     def _compute_dipl_can_compute(self):
@@ -213,8 +205,7 @@ class SaleOrderLine(models.Model):
                 and kg_mode == "geometry"
                 and line.product_uom_qty > 0
                 and line.dipl_price_per_kg >= 0
-                and line.dipl_thickness_mm > 0
-                and line.dipl_material_density > 0
+                and line.dipl_theoretical_kg > 0
             )
 
     @api.depends(
@@ -222,8 +213,7 @@ class SaleOrderLine(models.Model):
         "product_uom_qty",
         "dipl_development_mm",
         "dipl_width_mm",
-        "dipl_thickness_mm",
-        "dipl_material_density",
+        "dipl_theoretical_kg",
     )
     def _compute_dipl_kg_values(self):
         for line in self:
@@ -375,16 +365,14 @@ class SaleOrderLine(models.Model):
             return self._dipl_prepare_snapshot_clear_vals()
         return {
             "dipl_is_technical_line": True,
-            "dipl_thickness_mm": product_tmpl.dipl_thickness_mm,
-            "dipl_material_density": product_tmpl.dipl_material_density,
+            "dipl_theoretical_kg": product_tmpl.dipl_theoretical_kg,
             "dipl_price_per_kg": product_tmpl.list_price,
         }
 
     def _dipl_prepare_snapshot_clear_vals(self):
         return {
             "dipl_is_technical_line": False,
-            "dipl_thickness_mm": 0.0,
-            "dipl_material_density": 0.0,
+            "dipl_theoretical_kg": 0.0,
             "dipl_price_per_kg": 0.0,
         }
 
@@ -428,8 +416,7 @@ class SaleOrderLine(models.Model):
 
     def _dipl_is_incomplete_snapshot_state(self, snapshot_state):
         return bool(
-            snapshot_state["dipl_thickness_mm"] <= 0
-            or snapshot_state["dipl_material_density"] <= 0
+            snapshot_state["dipl_theoretical_kg"] <= 0
             or snapshot_state["dipl_price_per_kg"] < 0
         )
 
@@ -441,13 +428,12 @@ class SaleOrderLine(models.Model):
         snapshot_state = self._dipl_get_critical_snapshot_state(extra_vals=extra_vals)
         if snapshot_state["dipl_price_per_kg"] == 0.0:
             return bool(self.product_id.product_tmpl_id.list_price != 0.0) or (
-                snapshot_state["dipl_thickness_mm"] <= 0
-                or snapshot_state["dipl_material_density"] <= 0
+                snapshot_state["dipl_theoretical_kg"] <= 0
             )
         return self._dipl_is_incomplete_snapshot_state(snapshot_state)
 
     def _dipl_is_valid_snapshot_value(self, field_name, value):
-        if field_name in ("dipl_thickness_mm", "dipl_material_density"):
+        if field_name == "dipl_theoretical_kg":
             return value and value > 0
         if field_name == "dipl_price_per_kg":
             return value is not False and value is not None and value > 0
@@ -487,10 +473,8 @@ class SaleOrderLine(models.Model):
 
         snapshot_state = self._dipl_get_critical_snapshot_state(extra_vals=extra_vals)
         vals = {}
-        if snapshot_state["dipl_thickness_mm"] <= 0:
-            vals["dipl_thickness_mm"] = product_tmpl.dipl_thickness_mm
-        if snapshot_state["dipl_material_density"] <= 0:
-            vals["dipl_material_density"] = product_tmpl.dipl_material_density
+        if snapshot_state["dipl_theoretical_kg"] <= 0:
+            vals["dipl_theoretical_kg"] = product_tmpl.dipl_theoretical_kg
         if snapshot_state["dipl_price_per_kg"] == 0.0 and product_tmpl.list_price != 0.0:
             vals["dipl_price_per_kg"] = product_tmpl.list_price
         return vals
@@ -508,6 +492,8 @@ class SaleOrderLine(models.Model):
         normalized_vals.pop("dipl_kg_total", None)
         normalized_vals.pop("dipl_kg_manual", None)
         normalized_vals.pop("dipl_use_manual_kg", None)
+        normalized_vals.pop("dipl_thickness_mm", None)
+        normalized_vals.pop("dipl_material_density", None)
         return normalized_vals
 
     @api.model_create_multi

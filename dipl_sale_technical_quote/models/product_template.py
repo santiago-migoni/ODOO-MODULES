@@ -18,20 +18,34 @@ class ProductTemplate(models.Model):
         digits=(16, 6),
         help="Physical density used by the technical quotation formula.",
     )
+    dipl_geometric_factor = fields.Float(
+        string="Geometric Factor",
+        digits=(16, 6),
+        help="Geometry correction factor used to derive theoretical kilograms per square meter.",
+    )
     dipl_theoretical_kg = fields.Float(
         string="Theoretical Kilograms",
         digits=(16, 4),
         compute="_compute_dipl_theoretical_kg",
         store=True,
-        help="Theoretical kilograms per square meter derived from density and thickness.",
+        help="Theoretical kilograms per square meter derived from density, thickness, and geometric factor.",
     )
 
-    @api.depends("dipl_thickness_mm", "dipl_material_density")
+    @api.depends(
+        "dipl_thickness_mm",
+        "dipl_material_density",
+        "dipl_geometric_factor",
+    )
     def _compute_dipl_theoretical_kg(self):
         for product in self:
-            if product.dipl_thickness_mm > 0 and product.dipl_material_density > 0:
+            if (
+                product.dipl_thickness_mm > 0
+                and product.dipl_material_density > 0
+                and product.dipl_geometric_factor > 0
+            ):
                 product.dipl_theoretical_kg = (
                     product.dipl_material_density * product.dipl_thickness_mm
+                    * product.dipl_geometric_factor
                 )
             else:
                 product.dipl_theoretical_kg = 0.0
@@ -72,6 +86,7 @@ class ProductTemplate(models.Model):
         "dipl_is_technical_quote_product",
         "dipl_thickness_mm",
         "dipl_material_density",
+        "dipl_geometric_factor",
         "list_price",
     )
     def _check_dipl_technical_quote_fields(self):
@@ -85,6 +100,10 @@ class ProductTemplate(models.Model):
             if product.dipl_material_density <= 0:
                 raise ValidationError(
                     "Technical quote products require a material density greater than zero."
+                )
+            if product.dipl_geometric_factor <= 0:
+                raise ValidationError(
+                    "Technical quote products require a geometric factor greater than zero."
                 )
             if product.list_price < 0:
                 raise ValidationError("Technical price per kg cannot be negative.")

@@ -5,6 +5,7 @@ class TestTechnicalQuoteModuleInstall(TransactionCase):
     def test_technical_quote_product_fields_exist(self):
         product = self.env["product.template"]
         self.assertIn("dipl_is_technical_quote_product", product._fields)
+        self.assertIn("dipl_geometric_factor", product._fields)
         self.assertIn("dipl_theoretical_kg", product._fields)
         self.assertNotIn("dipl_price_per_kg", product._fields)
         self.assertNotIn("dipl_material_code", product._fields)
@@ -19,8 +20,9 @@ class TestTechnicalQuoteModuleInstall(TransactionCase):
         self.assertIn("dipl_width_mm", line._fields)
         self.assertNotIn("dipl_material_code", line._fields)
         self.assertNotIn("dipl_thickness_label", line._fields)
-        self.assertIn("dipl_thickness_mm", line._fields)
-        self.assertIn("dipl_material_density", line._fields)
+        self.assertNotIn("dipl_thickness_mm", line._fields)
+        self.assertNotIn("dipl_material_density", line._fields)
+        self.assertIn("dipl_theoretical_kg", line._fields)
         self.assertIn("dipl_price_per_kg", line._fields)
         self.assertIn("dipl_kg_computed", line._fields)
         self.assertIn("dipl_kg_total", line._fields)

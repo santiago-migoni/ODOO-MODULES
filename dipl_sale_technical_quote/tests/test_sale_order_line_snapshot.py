@@ -1,3 +1,4 @@
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -14,6 +15,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
                 "dipl_is_technical_quote_product": True,
                 "dipl_thickness_mm": 1.2,
                 "dipl_material_density": 7.85,
+                "dipl_geometric_factor": 1.0,
             }
         )
         cls.product_technical_b = cls.env["product.template"].create(
@@ -24,6 +26,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
                 "dipl_is_technical_quote_product": True,
                 "dipl_thickness_mm": 1.6,
                 "dipl_material_density": 8.15,
+                "dipl_geometric_factor": 1.0,
             }
         )
         cls.product_standard = cls.env["product.template"].create(
@@ -74,16 +77,14 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             }
         )
         self.assertTrue(line.dipl_is_technical_line)
-        self.assertEqual(line.dipl_thickness_mm, 1.2)
-        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_theoretical_kg, 9.42)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
 
     def test_snapshot_is_replaced_when_product_changes(self):
         line = self._create_geometry_line(product_uom_qty=1.0, name="Tech line change")
         line.write({"product_id": self.product_technical_b.product_variant_id.id})
         self.assertTrue(line.dipl_is_technical_line)
-        self.assertEqual(line.dipl_thickness_mm, 1.6)
-        self.assertEqual(line.dipl_material_density, 8.15)
+        self.assertEqual(line.dipl_theoretical_kg, 13.04)
         self.assertEqual(line.dipl_price_per_kg, 125.0)
         self.assertEqual(line.dipl_kg_mode, "geometry")
         self.assertAlmostEqual(line.dipl_technical_price_unit, 8.15, places=2)
@@ -101,8 +102,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         line.write({"product_id": self.product_standard.product_variant_id.id})
         self.assertFalse(line.dipl_is_technical_line)
         self.assertFalse(line.dipl_kg_mode)
-        self.assertEqual(line.dipl_thickness_mm, 0.0)
-        self.assertEqual(line.dipl_material_density, 0.0)
+        self.assertEqual(line.dipl_theoretical_kg, 0.0)
         self.assertEqual(line.dipl_price_per_kg, 0.0)
 
     def test_snapshot_is_not_resynced_after_product_update(self):
@@ -122,14 +122,12 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         line = self._create_geometry_line(name="Tech line reload snapshot")
         line.invalidate_recordset(
             [
-                "dipl_thickness_mm",
-                "dipl_material_density",
+                "dipl_theoretical_kg",
                 "dipl_price_per_kg",
                 "dipl_kg_total",
             ]
         )
-        self.assertEqual(line.dipl_thickness_mm, 1.2)
-        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_theoretical_kg, 9.42)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
         self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
 
@@ -137,15 +135,13 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         line = self._create_geometry_line(name="Tech line rehydrate snapshot")
         line.write(
             {
-                "dipl_thickness_mm": 0.0,
-                "dipl_material_density": 0.0,
+                "dipl_theoretical_kg": 0.0,
                 "dipl_price_per_kg": 0.0,
             }
         )
         self.assertEqual(line.dipl_kg_total, 0.0)
         line.write({"name": "Tech line rehydrated"})
-        self.assertEqual(line.dipl_thickness_mm, 1.2)
-        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_theoretical_kg, 9.42)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
         self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
 
@@ -154,14 +150,12 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
         line.write(
             {
-                "dipl_thickness_mm": 0.0,
-                "dipl_material_density": 0.0,
+                "dipl_theoretical_kg": 0.0,
                 "dipl_price_per_kg": 0.0,
                 "dipl_width_mm": 75.0,
             }
         )
-        self.assertEqual(line.dipl_thickness_mm, 1.2)
-        self.assertEqual(line.dipl_material_density, 7.85)
+        self.assertEqual(line.dipl_theoretical_kg, 9.42)
         self.assertEqual(line.dipl_price_per_kg, 100.0)
         self.assertAlmostEqual(line.dipl_kg_total, 0.1413, places=4)
 
@@ -169,6 +163,23 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         self.assertAlmostEqual(
             self.product_technical_a.dipl_theoretical_kg, 9.42, places=2
         )
+        self.product_technical_a.dipl_geometric_factor = 0.5
+        self.assertAlmostEqual(
+            self.product_technical_a.dipl_theoretical_kg, 4.71, places=2
+        )
+
+    def test_technical_products_require_geometric_factor(self):
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                {
+                    "name": "Tech Product Missing Factor",
+                    "sale_ok": True,
+                    "list_price": 100.0,
+                    "dipl_is_technical_quote_product": True,
+                    "dipl_thickness_mm": 1.2,
+                    "dipl_material_density": 7.85,
+                }
+            )
 
     def test_geometry_mode_computes_kilograms_by_default(self):
         line = self._create_geometry_line(name="Tech line geometry mode")
