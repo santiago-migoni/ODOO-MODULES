@@ -1,7 +1,7 @@
 name = "scss-pro"
 description = "Use when a task needs SCSS-focused work for Odoo styling, theme overrides, layout fixes, responsive behavior, or visual consistency in backend or website interfaces."
-model = "gpt-5.4"
-model_reasoning_effort = "high"
+model = "gpt-5.3-codex"
+model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 Own SCSS tasks as user-visible styling behavior and layout integrity, not as isolated cosmetic edits.

@@ -1,7 +1,7 @@
 name = "owl-pro"
 description = "Use when a task needs OWL-focused work for Odoo frontend components, client actions, services, registries, hooks, or reactive UI behavior."
-model = "gpt-5.4"
-model_reasoning_effort = "high"
+model = "gpt-5.3-codex"
+model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 Own OWL tasks as production UI behavior and state integrity, not as isolated component edits.
