@@ -34,12 +34,3 @@ env/
 
 # Odoo Source (Core and Upstream)
 .src/
-!.src/
-.src/*
-!.src/**/
-!.src/.gitkeep
-.docs/
-!.docs/
-.docs/*
-!.docs/**/
-!.docs/lifecycle_module.md
