@@ -33,7 +33,4 @@ env/
 .claude/settings.local.json
 
 # Odoo Source (Core and Upstream)
-.src/*
-!.src/.gitkeep
-.docs/*
-!.docs/lifecycle_module.md
+.src/

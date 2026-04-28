@@ -35,6 +35,26 @@ Repository support areas:
 - `.src/`: local Odoo Community clone for framework and base-module analysis.
 - `requirements.txt`: global Python dependency baseline for modules in this repository.
 
+## Terminal tooling
+
+Use `rtk` as the preferred terminal proxy for read-heavy inspection and compact command output when it improves signal quality.
+Use only subcommands currently available in `rtk --help`; do not assume aliases or unsupported verbs.
+Prefer the token-optimized wrappers listed by `rtk --help` over raw shell commands whenever they cover the same task.
+
+Preferred `rtk` commands:
+- `rtk read` for file reading.
+- `rtk find` and `rtk tree` for repository exploration.
+- `rtk diff` for compact change review.
+- `rtk grep` for filtered text search output.
+- `rtk git` for read-only Git inspection when concise output is useful.
+- `rtk test`, `rtk err`, and `rtk summary` for compact validation and failure-focused output.
+
+Usage boundaries:
+- Do not use `rtk` to bypass repository safety, branch governance, or dependency rules.
+- Treat `rtk git` as read-only by default unless the user explicitly requests a Git mutation.
+- Treat `rtk trust`, `rtk untrust`, `rtk proxy`, and `rtk config` as governance-sensitive commands.
+- If `rtk gain` fails because its tracking database is unavailable, continue with normal `rtk` subcommands instead of blocking work.
+
 ## Operating model
 
 1. Analyze current module state before proposing changes.
@@ -42,7 +62,7 @@ Repository support areas:
 3. Promote to test branches for production-data validation.
 4. Run exhaustive manual audit before production promotion.
 5. Merge to `master` only through reviewed PRs from test branches.
-6. Keep translations in `i18n/es.po`.
+6. Keep translations in `i18n/<locale>.po`; use `i18n/es.po` as the default Spanish fallback, and use regional files such as `i18n/es_AR.po` when the operating language requires locale-specific translations.
 
 ## Quality gates
 
@@ -73,6 +93,43 @@ Repository support notes:
 - `.docs/` may complement delivery traceability, but it does not replace `CHANGELOG.md`.
 - Changelog content must be manual and curated; do not generate it mechanically from commits.
 
+## Manifest Version Policy
+
+For Dipleg installable modules, `__manifest__.py["version"]` must use the format `19.0.x.y.z`.
+
+Semantic meaning:
+- `x` = version
+- `y` = improvement
+- `z` = corrections
+
+Operational rules:
+- Increment `x` for a new functional release line or scope version that materially changes the delivered module contract.
+- Increment `y` for additive or release-level improvements that remain within the same functional release line.
+- Increment `z` for corrective fixes, hardening, or patch-level adjustments within the same release/improvement line.
+- Keep the Odoo major prefix aligned with the target framework version (`19.0` for Odoo 19).
+
+## README Policy
+
+Every installable `dipl_*` module must include `README.md` at the module root.
+README ownership is per module, not global to the repository.
+
+Minimum README content must cover:
+- Module purpose and business intent.
+- Current functional policy and operating model.
+- Main dependencies and configuration assumptions.
+- Main user-visible flows, fields, or integration contracts.
+- Known limitations, validation notes, or operational caveats when relevant.
+
+Operational rules:
+- When scaffolding a new module, create `README.md` as part of the baseline module structure.
+- When a module changes in ways that affect functionality, operator workflow, pricing logic, integration behavior, or current implementation policy, update `README.md`.
+- Before promoting a branch to test, `README.md` must match the validated module scope and current behavior.
+- Missing or outdated module README content blocks promotion recommendation to test and production.
+
+Repository support notes:
+- `.docs/` may complement implementation or QA detail, but it does not replace the module `README.md`.
+- `README.md` should describe the module as it currently behaves, not as it behaved in previous intermediate iterations.
+
 ## Skill-first execution
 
 Use `$skill` activation for operational flows.
@@ -80,6 +137,9 @@ Skills must be self-contained: no hard dependency on other skills or workflow do
 
 Global technical skill:
 - `odoo-19`
+
+Transversal delivery skill:
+- `odoo-project-management`
 
 Lifecycle skills:
 - `odoo-stage-orchestrator`
@@ -111,6 +171,9 @@ Project subagents:
 
 Business and coordination subagents (`business-analyst`, `product-manager`, `project-manager`) are transversal support roles for early lifecycle stages and governance decisions.
 They do not replace lifecycle skills; they help produce clearer artifacts, priorities, and readiness decisions inside the stage flow.
+
+`odoo-project-management` is the transversal delivery governance skill for Agile, Lean, Kanban, and Scrum execution.
+It does not replace lifecycle stages or the `project-manager` subagent; it coordinates backlog, sprint cadence, adaptation, and closure across them.
 
 ## Dependencies
 

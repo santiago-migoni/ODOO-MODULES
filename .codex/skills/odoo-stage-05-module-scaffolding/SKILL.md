@@ -19,7 +19,7 @@ Use `odoo-19` references for manifest, data loading, and view structure conventi
 1. Define the target module inventory and ownership boundaries.
 2. Confirm required baseline files and folders per module.
 3. Define manifest baseline with dependencies and data hooks.
-4. Confirm initial security, views, and i18n placeholders.
+4. Confirm initial security, views, i18n placeholders, and a baseline `README.md`.
 5. Validate scaffolding checklist against Odoo 19 conventions.
 
 ## Outputs
@@ -30,6 +30,7 @@ Use `odoo-19` references for manifest, data loading, and view structure conventi
 ## Definition of Done
 - Minimum module structure is complete and coherent.
 - Manifest baseline is consistent with planned dependencies.
+- Module root includes the required baseline artifacts, including `README.md`.
 - Scaffolding is ready for incremental implementation slices.
 
 ## Handoff

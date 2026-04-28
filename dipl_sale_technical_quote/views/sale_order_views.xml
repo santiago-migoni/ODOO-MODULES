@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dipl_sale_order_form_view_technical_lines" model="ir.ui.view">
+        <field name="name">sale.order.form.technical.lines</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/form/field[@name='display_type']" position="after">
+                <field name="dipl_is_technical_line" invisible="1"/>
+                <field name="dipl_kg_mode" invisible="1"/>
+                <field name="dipl_theoretical_kg" invisible="1"/>
+                <field name="dipl_price_per_kg" invisible="1"/>
+                <field name="dipl_can_compute" invisible="1"/>
+                <field name="dipl_has_manual_final_price" invisible="1"/>
+                <field name="dipl_pricing_state" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//div[@name='ordered_qty']" position="after">
+                <label for="dipl_development_mm" invisible="display_type or not dipl_is_technical_line"/>
+                <div class="o_row" invisible="display_type or not dipl_is_technical_line">
+                    <field name="dipl_development_mm" class="oe_inline"/>
+                    <span class="ms-1">mm</span>
+                </div>
+                <label for="dipl_width_mm" invisible="display_type or not dipl_is_technical_line"/>
+                <div class="o_row" invisible="display_type or not dipl_is_technical_line">
+                    <field name="dipl_width_mm" class="oe_inline"/>
+                    <span class="ms-1">mm</span>
+                </div>
+                <field name="dipl_kg_total" readonly="1" string="Technical Kilograms" invisible="display_type or not dipl_is_technical_line"/>
+                <field name="dipl_price_per_kg" readonly="1" invisible="display_type or not dipl_is_technical_line"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
+                <field name="dipl_is_technical_line" column_invisible="True"/>
+                <field name="dipl_kg_mode" column_invisible="True"/>
+                <field name="dipl_theoretical_kg" column_invisible="True"/>
+                <field name="dipl_development_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_width_mm" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_kg_total" readonly="1" string="Technical Kilograms" invisible="not dipl_is_technical_line"/>
+                <field name="dipl_price_per_kg" readonly="1" invisible="not dipl_is_technical_line"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list" position="attributes">
+                <attribute name="decoration-info"/>
+                <attribute name="decoration-warning"/>
+                <attribute name="decoration-danger"/>
+                <attribute name="decoration-success"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

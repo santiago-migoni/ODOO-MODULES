@@ -1,0 +1,121 @@
+# RTK command governance
+
+prefix_rule(
+    ["rtk", "ls"],
+    decision = "allow",
+    justification = "RTK ls is a safe read-only directory inspection proxy."
+)
+
+prefix_rule(
+    ["rtk", "tree"],
+    decision = "allow",
+    justification = "RTK tree is a safe read-only structure inspection proxy."
+)
+
+prefix_rule(
+    ["rtk", "read"],
+    decision = "allow",
+    justification = "RTK read is a safe read-only file inspection proxy."
+)
+
+prefix_rule(
+    ["rtk", "find"],
+    decision = "allow",
+    justification = "RTK find is a safe read-only repository search proxy."
+)
+
+prefix_rule(
+    ["rtk", "grep"],
+    decision = "allow",
+    justification = "RTK grep is a safe read-only filtered search proxy."
+)
+
+prefix_rule(
+    ["rtk", "diff"],
+    decision = "allow",
+    justification = "RTK diff is a safe read-only change inspection proxy."
+)
+
+prefix_rule(
+    ["rtk", "smart"],
+    decision = "allow",
+    justification = "RTK smart is a safe summarization helper."
+)
+
+prefix_rule(
+    ["rtk", "summary"],
+    decision = "allow",
+    justification = "RTK summary is a safe read-only summarization helper."
+)
+
+prefix_rule(
+    ["rtk", "json"],
+    decision = "allow",
+    justification = "RTK json is a safe output-formatting helper."
+)
+
+prefix_rule(
+    ["rtk", "err"],
+    decision = "allow",
+    justification = "RTK err is a safe failure-focused output filter."
+)
+
+prefix_rule(
+    ["rtk", "test"],
+    decision = "allow",
+    justification = "RTK test is allowed for compact test output."
+)
+
+prefix_rule(
+    ["rtk", "wc"],
+    decision = "allow",
+    justification = "RTK wc is a safe read-only counting helper."
+)
+
+prefix_rule(
+    ["rtk", "deps"],
+    decision = "allow",
+    justification = "RTK deps is a safe dependency summary helper."
+)
+
+prefix_rule(
+    ["rtk", "env"],
+    decision = "allow",
+    justification = "RTK env is a safe filtered environment inspection helper."
+)
+
+prefix_rule(
+    ["rtk", "gain"],
+    decision = "allow",
+    justification = "RTK gain is a safe usage-metrics command when its local database is available."
+)
+
+prefix_rule(
+    ["rtk", "git"],
+    decision = "prompt",
+    justification = "RTK git can proxy mutating Git commands; confirm repository governance still applies."
+)
+
+prefix_rule(
+    ["rtk", "proxy"],
+    decision = "prompt",
+    justification = "RTK proxy can execute arbitrary commands without filtering."
+)
+
+prefix_rule(
+    ["rtk", "trust"],
+    decision = "prompt",
+    justification = "RTK trust changes project-local trust configuration."
+)
+
+prefix_rule(
+    ["rtk", "untrust"],
+    decision = "prompt",
+    justification = "RTK untrust changes project-local trust configuration."
+)
+
+prefix_rule(
+    ["rtk", "config"],
+    decision = "prompt",
+    justification = "RTK config can create or change local configuration."
+)
