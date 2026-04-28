@@ -38,6 +38,8 @@ Repository support areas:
 ## Terminal tooling
 
 Use `rtk` as the preferred terminal proxy for read-heavy inspection and compact command output when it improves signal quality.
+Use only subcommands currently available in `rtk --help`; do not assume aliases or unsupported verbs.
+Prefer the token-optimized wrappers listed by `rtk --help` over raw shell commands whenever they cover the same task.
 
 Preferred `rtk` commands:
 - `rtk read` for file reading.
