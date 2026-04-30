@@ -142,7 +142,7 @@ export const homeMenuService = {
                 const targetState = state.lastAppUrl
                     ? stripHomeFlag(router.urlToState(new URL(state.lastAppUrl, browser.location.origin)))
                     : {};
-                router.pushState(targetState, { replace: false, sync: true });
+                router.pushState(targetState, { replace: true, sync: true });
                 syncFromRoute();
                 env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
                 return true;
