@@ -76,6 +76,10 @@ export const homeMenuService = {
 
         registry.category("actions").add("dipl_web_theme.home_menu", HomeMenuAction);
 
+        env.bus.addEventListener("DIPL_HOME_MENU:TOGGLED", () => {
+            document.body.classList.toggle("o_home_menu_background", state.hasHomeMenu);
+        });
+
         async function toggle(show) {
             const actionService = env.services.action;
             if (!actionService) {

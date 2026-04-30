@@ -2,7 +2,6 @@ import { NavBar } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
 import { patch } from "@web/core/utils/patch";
-import { browser } from "@web/core/browser/browser";
 
 patch(NavBar.prototype, {
     setup() {
@@ -55,7 +54,8 @@ patch(NavBar.prototype, {
      * @override
      */
     onAllAppsBtnClick() {
-        browser.location.assign("/odoo/home");
+        super.onAllAppsBtnClick();
+        this.diplHomeMenu.toggle(true);
         this._closeAppMenuSidebar();
     },
 });

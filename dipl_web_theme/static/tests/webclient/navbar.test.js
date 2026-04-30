@@ -1,7 +1,5 @@
 import { describe, expect, test } from "@odoo/hoot";
 
-import { patchWithCleanup } from "@web/../tests/web_test_helpers";
-import { browser } from "@web/core/browser/browser";
 import { NavBar } from "@web/webclient/navbar/navbar";
 
 import "../../src/webclient/navbar/navbar";
@@ -91,23 +89,4 @@ test("opening the sidebar from the home menu closes the custom shell instead", (
 
     expect(toggleArg).toBe(false);
     expect(navbar.state.isAppMenuSidebarOpened).toBe(false);
-});
-
-test("all apps button redirects to /odoo/home", () => {
-    let redirectedTo;
-    patchWithCleanup(browser, {
-        location: {
-            assign(url) {
-                redirectedTo = url;
-            },
-        },
-    });
-    const navbar = makeNavBar();
-    navbar._closeAppMenuSidebar = () => {
-        navbar.state.isAppMenuSidebarOpened = false;
-    };
-
-    navbar.onAllAppsBtnClick();
-
-    expect(redirectedTo).toBe("/odoo/home");
 });
