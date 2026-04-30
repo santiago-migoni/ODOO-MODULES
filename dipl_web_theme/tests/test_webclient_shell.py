@@ -23,7 +23,14 @@ class TestWebclientShell(HttpCase):
         self.authenticate(self.user.login, self.user_password)
         response = self.url_open("/odoo")
         self.assertEqual(response.status_code, 200)
+        self.assertIn("/odoo/home", response.url)
         self.assertEqual(response.cookies.get("color_scheme"), "dark")
+
+    def test_home_route_redirects_to_home_menu_action(self):
+        self.authenticate(self.user.login, self.user_password)
+        response = self.url_open("/odoo/home", allow_redirects=False)
+        self.assertEqual(response.status_code, 303)
+        self.assertIn("/odoo/action-dipl_web_theme.home_menu", response.headers["Location"])
 
     def test_shell_smoke_loads_home_menu(self):
         self.browser_js(
