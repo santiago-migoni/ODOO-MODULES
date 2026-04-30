@@ -1,16 +1,12 @@
-import { _t } from "@web/core/l10n/translation";
+import { browser } from "@web/core/browser/browser";
 import { registry } from "@web/core/registry";
 import { user } from "@web/core/user";
 import { Mutex } from "@web/core/utils/concurrency";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { computeAppsAndMenuItems, reorderApps } from "@web/webclient/menus/menu_helpers";
-import {
-    ControllerNotFoundError,
-    standardActionServiceProps,
-} from "@web/webclient/actions/action_service";
 import { HomeMenu } from "./home_menu";
 
-import { Component, onMounted, onWillUnmount, reactive, xml } from "@odoo/owl";
+import { Component, onMounted, onWillUnmount, reactive } from "@odoo/owl";
 
 export const readHomeMenuConfig = () => {
     const storedConfig = user.settings?.homemenu_config;
@@ -36,75 +32,40 @@ export const homeMenuService = {
             toggle,
         });
         const mutex = new Mutex(); // used to protect against concurrent toggling requests
-        class HomeMenuAction extends Component {
-            static components = { HomeMenu };
-            static target = "current";
-            static props = { ...standardActionServiceProps };
-            static template = xml`<HomeMenu t-props="homeMenuProps"/>`;
-            static displayName = _t("Home");
-
-            setup() {
-                this.menus = useService("menu");
-                onMounted(() => this.onMounted());
-                onWillUnmount(this.onWillUnmount);
-                useBus(this.env.bus, "MENUS:APP-CHANGED", () => this.render());
-            }
-            get homeMenuProps() {
-                const homemenuConfig = readHomeMenuConfig();
-                const apps = reactive(
-                    computeAppsAndMenuItems(this.menus.getMenuAsTree("root")).apps
-                );
-                if (homemenuConfig) {
-                    reorderApps(apps, homemenuConfig);
-                }
-                return {
-                    apps,
-                    reorderApps: (order) => reorderApps(apps, order),
-                };
-            }
-            async onMounted() {
-                state.hasHomeMenu = true;
-                state.hasBackgroundAction = Boolean(this.env.config?.breadcrumbs?.length);
-                this.env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
-            }
-            onWillUnmount() {
-                state.hasHomeMenu = false;
-                state.hasBackgroundAction = false;
-                this.env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
-            }
-        }
-
-        registry.category("actions").add("dipl_web_theme.home_menu", HomeMenuAction);
 
         env.bus.addEventListener("DIPL_HOME_MENU:TOGGLED", () => {
             document.body.classList.toggle("o_home_menu_background", state.hasHomeMenu);
         });
 
-        async function toggle(show) {
-            const actionService = env.services.action;
-            if (!actionService) {
-                return false;
+        const forceHomeMenuCleanUrl = () => {
+            const { pathname, search } = browser.location;
+            if (!pathname.includes("/odoo/action-")) {
+                return;
             }
+            browser.history.replaceState(browser.history.state, "", `/odoo${search || ""}`);
+        };
+
+        async function toggle(show) {
             return mutex.exec(async () => {
                 show = show === undefined ? !state.hasHomeMenu : Boolean(show);
                 if (show !== state.hasHomeMenu) {
                     if (show) {
-                        await actionService.doAction("dipl_web_theme.home_menu");
+                        state.hasBackgroundAction = Boolean(
+                            env.services.action?.currentController
+                        );
+                        state.hasHomeMenu = true;
+                        forceHomeMenuCleanUrl();
+                        env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
                         return true;
                     } else {
-                        try {
-                            await actionService.restore();
-                        } catch (err) {
-                            if (!(err instanceof ControllerNotFoundError)) {
-                                throw err;
-                            }
-                            return false;
-                        }
+                        state.hasHomeMenu = false;
+                        state.hasBackgroundAction = false;
+                        env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
+                        forceHomeMenuCleanUrl();
+                        return true;
                     }
                 }
-                // hack: wait for a tick to ensure that the url has been updated before
-                // switching again
-                return new Promise((r) => setTimeout(() => r(true)));
+                return true;
             });
         }
 
@@ -112,4 +73,32 @@ export const homeMenuService = {
     },
 };
 
+class HomeMenuRoot extends Component {
+    static template = "dipl_web_theme.HomeMenuRoot";
+    static components = { HomeMenu };
+
+    setup() {
+        this.menus = useService("menu");
+        this.homeMenuService = useService("dipl_home_menu");
+        onMounted(() => this.env.bus.trigger("DIPL_HOME_MENU:TOGGLED"));
+        onWillUnmount(() => this.env.bus.trigger("DIPL_HOME_MENU:TOGGLED"));
+        useBus(this.env.bus, "MENUS:APP-CHANGED", () => this.render());
+    }
+
+    get homeMenuProps() {
+        const homemenuConfig = readHomeMenuConfig();
+        const apps = reactive(computeAppsAndMenuItems(this.menus.getMenuAsTree("root")).apps);
+        if (homemenuConfig) {
+            reorderApps(apps, homemenuConfig);
+        }
+        return {
+            apps,
+            reorderApps: (order) => reorderApps(apps, order),
+        };
+    }
+}
+
 registry.category("services").add("dipl_home_menu", homeMenuService);
+registry.category("main_components").add("dipl_home_menu.root", {
+    Component: HomeMenuRoot,
+}, { force: true });

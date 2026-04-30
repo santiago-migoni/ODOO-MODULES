@@ -14,3 +14,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: dipl_web_theme
+#: code:addons/dipl_web_theme/static/src/views/view_components/group_config_menu_patch.js:0
+msgid "Automations"
+msgstr "Automatizaciones"
+
+#. module: dipl_web_theme
+#: code:addons/dipl_web_theme/static/src/webclient/navbar/navbar.js:0
+msgid "Home menu"
+msgstr "Menu principal"
+
+#. module: dipl_web_theme
+#: code:addons/dipl_web_theme/static/src/webclient/navbar/navbar.js:0
+msgid "Previous view"
+msgstr "Vista anterior"
+
+#. module: dipl_web_theme
+#: code:addons/dipl_web_theme/static/src/webclient/share_url/share_url.js:0
+msgid "Share"
+msgstr "Compartir"
+
+#. module: dipl_web_theme
+#: model:ir.model.fields,field_description:dipl_web_theme.field_res_users_settings__color_scheme
+msgid "Color Scheme"
+msgstr "Esquema de color"
+
+#. module: dipl_web_theme
+#: model:ir.model.fields.selection,name:dipl_web_theme.selection__res_users_settings__color_scheme__dark
+msgid "Dark"
+msgstr "Oscuro"
+
+#. module: dipl_web_theme
+#: model:ir.model.fields.selection,name:dipl_web_theme.selection__res_users_settings__color_scheme__light
+msgid "Light"
+msgstr "Claro"
+
+#. module: dipl_web_theme
+#: model:ir.model.fields.selection,name:dipl_web_theme.selection__res_users_settings__color_scheme__system
+msgid "System"
+msgstr "Sistema"
