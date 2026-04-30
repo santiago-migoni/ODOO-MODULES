@@ -108,6 +108,20 @@ Operational rules:
 - Increment `z` for corrective fixes, hardening, or patch-level adjustments within the same release/improvement line.
 - Keep the Odoo major prefix aligned with the target framework version (`19.0` for Odoo 19).
 
+Reference examples:
+- `19.0.1.0.0` = first stable release of a functional line.
+- `19.0.1.1.0` = small/medium functional improvement without changing the release line.
+- `19.0.1.1.1` = corrective bugfix/hardening patch.
+- `19.0.2.0.0` = important new functional capability (new functional line).
+- `19.0.3.0.0` = larger functional scope jump (next functional line).
+- `20.0.1.0.0` = migration to Odoo 20.
+
+Version decision protocol (mandatory for Codex):
+- Before finalizing module changes, classify the change as `x`, `y`, or `z` impact and apply the corresponding bump in `__manifest__.py`.
+- Keep `CHANGELOG.md` and `__manifest__.py` aligned on the same released version.
+- In the final implementation report, state explicitly which bump type was applied (`x`, `y`, or `z`) and why.
+- If no functional/technical module change occurred, do not bump version.
+
 ## README Policy
 
 Every installable `dipl_*` module must include `README.md` at the module root.
