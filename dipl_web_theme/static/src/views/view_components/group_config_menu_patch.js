@@ -10,9 +10,11 @@ patch(GroupConfigMenu.prototype, {
      */
     get permissions() {
         const permissions = super.permissions;
+        const canOpenAutomations = typeof this._openAutomations === "function";
         return {
             ...permissions,
-            canEditAutomations: permissions.canEditAutomations ?? user.isAdmin,
+            canEditAutomations:
+                permissions.canEditAutomations ?? (user.isAdmin && canOpenAutomations),
         };
     },
 

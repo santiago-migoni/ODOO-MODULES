@@ -2,17 +2,32 @@
 
 ## Unreleased
 
-### Added
-- None.
+## 19.0.1.2.0 - 2026-04-30
 
 ### Changed
-- None.
+- Refactored home menu orchestration to run as webclient overlay state instead of client action navigation, keeping canonical `/odoo/` URL during shell usage.
+- Hardened Community behavior by removing all remaining Studio-bridge runtime usage from the theme delivery.
 
 ### Fixed
-- None.
+- Prevented `/odoo/action-dipl_web_theme.home_menu` URL persistence when opening the home menu.
 
 ### Removed
-- None.
+- Optional `dipl_web_theme_studio_bridge` module and all associated "Add Custom Field" frontend integration paths.
+
+## 19.0.1.1.0 - 2026-04-29
+
+### Added
+- Module documentation (`README.md`) with explicit Community/Enterprise compatibility policy and bridge strategy.
+
+### Changed
+- Hardened group configuration menu visibility so the "Automations" option only appears when automation opening is actually supported at runtime.
+- Removed Studio-dependent list dropdown injection from the base theme module.
+
+### Fixed
+- Prevented backend JS crashes caused by Studio-specific handlers missing in standard list renderer contexts.
+
+### Removed
+- Base-theme coupling to `onSelectedAddCustomField` and related global list renderer override.
 
 ## 19.0.1.0.0 - 2026-04-06
 

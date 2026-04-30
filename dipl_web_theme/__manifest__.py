@@ -4,7 +4,7 @@
 {
     "name": "Enterprise Web Theme",
     "category": "Dipleg",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.2.0",
     "depends": ["web", "base_setup"],
     "auto_install": False,
     "data": [
@@ -53,15 +53,9 @@
             "dipl_web_theme/static/src/webclient/navbar/navbar.js",
             "dipl_web_theme/static/src/webclient/share_url/share_url.js",
             "dipl_web_theme/static/src/webclient/share_url/burger_menu.js",
-            (
-                "after",
-                "web/static/src/views/list/list_renderer.xml",
-                "dipl_web_theme/static/src/views/list/list_renderer_desktop.xml",
-            ),
             "dipl_web_theme/static/src/webclient/home_menu/home_menu.xml",
             "dipl_web_theme/static/src/webclient/navbar/navbar.xml",
             "dipl_web_theme/static/src/webclient/share_url/burger_menu.xml",
-            "dipl_web_theme/static/src/views/list/list_renderer_desktop.js",
             "dipl_web_theme/static/src/views/view_components/group_config_menu_patch.js",
             ("remove", "dipl_web_theme/static/src/views/pivot/**"),
             # Don't include dark mode files in light mode
