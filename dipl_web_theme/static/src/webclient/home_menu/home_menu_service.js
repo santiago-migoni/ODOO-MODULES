@@ -40,7 +40,18 @@ function patchHomeRouteSerialization() {
         if (!state?.[HOME_FLAG]) {
             return nativeStateToUrl(state);
         }
-        const baseUrl = nativeStateToUrl(stripHomeFlag(state));
+        const stateWithoutHome = stripHomeFlag(state);
+        const hasActiveAppState = Boolean(
+            stateWithoutHome.action ||
+                stateWithoutHome.model ||
+                stateWithoutHome.resId ||
+                stateWithoutHome.active_id ||
+                stateWithoutHome.actionStack?.length
+        );
+        if (hasActiveAppState) {
+            return nativeStateToUrl(stateWithoutHome);
+        }
+        const baseUrl = nativeStateToUrl(stateWithoutHome);
         if (baseUrl === "/odoo") {
             return HOME_PATH;
         }
@@ -96,7 +107,7 @@ export const homeMenuService = {
         const mutex = new Mutex(); // used to protect against concurrent toggling requests
 
         const syncFromRoute = () => {
-            state.isRouteHome = Boolean(router.current?.[HOME_FLAG]) || isHomePath(browser.location.pathname);
+            state.isRouteHome = isHomePath(browser.location.pathname);
             state.hasHomeMenu = state.isRouteHome;
             state.hasBackgroundAction = Boolean(state.isRouteHome && state.lastAppUrl);
             if (!state.isRouteHome && !isHomePath(browser.location.pathname)) {

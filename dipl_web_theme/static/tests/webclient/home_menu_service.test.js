@@ -99,3 +99,53 @@ test("toggle navigates between /odoo/home and the previous app route", async () 
     expect(location.pathname).toBe("/odoo/sales");
     expect(state.hasHomeMenu).toBe(false);
 });
+
+test("home flag never keeps home menu visible after navigating to an app route", async () => {
+    const location = {
+        pathname: "/odoo/home",
+        search: "",
+        hash: "",
+    };
+    let routeState = { dipl_home: true };
+
+    patchWithCleanup(browser, {
+        location,
+    });
+    patchWithCleanup(router, {
+        get current() {
+            return routeState;
+        },
+        stateToUrl(state) {
+            if (state.action === "base_setup.action_general_configuration") {
+                return "/odoo/settings";
+            }
+            return state.dipl_home ? "/odoo/home" : "/odoo";
+        },
+        urlToState(urlObject) {
+            if (urlObject.pathname === "/odoo/settings") {
+                return { action: "base_setup.action_general_configuration" };
+            }
+            return {};
+        },
+        pushState(nextState) {
+            routeState = { ...nextState };
+            location.pathname =
+                nextState.action === "base_setup.action_general_configuration"
+                    ? "/odoo/settings"
+                    : nextState.dipl_home
+                      ? "/odoo/home"
+                      : "/odoo/";
+            routerBus.trigger("ROUTE_CHANGE");
+        },
+    });
+
+    const state = homeMenuService.start(makeEnv({ currentController: {} }));
+    expect(state.hasHomeMenu).toBe(true);
+
+    routeState = { dipl_home: true, action: "base_setup.action_general_configuration" };
+    location.pathname = "/odoo/settings";
+    routerBus.trigger("ROUTE_CHANGE");
+
+    expect(state.hasHomeMenu).toBe(false);
+    expect(state.isRouteHome).toBe(false);
+});
