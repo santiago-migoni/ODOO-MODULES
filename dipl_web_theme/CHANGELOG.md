@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 19.0.1.3.0 - 2026-04-30
+
+### Changed
+- Replaced the home menu overlay URL cleanup strategy with a canonical router-based subapp route at `/odoo/home`.
+- Updated shell navigation contracts so opening and closing the home menu transitions through stable route states instead of action URL rewrites.
+
+### Fixed
+- Eliminated route inconsistency between internal home-menu state and browser URL history during app-to-home and home-to-app transitions.
+
 ## 19.0.1.2.0 - 2026-04-30
 
 ### Changed
