@@ -2,6 +2,7 @@ import { describe, expect, test } from "@odoo/hoot";
 import { EventBus } from "@odoo/owl";
 
 import { patchWithCleanup } from "@web/../tests/web_test_helpers";
+import { router, routerBus } from "@web/core/browser/router";
 import { _makeUser, user } from "@web/core/user";
 import { browser } from "@web/core/browser/browser";
 
@@ -49,21 +50,52 @@ test("toggle opens and closes the custom home menu state", async () => {
     expect(state.hasHomeMenu).toBe(false);
 });
 
-test("toggle cleans action url when opening/closing the home menu", async () => {
+test("toggle navigates between /odoo/home and the previous app route", async () => {
+    const location = {
+        pathname: "/odoo/sales",
+        search: "",
+        hash: "",
+    };
+    let routeState = {};
+
     patchWithCleanup(browser, {
-        location: {
-            pathname: "/odoo/action-dipl_web_theme.home_menu",
-            search: "?debug=1",
+        location,
+    });
+    patchWithCleanup(router, {
+        get current() {
+            return routeState;
         },
-        history: {
-            state: {},
-            replaceState: (...args) => expect.step(args[2]),
+        stateToUrl(state) {
+            if (state.action === "sales") {
+                return "/odoo/sales";
+            }
+            return "/odoo";
+        },
+        urlToState(urlObject) {
+            if (urlObject.pathname === "/odoo/sales") {
+                return { action: "sales" };
+            }
+            return {};
+        },
+        pushState(nextState) {
+            routeState = { ...nextState };
+            if (nextState.dipl_home) {
+                location.pathname = "/odoo/home";
+            } else if (nextState.action === "sales") {
+                location.pathname = "/odoo/sales";
+            } else {
+                location.pathname = "/odoo/";
+            }
+            routerBus.trigger("ROUTE_CHANGE");
         },
     });
 
     const state = homeMenuService.start(makeEnv({ currentController: {} }));
     await state.toggle(true);
+    expect(location.pathname).toBe("/odoo/home");
+    expect(state.lastAppUrl).toBe("/odoo/sales");
+    expect(state.hasHomeMenu).toBe(true);
     await state.toggle(false);
-
-    expect.verifySteps(["/odoo?debug=1", "/odoo?debug=1"]);
+    expect(location.pathname).toBe("/odoo/sales");
+    expect(state.hasHomeMenu).toBe(false);
 });
