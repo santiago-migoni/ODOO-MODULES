@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+## 19.0.1.3.4 - 2026-05-04
+
+### Changed
+- Added the native Odoo client-action path `home` to expose the custom home menu at `/odoo/home` while preserving action-service mounting and restore behavior.
+
+## 19.0.1.3.3 - 2026-05-04
+
+### Fixed
+- Restored the real client-action home menu flow by registering and opening `dipl_web_theme.home_menu` through the Odoo action service instead of only pushing router state.
+- Aligned navbar fallback URL and HOOT coverage with the action-based home menu behavior.
+
+## 19.0.1.3.2 - 2026-05-04
+
+### Changed
+- Rolled back home menu route strategy from canonical `/odoo/home` handling to action-based URL state (`action-dipl_web_theme.home_menu`) to restore previous navigation behavior.
+
+## 19.0.1.3.1 - 2026-05-02
+
+### Fixed
+- Hardened login/home-menu frontend background asset so it no longer depends on backend-only SCSS tokens, avoiding frontend-minimal asset compilation failures.
+
 ## 19.0.1.3.0 - 2026-04-30
 
 ### Changed

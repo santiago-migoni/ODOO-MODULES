@@ -29,5 +29,5 @@ No agrega capacidades funcionales de Odoo Studio como parte del contrato base.
 
 1. Abrir backend en usuario interno y validar carga de shell (home menu + navbar).
 2. Abrir listas/reportes y confirmar que el dropdown de columnas no produce errores JS.
-3. Abrir/cerrar home menu y verificar transicion canonica `/odoo/home` (entrada) y retorno estable a app previa o `/odoo/` (salida), sin `action-*`.
+3. Abrir/cerrar home menu y verificar que la accion cliente `dipl_web_theme.home_menu` renderiza el menu con URL canonica `/odoo/home`.
 4. Cambiar idioma a espanol y validar carga normal del webclient.
