@@ -2,6 +2,7 @@ import { describe, expect, test } from "@odoo/hoot";
 import { EventBus } from "@odoo/owl";
 
 import { patchWithCleanup } from "@web/../tests/web_test_helpers";
+import { registry } from "@web/core/registry";
 import { _makeUser, user } from "@web/core/user";
 
 import {
@@ -80,4 +81,12 @@ test("toggle uses the registered action instead of router-only state", async () 
     await state.toggle(false);
 
     expect.verifySteps(["doAction:dipl_web_theme.home_menu", "restore"]);
+});
+
+test("registered home action exposes the canonical /odoo/home path", async () => {
+    const state = homeMenuService.start(makeEnv({ async doAction() {} }));
+    const HomeMenuAction = registry.category("actions").get("dipl_web_theme.home_menu");
+
+    expect(HomeMenuAction.path).toBe("home");
+    expect(await state.toggle(true)).toBe(true);
 });

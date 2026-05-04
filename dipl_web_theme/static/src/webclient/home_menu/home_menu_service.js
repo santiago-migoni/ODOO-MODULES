@@ -40,6 +40,7 @@ export const homeMenuService = {
         class HomeMenuAction extends Component {
             static components = { HomeMenu };
             static target = "current";
+            static path = "home";
             static props = { ...standardActionServiceProps };
             static template = xml`<HomeMenu t-props="homeMenuProps"/>`;
             static displayName = _t("Home");

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 19.0.1.3.4 - 2026-05-04
+
+### Changed
+- Added the native Odoo client-action path `home` to expose the custom home menu at `/odoo/home` while preserving action-service mounting and restore behavior.
+
 ## 19.0.1.3.3 - 2026-05-04
 
 ### Fixed
