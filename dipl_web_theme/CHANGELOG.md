@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 19.0.1.3.2 - 2026-05-04
+
+### Changed
+- Rolled back home menu route strategy from canonical `/odoo/home` handling to action-based URL state (`action-dipl_web_theme.home_menu`) to restore previous navigation behavior.
+
+## 19.0.1.3.1 - 2026-05-02
+
+### Fixed
+- Hardened login/home-menu frontend background asset so it no longer depends on backend-only SCSS tokens, avoiding frontend-minimal asset compilation failures.
+
 ## 19.0.1.3.0 - 2026-04-30
 
 ### Changed

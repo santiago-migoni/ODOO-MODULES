@@ -9,72 +9,15 @@ import { HomeMenu } from "./home_menu";
 
 import { Component, onMounted, onWillUnmount, reactive } from "@odoo/owl";
 
-const HOME_PATH = "/odoo/home";
-const HOME_FLAG = "dipl_home";
-let homeRoutePatched = false;
-
-function stripHomeFlag(state = {}) {
-    const nextState = { ...state };
-    delete nextState[HOME_FLAG];
-    return nextState;
-}
-
-function isHomePath(pathname) {
-    return pathname === HOME_PATH;
-}
+const HOME_ACTION_XMLID = "dipl_web_theme.home_menu";
 
 function currentUrl() {
     const { pathname, search, hash } = browser.location;
     return `${pathname}${search || ""}${hash || ""}`;
 }
 
-function patchHomeRouteSerialization() {
-    if (homeRoutePatched) {
-        return;
-    }
-    homeRoutePatched = true;
-    const nativeStateToUrl = router.stateToUrl.bind(router);
-    const nativeUrlToState = router.urlToState.bind(router);
-
-    router.stateToUrl = (state) => {
-        if (!state?.[HOME_FLAG]) {
-            return nativeStateToUrl(state);
-        }
-        const stateWithoutHome = stripHomeFlag(state);
-        const hasActiveAppState = Boolean(
-            stateWithoutHome.action ||
-                stateWithoutHome.model ||
-                stateWithoutHome.resId ||
-                stateWithoutHome.active_id ||
-                stateWithoutHome.actionStack?.length
-        );
-        if (hasActiveAppState) {
-            return nativeStateToUrl(stateWithoutHome);
-        }
-        const baseUrl = nativeStateToUrl(stateWithoutHome);
-        if (baseUrl === "/odoo") {
-            return HOME_PATH;
-        }
-        if (baseUrl.startsWith("/odoo?")) {
-            return `${HOME_PATH}${baseUrl.slice("/odoo".length)}`;
-        }
-        return HOME_PATH;
-    };
-
-    router.urlToState = (urlObject) => {
-        const parsedState = nativeUrlToState(urlObject);
-        if (!isHomePath(urlObject.pathname)) {
-            return stripHomeFlag(parsedState);
-        }
-        const nextState = stripHomeFlag(parsedState);
-        delete nextState.action;
-        delete nextState.actionStack;
-        delete nextState.model;
-        delete nextState.resId;
-        delete nextState.active_id;
-        nextState[HOME_FLAG] = true;
-        return nextState;
-    };
+function isHomeAction(hash = {}) {
+    return hash.action === HOME_ACTION_XMLID;
 }
 
 export const readHomeMenuConfig = () => {
@@ -95,8 +38,6 @@ export const readHomeMenuConfig = () => {
 export const homeMenuService = {
     dependencies: ["action"],
     start(env) {
-        patchHomeRouteSerialization();
-
         const state = reactive({
             hasHomeMenu: false,
             hasBackgroundAction: false,
@@ -107,10 +48,10 @@ export const homeMenuService = {
         const mutex = new Mutex(); // used to protect against concurrent toggling requests
 
         const syncFromRoute = () => {
-            state.isRouteHome = isHomePath(browser.location.pathname);
+            state.isRouteHome = isHomeAction(router.current?.hash || {});
             state.hasHomeMenu = state.isRouteHome;
             state.hasBackgroundAction = Boolean(state.isRouteHome && state.lastAppUrl);
-            if (!state.isRouteHome && !isHomePath(browser.location.pathname)) {
+            if (!state.isRouteHome) {
                 state.lastAppUrl = currentUrl();
             }
         };
@@ -130,18 +71,21 @@ export const homeMenuService = {
                 }
 
                 if (show) {
-                    if (!state.isRouteHome && !isHomePath(browser.location.pathname)) {
+                    if (!state.isRouteHome) {
                         state.lastAppUrl = currentUrl();
                     }
-                    router.pushState({ [HOME_FLAG]: true }, { replace: false, sync: true });
+                    router.pushState({ action: HOME_ACTION_XMLID }, { replace: false, sync: true });
                     syncFromRoute();
                     env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
                     return true;
                 }
 
                 const targetState = state.lastAppUrl
-                    ? stripHomeFlag(router.urlToState(new URL(state.lastAppUrl, browser.location.origin)))
+                    ? router.urlToState(new URL(state.lastAppUrl, browser.location.origin))
                     : {};
+                if (isHomeAction(targetState)) {
+                    delete targetState.action;
+                }
                 router.pushState(targetState, { replace: true, sync: true });
                 syncFromRoute();
                 env.bus.trigger("DIPL_HOME_MENU:TOGGLED");
