@@ -3,7 +3,7 @@
 
 <t t-name="dipl_web_theme.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension">
     <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="replace">
-        <a t-if="!isScopedApp" href="/odoo/home" class="o_menu_toggle border-0" t-att-class="menuToggleClasses" t-att-title="menuToggleTitle" t-att-aria-label="menuToggleTitle" accesskey="h" t-on-click.prevent="() => { env.isSmall ? this._openAppMenuSidebar() : this.diplHomeMenu.toggle() }">
+        <a t-if="!isScopedApp" href="/odoo" class="o_menu_toggle border-0" t-att-class="menuToggleClasses" t-att-title="menuToggleTitle" t-att-aria-label="menuToggleTitle" accesskey="h" t-on-click.prevent="() => { env.isSmall ? this._openAppMenuSidebar() : this.diplHomeMenu.toggle() }">
             <t t-if="env.isSmall and !diplHomeMenu.hasHomeMenu">
                 <t t-call="web.NavBar.AppsMenu.Sidebar"/>
             </t>

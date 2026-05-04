@@ -4,7 +4,7 @@
 {
     "name": "Enterprise Web Theme",
     "category": "Dipleg",
-    "version": "19.0.1.3.2",
+    "version": "19.0.1.3.3",
     "depends": ["web", "base_setup"],
     "auto_install": False,
     "data": [

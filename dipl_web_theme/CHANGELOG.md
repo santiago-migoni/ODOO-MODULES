@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 19.0.1.3.3 - 2026-05-04
+
+### Fixed
+- Restored the real client-action home menu flow by registering and opening `dipl_web_theme.home_menu` through the Odoo action service instead of only pushing router state.
+- Aligned navbar fallback URL and HOOT coverage with the action-based home menu behavior.
+
 ## 19.0.1.3.2 - 2026-05-04
 
 ### Changed
