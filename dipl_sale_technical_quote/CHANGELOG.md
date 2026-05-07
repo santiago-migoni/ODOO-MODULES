@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 19.0.1.3.1 - 2026-05-07
+
+### Fixed
+- `Technical Kilograms` now stays available as an optional Sales Analysis measure without being preloaded by the pivot and graph report views.
+- Added Spanish translation coverage for the `sale.report` `Technical Kilograms` field and its list total label.
+
 ## 19.0.1.3.0 - 2026-05-07
 
 ### Added

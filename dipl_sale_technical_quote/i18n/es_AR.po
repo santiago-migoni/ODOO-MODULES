@@ -139,10 +139,17 @@ msgstr "Técnico"
 
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_total
+#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_report__dipl_kg_total
 #: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_form_view_technical_lines
 #: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_line_view_form_readonly_technical
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.sale_report_view_list_technical_quote
 msgid "Technical Kilograms"
 msgstr "Kilogramos técnicos"
+
+#. module: dipl_sale_technical_quote
+#: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.sale_report_view_list_technical_quote
+msgid "Sum of Technical Kilograms"
+msgstr "Suma de kilogramos técnicos"
 
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_price_per_kg

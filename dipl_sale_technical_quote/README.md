@@ -148,7 +148,7 @@ El modulo agrega `Technical Kilograms` (`dipl_kg_total`) como medida en `sale.re
 Alcance actual:
 - disponible en Analisis de ventas como medida de pivot,
 - disponible en graficos de ventas como medida,
-- visible en la lista del analisis de ventas.
+- disponible como columna opcional en la lista del analisis de ventas.
 
 No se exponen otros campos tecnicos en `sale.report` por politica lean: el reporte comercial solo necesita por ahora el total de kilos tecnicos agregado.
 
