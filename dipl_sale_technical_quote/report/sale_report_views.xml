@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_product_pivot_technical_quote" model="ir.ui.view">
+        <field name="name">sale.report.pivot.technical.quote</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="dipl_kg_total" type="measure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_product_graph_technical_quote" model="ir.ui.view">
+        <field name="name">sale.report.graph.technical.quote</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_graph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="dipl_kg_total" type="measure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_report_view_list_technical_quote" model="ir.ui.view">
+        <field name="name">sale.report.view.list.technical.quote</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.sale_report_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="dipl_kg_total" string="Technical Kilograms" optional="show" sum="Sum of Technical Kilograms"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

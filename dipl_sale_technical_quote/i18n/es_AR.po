@@ -21,11 +21,6 @@ msgid "<span class=\"ms-1\">mm</span>"
 msgstr "<span class=\"ms-1\">mm</span>"
 
 #. module: dipl_sale_technical_quote
-#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_can_compute
-msgid "Can Compute Technical Pricing"
-msgstr "Puede calcular precio técnico"
-
-#. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_product__dipl_material_density
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_template__dipl_material_density
 msgid "Density"
@@ -71,11 +66,6 @@ msgstr "Desarrollo"
 #: model:ir.model.fields.selection,name:dipl_sale_technical_quote.selection__sale_order_line__dipl_kg_mode__geometry
 msgid "Geometry"
 msgstr "Geometría"
-
-#. module: dipl_sale_technical_quote
-#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_has_manual_final_price
-msgid "Has Manual Final Price"
-msgstr "Tiene precio final manual"
 
 #. module: dipl_sale_technical_quote
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_product_pricelist__id
@@ -148,7 +138,6 @@ msgid "Technical"
 msgstr "Técnico"
 
 #. module: dipl_sale_technical_quote
-#: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_computed
 #: model:ir.model.fields,field_description:dipl_sale_technical_quote.field_sale_order_line__dipl_kg_total
 #: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_form_view_technical_lines
 #: model_terms:ir.ui.view,arch_db:dipl_sale_technical_quote.dipl_sale_order_line_view_form_readonly_technical

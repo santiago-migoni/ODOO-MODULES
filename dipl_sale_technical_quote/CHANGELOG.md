@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 19.0.1.3.0 - 2026-05-07
+
+### Added
+- `Technical Kilograms` (`dipl_kg_total`) is now available as a `sale.report` measure for Sales Analysis pivot, graph, and list reporting.
+
+### Changed
+- Simplified technical sales-line pricing state so `dipl_pricing_state` is the single operator-facing status for technical, incomplete, pricelist-adjusted, and manual-final pricing.
+- Reduced the internal kilograms calculation to persist only `dipl_kg_total` as the effective business metric.
+
+### Removed
+- Redundant sales-line fields `dipl_kg_computed`, `dipl_can_compute`, and `dipl_has_manual_final_price`.
+
 ## 19.0.1.2.0 - 2026-04-24
 
 ### Added

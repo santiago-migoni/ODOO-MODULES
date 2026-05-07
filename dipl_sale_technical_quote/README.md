@@ -54,6 +54,11 @@ Campos internos de snapshot:
 - `dipl_theoretical_kg`
 - `dipl_price_per_kg`
 
+Estado tecnico interno:
+- `dipl_pricing_state` resume si la linea esta incompleta, tecnica, ajustada por lista de precios o con precio final manual.
+
+El modelo persiste solo `dipl_kg_total` como metrica de kilos de negocio; no mantiene campos duplicados de kilos calculados ni booleanos derivados de computabilidad.
+
 Esos campos quedan ocultos del flujo normal de ventas y se usan para preservar el historico tecnico de calculo de la linea.
 
 ## Comportamiento funcional
@@ -132,8 +137,20 @@ Contrato actual:
 - `views/product_template_views.xml`
 - `views/sale_order_views.xml`
 - `views/sale_order_line_views.xml`
+- `report/sale_report_views.xml`
 
 La UI operativa queda reducida al set minimo visible para ventas.
+
+## Reportes de ventas
+
+El modulo agrega `Technical Kilograms` (`dipl_kg_total`) como medida en `sale.report`.
+
+Alcance actual:
+- disponible en Analisis de ventas como medida de pivot,
+- disponible en graficos de ventas como medida,
+- visible en la lista del analisis de ventas.
+
+No se exponen otros campos tecnicos en `sale.report` por politica lean: el reporte comercial solo necesita por ahora el total de kilos tecnicos agregado.
 
 ## Tests
 
@@ -158,7 +175,7 @@ Los tests cubren:
 
 ## Archivos relevantes
 
-- [__manifest__.py](/Users/santiago_migoni/Documents/Codex/quotation/dipl_sale_technical_quote/__manifest__.py)
-- [CHANGELOG.md](/Users/santiago_migoni/Documents/Codex/quotation/dipl_sale_technical_quote/CHANGELOG.md)
-- [product_template.py](/Users/santiago_migoni/Documents/Codex/quotation/dipl_sale_technical_quote/models/product_template.py)
-- [sale_order_line.py](/Users/santiago_migoni/Documents/Codex/quotation/dipl_sale_technical_quote/models/sale_order_line.py)
+- [__manifest__.py](/Users/santiago_migoni/Documents/Codex/quotation2/dipl_sale_technical_quote/__manifest__.py)
+- [CHANGELOG.md](/Users/santiago_migoni/Documents/Codex/quotation2/dipl_sale_technical_quote/CHANGELOG.md)
+- [product_template.py](/Users/santiago_migoni/Documents/Codex/quotation2/dipl_sale_technical_quote/models/product_template.py)
+- [sale_order_line.py](/Users/santiago_migoni/Documents/Codex/quotation2/dipl_sale_technical_quote/models/sale_order_line.py)

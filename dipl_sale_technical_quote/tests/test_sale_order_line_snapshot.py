@@ -184,8 +184,7 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
     def test_geometry_mode_computes_kilograms_by_default(self):
         line = self._create_geometry_line(name="Tech line geometry mode")
         self.assertEqual(line.dipl_kg_mode, "geometry")
-        self.assertAlmostEqual(line.dipl_kg_computed, 0.0942, places=4)
-        self.assertAlmostEqual(line.dipl_kg_total, line.dipl_kg_computed, places=4)
+        self.assertAlmostEqual(line.dipl_kg_total, 0.0942, places=4)
         self.assertAlmostEqual(line.dipl_technical_total, 9.42, places=2)
         self.assertAlmostEqual(line.dipl_technical_price_unit, 4.71, places=2)
         self.assertAlmostEqual(line.price_unit, 4.71, places=2)
@@ -195,7 +194,6 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
     def test_incomplete_line_with_no_dimensions_stays_allowed_and_incomplete(self):
         line = self._create_incomplete_line()
         self.assertEqual(line.dipl_kg_mode, "incomplete")
-        self.assertEqual(line.dipl_kg_computed, 0.0)
         self.assertEqual(line.dipl_kg_total, 0.0)
         self.assertEqual(line.dipl_technical_total, 0.0)
         self.assertEqual(line.dipl_technical_price_unit, 0.0)
@@ -388,10 +386,9 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
         )
         computed_price = line.price_unit
         line.write({"price_unit": 123.45})
-        self.assertTrue(line.dipl_has_manual_final_price)
         self.assertEqual(line.dipl_pricing_state, "manual_final")
         line.write({"dipl_width_mm": 100.0})
-        self.assertFalse(line.dipl_has_manual_final_price)
+        self.assertNotEqual(line.dipl_pricing_state, "manual_final")
         self.assertNotAlmostEqual(line.price_unit, 123.45, places=2)
         self.assertNotAlmostEqual(line.price_unit, computed_price, places=2)
         self.assertEqual(line.dipl_pricing_state, "pricelist_adjusted")
@@ -399,18 +396,18 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
     def test_manual_final_price_is_reset_on_quantity_change(self):
         line = self._create_geometry_line(name="Tech line manual final reset quantity")
         line.write({"price_unit": 123.45})
-        self.assertTrue(line.dipl_has_manual_final_price)
+        self.assertEqual(line.dipl_pricing_state, "manual_final")
         line.write({"product_uom_qty": 4.0})
-        self.assertFalse(line.dipl_has_manual_final_price)
+        self.assertNotEqual(line.dipl_pricing_state, "manual_final")
         self.assertNotAlmostEqual(line.price_unit, 123.45, places=2)
         self.assertEqual(line.dipl_pricing_state, "technical")
 
     def test_manual_final_price_is_reset_on_product_change(self):
         line = self._create_geometry_line(name="Tech line manual final reset product")
         line.write({"price_unit": 123.45})
-        self.assertTrue(line.dipl_has_manual_final_price)
+        self.assertEqual(line.dipl_pricing_state, "manual_final")
         line.write({"product_id": self.product_technical_b.product_variant_id.id})
-        self.assertFalse(line.dipl_has_manual_final_price)
+        self.assertNotEqual(line.dipl_pricing_state, "manual_final")
         self.assertAlmostEqual(line.price_unit, 8.15, places=2)
         self.assertEqual(line.dipl_pricing_state, "technical")
 
@@ -444,17 +441,16 @@ class TestTechnicalQuoteSaleOrderLineSnapshot(TransactionCase):
             }
         )
         line.write({"price_unit": 123.45})
-        self.assertTrue(line.dipl_has_manual_final_price)
+        self.assertEqual(line.dipl_pricing_state, "manual_final")
         order.action_update_prices()
         line.invalidate_recordset(
             [
                 "price_unit",
                 "technical_price_unit",
                 "dipl_pricing_state",
-                "dipl_has_manual_final_price",
             ]
         )
-        self.assertFalse(line.dipl_has_manual_final_price)
+        self.assertNotEqual(line.dipl_pricing_state, "manual_final")
         self.assertNotAlmostEqual(line.price_unit, 123.45, places=2)
         self.assertEqual(line.dipl_pricing_state, "pricelist_adjusted")
 
