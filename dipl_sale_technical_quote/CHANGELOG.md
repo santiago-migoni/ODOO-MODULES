@@ -7,6 +7,7 @@
 ### Fixed
 - `Technical Kilograms` now stays available as an optional Sales Analysis measure without being preloaded by the pivot and graph report views.
 - Added Spanish translation coverage for the `sale.report` `Technical Kilograms` field and its list total label.
+- Restored `dipl_can_compute` as a readonly compatibility field to prevent Owl errors when persisted/custom views still reference it.
 
 ## 19.0.1.3.0 - 2026-05-07
 

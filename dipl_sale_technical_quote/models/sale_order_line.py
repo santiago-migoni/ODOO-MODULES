@@ -65,6 +65,12 @@ class SaleOrderLine(models.Model):
         compute="_compute_dipl_pricing_values",
         store=True,
     )
+    # Backward compatibility for persisted/custom views that still reference this field.
+    dipl_can_compute = fields.Boolean(
+        string="Can Compute Technical Pricing",
+        compute="_compute_dipl_can_compute_compat",
+        readonly=True,
+    )
     dipl_pricing_state = fields.Selection(
         selection=[
             ("incomplete", "Incomplete"),
@@ -175,6 +181,18 @@ class SaleOrderLine(models.Model):
             and self.dipl_price_per_kg >= 0
             and self.dipl_theoretical_kg > 0
         )
+
+    @api.depends(
+        "dipl_is_technical_line",
+        "product_uom_qty",
+        "dipl_development_mm",
+        "dipl_width_mm",
+        "dipl_theoretical_kg",
+        "dipl_price_per_kg",
+    )
+    def _compute_dipl_can_compute_compat(self):
+        for line in self:
+            line.dipl_can_compute = line._dipl_can_compute_technical_pricing()
 
     @api.depends(
         "dipl_is_technical_line",
