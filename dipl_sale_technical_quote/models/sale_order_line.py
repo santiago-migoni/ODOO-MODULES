@@ -36,13 +36,6 @@ class SaleOrderLine(models.Model):
         string="Technical Price",
         currency_field="currency_id",
     )
-    dipl_kg_computed = fields.Float(
-        string="Technical Kilograms",
-        digits=(16, 4),
-        readonly=True,
-        compute="_compute_dipl_kg_values",
-        store=True,
-    )
     dipl_kg_total = fields.Float(
         string="Technical Kilograms",
         digits=(16, 4),
@@ -72,14 +65,11 @@ class SaleOrderLine(models.Model):
         compute="_compute_dipl_pricing_values",
         store=True,
     )
+    # Backward compatibility for persisted/custom views that still reference this field.
     dipl_can_compute = fields.Boolean(
         string="Can Compute Technical Pricing",
-        compute="_compute_dipl_can_compute",
-        store=True,
-    )
-    dipl_has_manual_final_price = fields.Boolean(
-        string="Has Manual Final Price",
-        compute="_compute_dipl_pricing_state",
+        compute="_compute_dipl_can_compute_compat",
+        readonly=True,
     )
     dipl_pricing_state = fields.Selection(
         selection=[
@@ -124,20 +114,19 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         if not self.dipl_is_technical_line:
             return {
-                "computed_kg": 0.0,
-                "effective_kg": 0.0,
+                "kg_total": 0.0,
                 "technical_total": 0.0,
                 "technical_price_unit": 0.0,
             }
 
         kg_mode = self._dipl_get_kg_mode()
-        computed_kg = 0.0
+        kg_total = 0.0
         if (
             kg_mode == "geometry"
             and self.product_uom_qty > 0
             and self.dipl_theoretical_kg > 0
         ):
-            computed_kg = (
+            kg_total = (
                 self.dipl_theoretical_kg
                 * self.dipl_development_mm
                 * self.dipl_width_mm
@@ -145,19 +134,14 @@ class SaleOrderLine(models.Model):
                 / 1000000.0
             )
 
-        if kg_mode == "geometry":
-            effective_kg = computed_kg
-        else:
-            effective_kg = 0.0
         technical_total = 0.0
         technical_price_unit = 0.0
         if self.product_uom_qty > 0:
-            technical_total = effective_kg * self.dipl_price_per_kg
+            technical_total = kg_total * self.dipl_price_per_kg
             technical_price_unit = technical_total / self.product_uom_qty
 
         return {
-            "computed_kg": computed_kg,
-            "effective_kg": effective_kg,
+            "kg_total": kg_total,
             "technical_total": technical_total,
             "technical_price_unit": technical_price_unit,
         }
@@ -188,25 +172,27 @@ class SaleOrderLine(models.Model):
                 line.dipl_width_mm,
             )
 
+    def _dipl_can_compute_technical_pricing(self):
+        self.ensure_one()
+        return bool(
+            self.dipl_is_technical_line
+            and self._dipl_get_kg_mode() == "geometry"
+            and self.product_uom_qty > 0
+            and self.dipl_price_per_kg >= 0
+            and self.dipl_theoretical_kg > 0
+        )
+
     @api.depends(
         "dipl_is_technical_line",
-        "dipl_kg_mode",
         "product_uom_qty",
         "dipl_development_mm",
         "dipl_width_mm",
         "dipl_theoretical_kg",
         "dipl_price_per_kg",
     )
-    def _compute_dipl_can_compute(self):
+    def _compute_dipl_can_compute_compat(self):
         for line in self:
-            kg_mode = line._dipl_get_kg_mode()
-            line.dipl_can_compute = bool(
-                line.dipl_is_technical_line
-                and kg_mode == "geometry"
-                and line.product_uom_qty > 0
-                and line.dipl_price_per_kg >= 0
-                and line.dipl_theoretical_kg > 0
-            )
+            line.dipl_can_compute = line._dipl_can_compute_technical_pricing()
 
     @api.depends(
         "dipl_is_technical_line",
@@ -218,13 +204,11 @@ class SaleOrderLine(models.Model):
     def _compute_dipl_kg_values(self):
         for line in self:
             if not line.dipl_is_technical_line:
-                line.dipl_kg_computed = 0.0
                 line.dipl_kg_total = 0.0
                 continue
 
             technical_base = line._dipl_compute_technical_base()
-            line.dipl_kg_computed = technical_base["computed_kg"]
-            line.dipl_kg_total = technical_base["effective_kg"]
+            line.dipl_kg_total = technical_base["kg_total"]
 
     @api.depends(
         "dipl_is_technical_line",
@@ -245,7 +229,11 @@ class SaleOrderLine(models.Model):
 
     @api.depends(
         "dipl_is_technical_line",
-        "dipl_can_compute",
+        "product_uom_qty",
+        "dipl_development_mm",
+        "dipl_width_mm",
+        "dipl_theoretical_kg",
+        "dipl_price_per_kg",
         "dipl_technical_price_unit",
         "technical_price_unit",
         "price_unit",
@@ -255,19 +243,18 @@ class SaleOrderLine(models.Model):
     def _compute_dipl_pricing_state(self):
         for line in self:
             if not line.dipl_is_technical_line:
-                line.dipl_has_manual_final_price = False
                 line.dipl_pricing_state = False
                 continue
 
-            line.dipl_has_manual_final_price = bool(
+            has_manual_final_price = bool(
                 line._dipl_uses_technical_pricing()
                 and line._dipl_compare_amounts(
                     line.technical_price_unit, line.price_unit
                 )
             )
-            if line.dipl_has_manual_final_price:
+            if has_manual_final_price:
                 line.dipl_pricing_state = "manual_final"
-            elif not line.dipl_can_compute:
+            elif not line._dipl_can_compute_technical_pricing():
                 line.dipl_pricing_state = "incomplete"
             elif line.pricelist_item_id and (
                 line.discount
@@ -297,7 +284,6 @@ class SaleOrderLine(models.Model):
         "product_uom_qty",
         "dipl_is_technical_line",
         "dipl_technical_price_unit",
-        "dipl_can_compute",
         "dipl_development_mm",
         "dipl_width_mm",
         "dipl_price_per_kg",

@@ -10,8 +10,6 @@
                 <field name="dipl_kg_mode" invisible="1"/>
                 <field name="dipl_theoretical_kg" invisible="1"/>
                 <field name="dipl_price_per_kg" invisible="1"/>
-                <field name="dipl_can_compute" invisible="1"/>
-                <field name="dipl_has_manual_final_price" invisible="1"/>
                 <field name="dipl_pricing_state" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//div[@name='ordered_qty']" position="after">
