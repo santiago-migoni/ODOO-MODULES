@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Deployment"
+  short_description: "Govern promotion, release gates, rollback, and post-deploy verification."
+  default_prompt: "Use $odoo-deployment to decide promotion readiness, prepare the deployment runbook, and validate release gates for this Odoo scope."

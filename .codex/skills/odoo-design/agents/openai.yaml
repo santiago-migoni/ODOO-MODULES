@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Design"
+  short_description: "Design models, views, security, dependencies, and module structure."
+  default_prompt: "Use $odoo-design to produce the technical design for this Odoo module scope."

@@ -149,6 +149,17 @@ Repository support notes:
 Use `$skill` activation for operational flows.
 Skills must be self-contained: no hard dependency on other skills or workflow docs to execute core behavior.
 
+The delivery process is cyclical and iteration-based, not a rigid linear pipeline.
+Default operational loop:
+1. Analysis and planning
+2. Design
+3. Coding
+4. Testing
+5. Deployment
+6. Maintenance
+
+Any stage may return work to a previous stage when new evidence, defects, deployment blockers, or production learning invalidates the current path.
+
 Global technical skill:
 - `odoo-19`
 
@@ -156,20 +167,12 @@ Transversal delivery skill:
 - `odoo-project-management`
 
 Lifecycle skills:
-- `odoo-stage-orchestrator`
-- `odoo-stage-01-discovery`
-- `odoo-stage-02-functional-definition`
-- `odoo-stage-03-technical-design`
-- `odoo-stage-04-planning`
-- `odoo-stage-05-module-scaffolding`
-- `odoo-stage-06-implementation`
-- `odoo-stage-07-validation-qa`
-- `odoo-stage-08-uat`
-- `odoo-stage-09-deployment`
-- `odoo-stage-10-maintenance`
-
-Governance skill:
-- `odoo-dashboard-branch-governance`
+- `odoo-analysis-planning`
+- `odoo-design`
+- `odoo-coding`
+- `odoo-testing`
+- `odoo-deployment`
+- `odoo-maintenance`
 
 Project subagents:
 - `business-analyst`
@@ -183,11 +186,11 @@ Project subagents:
 - `owl-pro`
 - `scss-pro`
 
-Business and coordination subagents (`business-analyst`, `product-manager`, `project-manager`) are transversal support roles for early lifecycle stages and governance decisions.
-They do not replace lifecycle skills; they help produce clearer artifacts, priorities, and readiness decisions inside the stage flow.
+Business and coordination subagents (`business-analyst`, `product-manager`, `project-manager`) are transversal support roles for ambiguity reduction, prioritization, sequencing, and readiness decisions.
+They do not replace the six operational lifecycle skills.
 
-`odoo-project-management` is the transversal delivery governance skill for Agile, Lean, Kanban, and Scrum execution.
-It does not replace lifecycle stages or the `project-manager` subagent; it coordinates backlog, sprint cadence, adaptation, and closure across them.
+`odoo-project-management` is the transversal coordination skill for Agile, Lean, Kanban, and Scrum execution.
+It governs backlog, sprint cadence, adaptation, release coordination, and iterative closure across the six operational stages, but it does not absorb their execution responsibilities.
 
 ## Dependencies
 

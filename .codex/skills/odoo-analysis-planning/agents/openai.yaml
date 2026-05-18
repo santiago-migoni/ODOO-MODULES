@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Analysis Planning"
+  short_description: "Frame the problem, scope, success criteria, and iteration plan."
+  default_prompt: "Use $odoo-analysis-planning to define the current problem, scope, risks, and next iteration plan for this Odoo module work."

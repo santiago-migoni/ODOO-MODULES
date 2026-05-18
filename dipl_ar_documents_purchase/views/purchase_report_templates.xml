@@ -152,9 +152,13 @@
             </div>
         </div>
 
-        <xpath expr="//strong[normalize-space()='Payment Terms:']/.." position="replace">
+        <xpath expr="//strong[normalize-space()='Payment Terms:']" position="replace">
             <t t-if="o.payment_term_id">
                 <strong>Payment Terms: </strong>
+            </t>
+        </xpath>
+        <xpath expr="//span[@t-field='o.payment_term_id']" position="replace">
+            <t t-if="o.payment_term_id">
                 <span t-field="o.payment_term_id" class="mt-4"/>
             </t>
         </xpath>

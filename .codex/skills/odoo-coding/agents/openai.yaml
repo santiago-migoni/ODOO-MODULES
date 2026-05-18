@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Coding"
+  short_description: "Implement approved slices with traceability and release-safety hygiene."
+  default_prompt: "Use $odoo-coding to implement this Odoo module scope slice by slice with explicit traceability to the approved design."

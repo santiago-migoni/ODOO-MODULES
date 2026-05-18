@@ -1,170 +1,69 @@
 ---
 name: odoo-project-management
-description: Transversal project management workflow for Odoo custom module delivery. Use when governing Agile, Lean, Kanban, and Scrum execution across lifecycle stages through product vision, backlog management, sprint cadence, flow visualization, adaptation, and project closure.
+description: Transversal project management workflow for Odoo custom module delivery. Use when governing iterative delivery through vision framing, backlog management, sprint cadence, adaptation, release coordination, and project closure across the six operational stages.
 ---
 
 # Odoo Project Management
 
 ## Overview
-Govern Odoo project delivery as a transversal layer across the lifecycle skills using Agile execution, Lean decision criteria, Kanban flow visibility, and Scrum cadence.
-Use this skill when the work needs more than a one-time plan: product vision alignment, prioritized backlog management, sprint-by-sprint control, blocker handling, iterative adaptation, or structured project closure.
+Coordinate the iterative delivery system without replacing the operational stage skills.
+Use this skill when the work needs cross-cutting management: product vision, backlog ordering, sprint framing, blocker handling, adaptation, release coordination, branch-promotion decisions, or structured closeout.
 
-This skill is not a lifecycle stage.
-It does not replace `odoo-stage-orchestrator`, `odoo-stage-04-planning`, or the `project-manager` subagent.
-It coordinates delivery management across them.
-
-```mermaid
-flowchart LR
-    V["visualize<br/>vision + scope + team model"] --> S["speculate<br/>backlog + release slices"]
-    S --> E["explore<br/>sprint flow + increment delivery"]
-    E --> A["adapt<br/>review + learning + replanning"]
-    A --> C["close<br/>closeout + transfer learning"]
-    A --> S
-    C --> V
-```
+This skill is transversal.
+It coordinates `odoo-analysis-planning`, `odoo-design`, `odoo-coding`, `odoo-testing`, `odoo-deployment`, and `odoo-maintenance`, but it does not replace them.
 
 ## Required Inputs
-- Current lifecycle stage and target branch context.
 - Current project or module objective.
-- Known scope, stakeholders, constraints, and success criteria.
-- Existing backlog, sprint status, risks, or feedback when available.
-- Delivery horizon: current sprint, release slice, or project closeout.
+- Current stage or iteration state.
+- Known scope, constraints, stakeholders, and success criteria.
+- Existing backlog, sprint status, blockers, or feedback when available.
+- Target horizon: next iteration, release slice, promotion decision, or project closeout.
 
 ## Operating Modes
-Use one of these modes explicitly:
+Use one mode explicitly:
 
 ### `visualize`
-- Define product vision, business goal, scope boundaries, stakeholders, constraints, and working agreements.
-- Make the delivery model explicit before planning or sprinting begins.
-- Use when the team needs a shared project frame or the current work lacks a clear objective model.
+- Define the project frame: vision, scope boundaries, stakeholders, constraints, and working model.
 
 ### `speculate`
-- Build or refresh the product backlog, release slices, priorities, dependencies, and delivery hypotheses.
-- Convert strategy into a realistic release plan without pretending certainty.
-- Use when planning the next release cycle, ordering features, or deciding what to deliver now versus later.
+- Shape or refresh backlog, release slices, priorities, dependencies, and delivery hypotheses.
 
 ### `explore`
-- Convert prioritized backlog into sprint execution control.
-- Define sprint goal, sprint backlog, board flow, blockers, daily coordination focus, and expected increment.
-- Use when the team is executing short iterations and needs active delivery management rather than static planning.
+- Manage active iteration flow: sprint goal, sprint backlog, blockers, WIP pressure, and increment focus.
 
 ### `adapt`
-- Review results, inspect the current state, process feedback, and replan.
-- Feed sprint review findings, UAT feedback, QA evidence, and retrospective learning back into backlog and next-iteration decisions.
-- Use when outcomes differ from expectations or when the next sprint must be adjusted with evidence.
+- Replan from evidence after testing, stakeholder feedback, incidents, or release friction.
 
 ### `close`
-- Conclude a release cycle or project with explicit outcome review, residual risks, unresolved debt, and transferable learning.
-- Use when the team needs closure rather than open-ended carryover.
-
-## Agile Delivery Model
-Apply the project through these five Agile lenses:
-1. Visualization: determine product vision, scope, stakeholders, and team working model.
-2. Speculation: define release intent, backlog, priorities, dependencies, and delivery hypotheses.
-3. Exploration: deliver useful increments in short cycles while reducing risk.
-4. Adaptation: inspect results, absorb learning, and replan based on evidence.
-5. Closure: conclude the cycle and transfer usable learning to the next one.
-
-## Lean Decision Criteria
-Apply Lean thinking in every mode:
-- Eliminate work that does not add customer value.
-- Reduce delays, handoff waste, interruptions, and rework.
-- Surface failures early instead of carrying hidden defects forward.
-- Prefer smaller, validated increments over speculative bulk delivery.
-- Seek quality and process improvement continuously, not only at the end.
-
-## Kanban Flow Rules
-Use Kanban as the default visualization and flow-control mechanism:
-- Visualize current work, next work, blocked work, and done work.
-- Respect the current operating model unless there is evidence for change.
-- Prefer incremental, evolutionary process change over disruptive redesign.
-- Make blockers and queue buildup explicit.
-- Use WIP awareness when parallel work is hurting flow or predictability.
-
-## Scrum Operating Model
-Use Scrum as the default cadence for iterative delivery when the work is sprint-based.
-
-```mermaid
-flowchart LR
-    PB["Product Backlog"] --> SP["Sprint Planning"]
-    SP --> SB["Sprint Backlog"]
-    SB --> SPR["Sprint"]
-    SPR --> INC["Increment"]
-    INC --> REV["Sprint Review"]
-    REV --> RET["Sprint Retrospective"]
-    RET --> PB
-    DS["Daily Scrum"] -. inside sprint cadence .-> SPR
-    DOD["Definition of Done<br/>of active stage"] -. validates .-> INC
-```
-
-### Scrum Artifacts
-- `Product Backlog`
-  - Ordered inventory of features, stories, risks, improvements, and release work.
-  - Inputs: product vision, scope, dependencies, stakeholder needs, current findings.
-  - Output: prioritized backlog aligned to business value, risk, and delivery sequencing.
-
-- `Sprint Backlog`
-  - Sprint-level commitment selected from the product backlog, including process improvements carried from retrospective when relevant.
-  - Inputs: prioritized backlog, sprint goal, team capacity, dependencies, current blockers.
-  - Output: sprint scope, execution tasks, blocker watchlist, and sprint-level traceability.
-
-- `Increment`
-  - Usable, evidence-backed result produced during the sprint and aligned with the active stage Definition of Done.
-  - Inputs: completed sprint backlog items, validation evidence, changelog impact, known limitations.
-  - Output: demonstrable increment ready for review, QA/UAT progression, or release decision as appropriate.
-
-### Scrum Events
-- `Sprint Planning`
-  - Purpose: select backlog items, define sprint goal, agree on the work needed for the next iteration.
-  - Inputs: product backlog, priorities, team capacity, dependencies, risks.
-  - Output: sprint goal, sprint backlog, initial flow view, and explicit assumptions.
-
-- `Sprint`
-  - Purpose: execute a fixed iteration focused on delivering a usable increment.
-  - Inputs: sprint backlog and sprint goal.
-  - Output: updated board state, blocker log, execution evidence, and increment progress.
-
-- `Daily Scrum`
-  - Purpose: synchronize the next 24 hours of work for the delivery team.
-  - Inputs: current sprint status, blockers, in-flight work.
-  - Output: next-day coordination updates, blocker escalation, and flow adjustments.
-
-- `Sprint Review`
-  - Purpose: inspect the increment with stakeholders and gather delivery feedback.
-  - Inputs: increment, QA/UAT findings, stakeholder observations, accepted scope.
-  - Output: review findings, acceptance feedback, backlog updates, and release implications.
-
-- `Sprint Retrospective`
-  - Purpose: inspect the team process and commit improvement actions for the next iteration.
-  - Inputs: sprint outcomes, blocker patterns, review feedback, process observations.
-  - Output: concrete improvement actions that feed the next sprint backlog or working agreements.
+- Produce structured closure: residual risks, unresolved debt, outcomes, and reusable learning.
 
 ## Workflow
-1. Identify whether the current need is vision framing, backlog shaping, sprint execution, adaptation, or closure.
-2. Select the matching mode: `visualize`, `speculate`, `explore`, `adapt`, or `close`.
-3. Pull the relevant template from `references/` and populate it with repo-specific evidence.
-4. Align outputs with the active lifecycle stage instead of bypassing it.
-5. Make the next handoff explicit: stage continuation, backlog update, sprint continuation, review input, or project closure.
+1. Identify whether the current need is framing, backlog shaping, active iteration control, adaptation, release coordination, or closure.
+2. Select the matching mode and relevant reference template.
+3. Make the current iteration state explicit across the six operational stages.
+4. Convert findings into a concrete coordination artifact: backlog, sprint frame, release decision, adaptation package, or closeout.
+5. Route the next action to the right operational skill instead of absorbing execution into project management.
 
 ## Outputs
-- Product vision and working model.
-- Prioritized product backlog and release slice plan.
-- Sprint goal, sprint backlog, board view, and blocker log.
-- Review and retrospective package with adaptation decisions.
-- Closeout summary with residual risk, learning, and next-cycle seeds.
+- Vision and working-model package.
+- Prioritized backlog and release-slice plan.
+- Sprint coordination package with blockers and next increment focus.
+- Adaptation package based on testing, deployment, or maintenance evidence.
+- Release-coordination or closeout artifact with explicit next steps.
 
 ## Definition of Done
-- The requested project-management mode is explicit and matched to the current lifecycle need.
-- Backlog, sprint, review, or closure outputs are concrete enough to guide the next action.
-- Lean waste, Kanban flow visibility, and Scrum cadence are reflected in the produced artifact, not only mentioned.
-- The next lifecycle handoff or decision is explicit.
+- The selected project-management mode matches the actual delivery need.
+- Coordination decisions are concrete enough to guide the next action.
+- Iterative flow, release gates, and feedback loops are explicit.
+- The next handoff to an operational skill is unambiguous.
 
 ## Handoff
-- Hand off to `odoo-stage-orchestrator` when the next lifecycle stage must still be selected.
-- Hand off to `odoo-stage-04-planning` when vision and backlog are ready to become an executable implementation plan.
-- Hand off to `odoo-stage-06-implementation` when sprint execution control is ready and coding work should begin or continue.
-- Hand off to `odoo-stage-07-validation-qa` or `odoo-stage-08-uat` when the increment needs formal review inputs and acceptance evidence.
-- Hand off to `odoo-stage-10-maintenance` or back to `odoo-stage-01-discovery` when closure learnings should seed the next cycle.
+- Hand off to `odoo-analysis-planning` when the main need is problem framing or iteration planning.
+- Hand off to `odoo-design` when solution tradeoffs are ready for technical definition.
+- Hand off to `odoo-coding` when sprint execution or slice implementation should begin or continue.
+- Hand off to `odoo-testing` when validation findings and readiness decisions need formal consolidation.
+- Hand off to `odoo-deployment` when promotion, release timing, or branch-governance decisions must be executed.
+- Hand off to `odoo-maintenance` when post-release incidents, learnings, or service-level issues become the main driver.
 
 ## Related References
 - Use `references/vision-and-working-model-template.md` for `visualize`.
