@@ -23,6 +23,7 @@ El addon ya incluye:
 - toma de control de `stock.report_delivery_document`,
 - reencaminamiento de `stock.report_deliveryslip` al template Dipleg para que el boton estandar `Print` use la estructura AR en runtime,
 - header emisor comun Dipleg y footer AR sobre delivery, receipt e internal move,
+- separacion visual consistente entre header, bloque informativo y tabla principal,
 - bloque documental formal para contraparte, direccion operativa y metadata,
 - smoke tests HTML para outgoing, incoming e internal.
 

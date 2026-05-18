@@ -10,6 +10,7 @@ Este addon define la capa comun para:
 - helpers de activacion y politica documental,
 - bloques reutilizables de header, footer e identidad documental.
 - header emisor comun Dipleg con razon social legal, direccion, condicion IVA, CUIT, IIBB e inicio de actividad.
+- logo corporativo en la franja superior izquierda del header comun.
 
 ## Alcance V1
 

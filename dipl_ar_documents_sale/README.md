@@ -23,4 +23,5 @@ El addon ya incluye:
 - herencia de wrappers de venta para quotation y pro-forma,
 - template Dipleg inicial para cotizacion y orden de venta,
 - reutilizacion del header emisor comun, footer pager y helpers del core `dipl_ar_documents`,
+- separacion visual consistente entre header, bloque informativo y tabla principal,
 - smoke tests HTML para quotation, sales order y pro-forma.

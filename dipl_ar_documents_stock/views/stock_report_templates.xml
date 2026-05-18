@@ -37,7 +37,7 @@
         </xpath>
 
         <xpath expr="//div[@id='informations']" position="replace">
-            <div id="dipl_ar_stock_informations" class="row mt8 mb8">
+            <div id="dipl_ar_stock_informations" class="row mt-3 mb-4">
                 <div class="col-6">
                     <t t-if="stock_partner">
                         <strong><t t-out="o._dipl_ar_get_stock_partner_label()"/>: </strong>
