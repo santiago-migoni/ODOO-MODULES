@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Fixed
+- Rewired `stock.report_deliveryslip` to call the Dipleg stock document template so the standard `Delivery Slip` action renders the AR document structure at runtime.
+
 ### Added
 - Initial Odoo 19 implementation of the Dipleg AR stock document adapter over `stock`.
 
