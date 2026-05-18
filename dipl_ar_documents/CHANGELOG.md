@@ -11,6 +11,7 @@
 - Hardened the base test suite to keep the core addon independent from `sale` and `purchase`.
 - Added coverage for shared helper behavior used by the document adapters.
 - Split the common document chrome into a header-only upper band plus a reusable body-level emitter block so vertical spacing no longer depends on PDF header reservation.
+- Added a reusable body-level top-band component so individual adapters can opt out of the PDF header reservation entirely when needed.
 
 ### Fixed
 - Restored the company logo in the shared emitter header and widened the header-to-body spacing to match the requested document rhythm.

@@ -16,3 +16,4 @@
 
 ### Changed
 - Adopted the body-level common emitter block so quotation and sales-order spacing no longer depends on PDF header geometry.
+- Moved the sales top band out of the PDF header and into the body flow to validate a zero-header-reservation layout for quotations and sales orders.

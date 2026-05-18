@@ -15,7 +15,7 @@
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document" primary="True" priority="20">
         <t t-set="doc" position="after">
             <t t-set="o" t-value="doc"/>
-            <t t-set="custom_header" t-value="'dipl_ar_documents.custom_header'"/>
+            <t t-set="custom_header" t-value="False"/>
             <t t-set="identity_values" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_document_identity_values(o)"/>
             <t t-set="is_proforma" t-value="env.context.get('proforma', False) or is_pro_forma"/>
             <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_sale_report_date(o, is_proforma)"/>
@@ -35,6 +35,7 @@
         <t t-set="layout_document_title" position="replace"/>
 
         <xpath expr="//div[@id='informations']" position="replace">
+            <t t-call="dipl_ar_documents.document_top_band"/>
             <t t-call="dipl_ar_documents.emitter_information_block"/>
             <div id="dipl_ar_sale_informations" class="row mb-3">
                 <div class="col-6">
