@@ -1,23 +1,28 @@
 # Dipleg AR Documents Stock
 
-Adaptador de stock para el framework `dipl_ar_documents`.
+Adaptador formal AR para documentos de `stock.picking` dentro del framework `dipl_ar_documents`.
 
 ## Proposito
 
-Este addon conecta la capa comun Dipleg con el documento AR de stock definido por `l10n_ar_stock`:
+Este addon toma control del flujo principal de impresion de stock para estandarizar:
 
-- remito / delivery guide
+- delivery slip,
+- goods receipt note,
+- internal move base,
+- return slip con header/footer Dipleg.
 
 ## Dependencias
 
 - `dipl_ar_documents`
-- `l10n_ar_stock`
+- `stock`
 
-## Estado
+## Estado funcional actual
 
-Stage 06 implementado para el documento AR de remito sobre la base de `l10n_ar_stock`.
+El addon ya incluye:
 
-## Validacion actual
-
-- activacion condicional por compania AR y numero de remito,
-- smoke test HTML del delivery guide localizado.
+- activacion por compania AR,
+- toma de control de `stock.report_delivery_document`,
+- header y footer AR Dipleg sobre delivery y receipt,
+- bloque documental formal para contraparte y metadata operativa,
+- header/footer Dipleg sobre `Return slip`,
+- smoke tests HTML para outgoing, incoming y return.

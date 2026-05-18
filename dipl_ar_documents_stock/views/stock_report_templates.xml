@@ -1,65 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="custom_header_delivery_guide" inherit_id="l10n_ar.custom_header" primary="True">
-        <xpath expr="//div[@id='l10n_ar_header_right']//span" position="replace">
-            <span t-att-style="'color: %s;' % o.company_id.secondary_color">
-                <strong>DOCUMENT NOT VALID AS AN INVOICE</strong>
-            </span>
-            <br/>
-            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Delivery Guide No: </span>
-            <span t-out="o.l10n_ar_delivery_guide_number"/>
-        </xpath>
-    </template>
-
-    <template id="report_delivery_document" inherit_id="l10n_ar_stock.report_delivery_document" primary="True" priority="25">
-        <xpath expr="//t[@t-set='custom_header']" position="replace">
-            <t t-set="custom_header" t-value="'dipl_ar_documents_stock.custom_header_delivery_guide'"/>
-        </xpath>
-
-        <xpath expr="//t[@t-set='header_address']" position="replace">
+    <template id="report_delivery_document" inherit_id="stock.report_delivery_document" primary="True" priority="25">
+        <xpath expr="//t[@t-set='o']" position="after">
+            <t t-set="custom_header" t-value="'l10n_ar.custom_header'"/>
+            <t t-set="report_date" t-value="o.date_done if o.state == 'done' else o.scheduled_date"/>
+            <t t-set="report_number" t-value="o.name"/>
+            <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name" t-value="o._dipl_ar_get_stock_report_title()"/>
             <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
+            <t t-set="custom_footer">
+                <t t-call="dipl_ar_documents.custom_footer_pager"/>
+            </t>
         </xpath>
 
-        <xpath expr="//t[@t-set='custom_footer']" position="replace">
-            <t t-set="custom_footer">
-                <div class="row">
-                    <div name="footer_left_column" class="col-6 text-start">
-                        <div name="pager" t-if="report_type == 'pdf'">
-                            Page: <span class="page"/> / <span class="topage"/>
-                        </div>
-                        <div name="sequence_range" t-if="o.l10n_ar_cai_data">
-                            Sequence from <t t-out="o.l10n_ar_cai_data['sequence_number_start']"/> to <t t-out="o.l10n_ar_cai_data['sequence_number_end']"/>
-                        </div>
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <div name="dipl_stock_address_block">
+                    <div
+                        name="outgoing_delivery_address"
+                        t-if="o.should_print_delivery_address() and partner"
+                    >
+                        <strong>Delivery Address</strong>
+                        <div
+                            t-out="o.move_ids and o.move_ids[0].partner_id or o.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+                        />
                     </div>
-                    <div name="footer_right_column" class="col-6 text-end" t-if="o.l10n_ar_cai_data">
-                        <div name="cai_number">
-                            CAI: <t t-out="o.l10n_ar_cai_data['cai_authorization_code']"/>
-                        </div>
-                        <div name="cai_expiration_date">
-                            CAI Expiration Date:
-                            <t t-out="o.l10n_ar_cai_data['cai_expiration_date']" t-options='{"widget": "date"}'/>
-                        </div>
+                    <div
+                        name="warehouse_address"
+                        t-elif="o.picking_type_id.code != 'internal' and o.picking_type_id.warehouse_id.partner_id"
+                    >
+                        <strong>Warehouse Address</strong>
+                        <div
+                            t-field="o.picking_type_id.warehouse_id.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+                        />
                     </div>
                 </div>
             </t>
         </xpath>
 
+        <xpath expr="//t[@t-set='information_block']" position="replace">
+            <t t-set="information_block">
+                <div class="row">
+                    <div class="col-7" name="dipl_stock_partner_block">
+                        <t t-if="partner">
+                            <strong><t t-out="o._dipl_ar_get_stock_partner_label()"/>:</strong>
+                            <div
+                                t-field="partner.commercial_partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'
+                            />
+                            <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(partner.commercial_partner_id.l10n_ar_afip_responsibility_type_id)">
+                                <strong>VAT Cond: </strong><span t-field="partner.commercial_partner_id.l10n_ar_afip_responsibility_type_id"/>
+                            </t>
+                            <t t-call="dipl_ar_documents.partner_tax_line">
+                                <t t-set="partner" t-value="partner.commercial_partner_id"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//h2[span[@t-field='o.name']]" position="replace">
+            <br/>
+        </xpath>
+
         <xpath expr="//div[@id='informations']" position="replace">
-            <div id="dipl_ar_stock_informations">
-                <t><strong>Customer: </strong></t>
-                <span t-field="o.partner_id.commercial_partner_id.name"/>
-                <br/>
-                <span
-                    t-field="o.partner_id"
-                    t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
-                />
-                <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.partner_id.l10n_ar_afip_responsibility_type_id)">
-                    <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
-                </t>
-                <t t-call="dipl_ar_documents.partner_tax_line">
-                    <t t-set="partner" t-value="o.partner_id"/>
-                </t>
+            <div id="dipl_ar_stock_informations" class="report-wrapping-flexbox clearfix row mb-4">
+                <div t-if="o.origin" class="col col-3 mw-100 mb-2">
+                    <strong>Source Document</strong>
+                    <div t-field="o.origin" class="m-0"/>
+                </div>
+                <div t-if="o.picking_type_id.code == 'internal' and o.partner_id" class="col col-3 mw-100 mb-2">
+                    <strong>Contact</strong>
+                    <div t-field="o.partner_id" class="m-0"/>
+                </div>
+                <div t-if="o.state" class="col col-3 mw-100 mb-2">
+                    <strong>Shipping Date</strong>
+                    <div t-if="o.state == 'done'" t-field="o.date_done" class="m-0"/>
+                    <div t-else="" t-field="o.scheduled_date" class="m-0"/>
+                </div>
+                <div t-if="o.user_id" class="col-auto">
+                    <strong>Operator:</strong>
+                    <p t-field="o.user_id"/>
+                </div>
             </div>
+        </xpath>
+    </template>
+
+    <template id="report_return_slip" inherit_id="stock.report_return_slip" priority="25">
+        <xpath expr="//t[@t-set='o']" position="after">
+            <t t-set="custom_header" t-value="'l10n_ar.custom_header'"/>
+            <t t-set="report_date" t-value="o.date_done if o.state == 'done' else o.scheduled_date"/>
+            <t t-set="report_number" t-value="o.name"/>
+            <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name">Return Slip</t>
+            <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
+            <t t-set="custom_footer">
+                <t t-call="dipl_ar_documents.custom_footer_pager"/>
+            </t>
         </xpath>
     </template>
 </odoo>

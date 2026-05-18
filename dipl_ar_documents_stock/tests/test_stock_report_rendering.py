@@ -26,58 +26,80 @@ class TestDiplArDocumentsStockRendering(TransactionCase):
             [("company_id", "=", cls.company.id)],
             limit=1,
         )
+        cls.vendor_location = cls.env.ref("stock.stock_location_suppliers")
         cls.customer_location = cls.env.ref("stock.stock_location_customers")
         cls.product = cls.env["product.product"].create({
             "name": "Producto remito",
             "list_price": 100.0,
         })
-        cls.picking_type = cls.env["stock.picking.type"].create({
-            "name": "Remito Dipleg",
-            "code": "outgoing",
-            "company_id": cls.company.id,
-            "sequence_code": "OUT",
-            "warehouse_id": cls.warehouse.id,
-            "l10n_ar_document_type_id": cls.env.ref("l10n_ar.dc_r_r").id,
-            "l10n_ar_cai_authorization_code": "1234567890",
-            "l10n_ar_cai_expiration_date": "2026-12-31",
-            "l10n_ar_sequence_number_start": "00000001",
-            "l10n_ar_sequence_number_end": "00000999",
-            "default_location_src_id": cls.warehouse.lot_stock_id.id,
-            "default_location_dest_id": cls.customer_location.id,
-        })
+        cls.out_type = cls.warehouse.out_type_id
+        cls.in_type = cls.warehouse.in_type_id
 
-    def _create_done_picking(self):
-        picking = self.env["stock.picking"].create({
+    def _create_picking(self, picking_type, source_location, destination_location):
+        return self.env["stock.picking"].create({
             "company_id": self.company.id,
             "partner_id": self.partner.id,
-            "picking_type_id": self.picking_type.id,
-            "location_id": self.warehouse.lot_stock_id.id,
-            "location_dest_id": self.customer_location.id,
+            "picking_type_id": picking_type.id,
+            "location_id": source_location.id,
+            "location_dest_id": destination_location.id,
             "move_ids": [
                 Command.create({
                     "name": self.product.name,
                     "product_id": self.product.id,
                     "product_uom_qty": 1.0,
-                    "location_id": self.warehouse.lot_stock_id.id,
-                    "location_dest_id": self.customer_location.id,
+                    "location_id": source_location.id,
+                    "location_dest_id": destination_location.id,
                 })
             ],
         })
-        picking.action_confirm()
-        picking.button_validate()
-        picking.l10n_ar_action_create_delivery_guide()
-        return picking
 
-    def test_stock_report_renders_dipleg_delivery_guide_template(self):
-        picking = self._create_done_picking()
+    def test_stock_report_renders_dipleg_outgoing_template(self):
+        picking = self._create_picking(
+            self.out_type,
+            self.warehouse.lot_stock_id,
+            self.customer_location,
+        )
 
         html, _format = self.env["ir.actions.report"]._render_qweb_html(
-            "l10n_ar_stock.action_delivery_guide_report_pdf",
+            "stock.action_report_delivery",
             [picking.id],
         )
         html = html.decode()
 
-        self.assertIn("DOCUMENT NOT VALID AS AN INVOICE", html)
-        self.assertIn("Delivery Guide No:", html)
+        self.assertIn("Delivery Note", html)
         self.assertIn("Customer:", html)
-        self.assertIn("CAI:", html)
+        self.assertIn("CUIT:", html)
+        self.assertIn("Delivery Address", html)
+
+    def test_stock_report_renders_dipleg_incoming_template(self):
+        picking = self._create_picking(
+            self.in_type,
+            self.vendor_location,
+            self.warehouse.lot_stock_id,
+        )
+
+        html, _format = self.env["ir.actions.report"]._render_qweb_html(
+            "stock.action_report_delivery",
+            [picking.id],
+        )
+        html = html.decode()
+
+        self.assertIn("Goods Receipt Note", html)
+        self.assertIn("Vendor", html)
+        self.assertIn("Warehouse Address", html)
+
+    def test_stock_return_slip_renders_with_dipleg_header(self):
+        picking = self._create_picking(
+            self.out_type,
+            self.warehouse.lot_stock_id,
+            self.customer_location,
+        )
+
+        html, _format = self.env["ir.actions.report"]._render_qweb_html(
+            "stock.return_label_report",
+            [picking.id],
+        )
+        html = html.decode()
+
+        self.assertIn("Return Slip", html)
+        self.assertIn("Invalid document as invoice", html)
