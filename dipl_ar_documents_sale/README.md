@@ -22,5 +22,5 @@ El addon ya incluye:
 - routing AR explicito para `sale.report_saleorder_document`,
 - herencia de wrappers de venta para quotation y pro-forma,
 - template Dipleg inicial para cotizacion y orden de venta,
-- reutilizacion del footer pager y helpers del core `dipl_ar_documents`,
+- reutilizacion del header emisor comun, footer pager y helpers del core `dipl_ar_documents`,
 - smoke tests HTML para quotation, sales order y pro-forma.

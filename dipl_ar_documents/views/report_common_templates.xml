@@ -1,5 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="custom_header">
+        <t t-set="emitter_partner" t-value="header_address or o.company_id.partner_id"/>
+        <div class="mb-3">
+            <div class="row mb-2">
+                <div class="col-5"/>
+                <div class="col-2 text-center" t-att-style="'color: %s;' % o.company_id.primary_color">
+                    <span style="display: inline-block; text-align: center; line-height: 8px;">
+                        <h1 style="line-height: 35px;">
+                            <strong><span t-out="not pre_printed_report and document_letter or '&#160;'"/></strong>
+                        </h1>
+                        <span style="font-size: x-small;" t-out="not pre_printed_report and document_legend or '&#160;'"/>
+                    </span>
+                </div>
+                <div class="col-5 text-end" style="padding-left: 0px;">
+                    <h4 t-att-style="'color: %s;' % o.company_id.primary_color">
+                        <strong><span t-out="report_name"/></strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <strong>Nombre: </strong>
+                    <span t-out="emitter_partner.name or o.company_id.partner_id.name"/>
+                    <t t-if="emitter_partner and (emitter_partner.street or emitter_partner.street2 or emitter_partner.city or emitter_partner.state_id or emitter_partner.country_id)">
+                        <br/>
+                        <strong>Dirección: </strong>
+                        <span
+                            t-out="', '.join([item for item in [
+                                ', '.join([item for item in [emitter_partner.street, emitter_partner.street2] if item]),
+                                emitter_partner.city,
+                                emitter_partner.state_id and emitter_partner.state_id.name,
+                                emitter_partner.country_id and emitter_partner.country_id.name] if item])"
+                        />
+                    </t>
+                </div>
+                <div class="col-6 text-end" style="padding-left: 0px;">
+                    <t t-if="report_number">
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Nro: </span>
+                        <span t-out="report_number"/>
+                    </t>
+                    <t t-if="report_date">
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">
+                            <t t-out="report_date_label or 'Date'"/>:
+                        </span>
+                        <span t-out="report_date" t-options='{"widget": "date"}'/>
+                    </t>
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.l10n_ar_afip_responsibility_type_id)">
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Condición IVA: </span>
+                        <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat)">
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">CUIT: </span>
+                        <span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat"/>
+                    </t>
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.l10n_ar_gross_income_number)">
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span>
+                        <span t-out="o.company_id.l10n_ar_gross_income_number"/>
+                    </t>
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.l10n_ar_afip_start_date)">
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Inicio de actividad: </span>
+                        <span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <template id="custom_footer_pager">
         <div class="row">
             <div name="footer_left_column" class="col-8 text-start"/>

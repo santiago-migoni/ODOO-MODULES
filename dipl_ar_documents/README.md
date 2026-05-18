@@ -9,6 +9,7 @@ Este addon define la capa comun para:
 - contrato QWeb compartido,
 - helpers de activacion y politica documental,
 - bloques reutilizables de header, footer e identidad documental.
+- header emisor comun Dipleg con razon social legal, direccion, condicion IVA, CUIT, IIBB e inicio de actividad.
 
 ## Alcance V1
 
@@ -27,6 +28,7 @@ Los adaptadores funcionales viven en:
 ## Estado
 
 Stage 06 implementado como core reusable para templates y helpers AR.
+El layout comun reutiliza el soporte de `custom_header` y `custom_footer` de `l10n_latam_invoice_document` para evitar duplicacion de paginacion en PDF.
 
 ## Validacion actual
 

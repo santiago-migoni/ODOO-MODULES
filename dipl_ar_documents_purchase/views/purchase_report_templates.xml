@@ -12,28 +12,12 @@
         </t>
     </template>
 
-    <template id="custom_header_purchasequotation" inherit_id="l10n_ar.custom_header" primary="True">
-        <xpath expr="//div[hasclass('col-6', 'text-end')]/span[1]" position="replace">
-            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
-        </xpath>
-    </template>
-
-    <template id="custom_header_purchaseorder" inherit_id="l10n_ar.custom_header" primary="True">
-        <xpath expr="//div[hasclass('col-6', 'text-end')]/span[1]" position="replace">
-            <t t-if="o.state == 'purchase'">
-                <span t-att-style="'color: %s;' % o.company_id.secondary_color">Approve date: </span>
-            </t>
-            <t t-else="">
-                <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
-            </t>
-        </xpath>
-    </template>
-
     <template id="report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document" primary="True" priority="20">
         <t t-set="o" position="after">
-            <t t-set="custom_header" t-value="'dipl_ar_documents_purchase.custom_header_purchasequotation'"/>
+            <t t-set="custom_header" t-value="'dipl_ar_documents.custom_header'"/>
             <t t-set="identity_values" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_document_identity_values(o)"/>
             <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_date(o)"/>
+            <t t-set="report_date_label" t-value="'Date due'"/>
             <t t-set="report_number" t-value="identity_values['report_number']"/>
             <t t-set="document_letter" t-value="'X'"/>
             <t t-set="document_legend">Invalid document as invoice</t>
@@ -91,8 +75,9 @@
 
     <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document" primary="True" priority="20">
         <t t-set="o" position="after">
-            <t t-set="custom_header" t-value="'dipl_ar_documents_purchase.custom_header_purchaseorder'"/>
+            <t t-set="custom_header" t-value="'dipl_ar_documents.custom_header'"/>
             <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_date(o)"/>
+            <t t-set="report_date_label" t-value="'Approve date' if o.state == 'purchase' else 'Date due'"/>
             <t t-set="report_number" t-value="o.name"/>
             <t t-set="document_letter" t-value="'X'"/>
             <t t-set="document_legend">Invalid document as invoice</t>

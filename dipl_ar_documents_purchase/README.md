@@ -20,6 +20,6 @@ El addon ya incluye:
 
 - routing AR explicito para reportes de `purchase.order`,
 - templates Dipleg iniciales para RFQ y purchase order,
-- reutilizacion del footer pager y helpers del core `dipl_ar_documents`,
+- reutilizacion del header emisor comun, footer pager y helpers del core `dipl_ar_documents`,
 - supresion basica de campos vacios en informacion complementaria,
 - smoke tests HTML para RFQ y purchase order.

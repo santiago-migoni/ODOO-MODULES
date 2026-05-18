@@ -22,7 +22,7 @@ El addon ya incluye:
 - activacion por compania AR,
 - toma de control de `stock.report_delivery_document`,
 - reencaminamiento de `stock.report_deliveryslip` al template Dipleg para que el boton estandar `Print` use la estructura AR en runtime,
-- header y footer AR Dipleg sobre delivery, receipt e internal move,
+- header emisor comun Dipleg y footer AR sobre delivery, receipt e internal move,
 - bloque documental formal para contraparte, direccion operativa y metadata,
 - smoke tests HTML para outgoing, incoming e internal.
 
