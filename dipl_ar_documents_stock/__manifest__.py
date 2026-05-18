@@ -3,7 +3,7 @@
 {
     "name": "Dipleg AR Documents Stock",
     "summary": "AR stock document adapter for the Dipleg document framework",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.1.0",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",

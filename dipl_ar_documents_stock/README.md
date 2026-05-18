@@ -23,6 +23,6 @@ El addon ya incluye:
 - activacion por compania AR,
 - toma de control de `stock.report_delivery_document`,
 - header y footer AR Dipleg sobre delivery y receipt,
-- bloque documental formal para contraparte y metadata operativa,
+- bloque documental formal para contraparte, direccion operativa y metadata,
 - header/footer Dipleg sobre `Return slip`,
 - smoke tests HTML para outgoing, incoming y return.

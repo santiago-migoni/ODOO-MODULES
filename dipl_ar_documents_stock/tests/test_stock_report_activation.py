@@ -20,6 +20,7 @@ class TestDiplArDocumentsStockActivation(TransactionCase):
 
         self.assertEqual(picking._dipl_ar_get_stock_report_title(), "Goods Receipt Note")
         self.assertEqual(picking._dipl_ar_get_stock_partner_label(), "Vendor")
+        self.assertEqual(picking._dipl_ar_get_stock_address_label(), "Warehouse Address")
 
     def test_stock_adapter_activation_rejects_non_ar_company(self):
         company = self.env.company

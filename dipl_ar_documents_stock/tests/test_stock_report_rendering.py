@@ -67,9 +67,10 @@ class TestDiplArDocumentsStockRendering(TransactionCase):
         html = html.decode()
 
         self.assertIn("Delivery Note", html)
-        self.assertIn("Customer:", html)
+        self.assertIn("Customer: ", html)
         self.assertIn("CUIT:", html)
-        self.assertIn("Delivery Address", html)
+        self.assertIn("Delivery Address:", html)
+        self.assertIn("Operator:", html)
 
     def test_stock_report_renders_dipleg_incoming_template(self):
         picking = self._create_picking(
@@ -85,8 +86,9 @@ class TestDiplArDocumentsStockRendering(TransactionCase):
         html = html.decode()
 
         self.assertIn("Goods Receipt Note", html)
-        self.assertIn("Vendor", html)
-        self.assertIn("Warehouse Address", html)
+        self.assertIn("Vendor: ", html)
+        self.assertIn("Warehouse Address:", html)
+        self.assertIn("Operator:", html)
 
     def test_stock_return_slip_renders_with_dipleg_header(self):
         picking = self._create_picking(
