@@ -14,3 +14,4 @@
 
 ### Fixed
 - Restored the company logo in the shared emitter header and widened the header-to-body spacing to match the requested document rhythm.
+- Tightened the shared spacing scale after moving the emitter lower band into the body, using a shorter top gap and medium document section gaps.

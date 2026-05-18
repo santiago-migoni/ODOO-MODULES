@@ -3,7 +3,7 @@
 {
     "name": "Dipleg AR Documents Purchase",
     "summary": "AR purchase document adapter for the Dipleg document framework",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",

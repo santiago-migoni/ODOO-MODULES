@@ -38,7 +38,7 @@
 
         <xpath expr="//div[@id='informations']" position="replace">
             <t t-call="dipl_ar_documents.emitter_information_block"/>
-            <div id="dipl_ar_stock_informations" class="row mb-5">
+            <div id="dipl_ar_stock_informations" class="row mb-3">
                 <div class="col-6">
                     <t t-if="stock_partner">
                         <strong><t t-out="o._dipl_ar_get_stock_partner_label()"/>: </strong>

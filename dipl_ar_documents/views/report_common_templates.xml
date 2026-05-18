@@ -30,7 +30,7 @@
 
     <template id="emitter_information_block">
         <t t-set="emitter_partner" t-value="header_address or o.company_id.partner_id"/>
-        <div id="dipl_ar_emitter_information" class="row mt-1 mb-5">
+        <div id="dipl_ar_emitter_information" class="row mt-2 mb-3">
             <div class="col-6">
                 <strong>Name: </strong>
                 <span t-out="emitter_partner.name or o.company_id.partner_id.name"/>

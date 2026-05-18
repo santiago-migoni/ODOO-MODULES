@@ -13,6 +13,7 @@
 ### Fixed
 - Removed the obsolete purchase-order payment-terms XPath overrides that broke report compilation after the Dipleg information block replacement.
 - Increased the spacing between the purchase header, information block, and main document table to align with the common Dipleg print rhythm.
+- Tightened the purchase spacing scale to the shared `2 / 3 / 3` rhythm after validating the body-level emitter layout.
 
 ### Changed
 - Adopted the body-level common emitter block so RFQ and purchase-order spacing no longer depends on PDF header geometry.

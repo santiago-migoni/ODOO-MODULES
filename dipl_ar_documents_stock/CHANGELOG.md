@@ -7,6 +7,7 @@
 - Replaced an invalid `t-field` on the stock address helper block with `t-out` so the delivery-slip template compiles correctly in QWeb runtime.
 - Adopted the shared Dipleg header/footer path so stock documents stop duplicating the pager and use the common emitter block.
 - Increased the spacing between the stock header, information block, and main logistics table to align with the common Dipleg print rhythm.
+- Tightened the stock spacing scale to the shared `2 / 3 / 3` rhythm after validating the body-level emitter layout.
 
 ### Added
 - Initial Odoo 19 implementation of the Dipleg AR stock document adapter over `stock`.

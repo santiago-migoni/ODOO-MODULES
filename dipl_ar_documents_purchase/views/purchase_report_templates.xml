@@ -32,7 +32,7 @@
 
         <t t-set="layout_document_title" position="replace">
             <t t-call="dipl_ar_documents.emitter_information_block"/>
-            <div id="dipl_ar_purchase_rfq_informations" class="row mb-5">
+            <div id="dipl_ar_purchase_rfq_informations" class="row mb-3">
                 <div class="col-6">
                     <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
                     <br/>
@@ -102,7 +102,7 @@
 
         <div id="informations" position="replace">
             <t t-call="dipl_ar_documents.emitter_information_block"/>
-            <div id="dipl_ar_purchase_order_informations" class="row mb-5">
+            <div id="dipl_ar_purchase_order_informations" class="row mb-3">
                 <div class="col-6">
                     <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
                     <br/>

@@ -12,6 +12,7 @@
 
 ### Fixed
 - Increased the spacing between the sale header, information block, and main document table to align with the common Dipleg print rhythm.
+- Tightened the sale spacing scale to the shared `2 / 3 / 3` rhythm after validating the body-level emitter layout.
 
 ### Changed
 - Adopted the body-level common emitter block so quotation and sales-order spacing no longer depends on PDF header geometry.
