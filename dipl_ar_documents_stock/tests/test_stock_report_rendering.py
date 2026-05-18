@@ -28,12 +28,19 @@ class TestDiplArDocumentsStockRendering(TransactionCase):
         )
         cls.vendor_location = cls.env.ref("stock.stock_location_suppliers")
         cls.customer_location = cls.env.ref("stock.stock_location_customers")
+        cls.internal_destination = cls.env["stock.location"].create({
+            "name": "Dipleg Internal Test",
+            "usage": "internal",
+            "company_id": cls.company.id,
+            "location_id": cls.warehouse.view_location_id.id,
+        })
         cls.product = cls.env["product.product"].create({
             "name": "Producto remito",
             "list_price": 100.0,
         })
         cls.out_type = cls.warehouse.out_type_id
         cls.in_type = cls.warehouse.in_type_id
+        cls.int_type = cls.warehouse.int_type_id
 
     def _create_picking(self, picking_type, source_location, destination_location):
         return self.env["stock.picking"].create({
@@ -90,18 +97,20 @@ class TestDiplArDocumentsStockRendering(TransactionCase):
         self.assertIn("Warehouse Address:", html)
         self.assertIn("Operator:", html)
 
-    def test_stock_return_slip_renders_with_dipleg_header(self):
+    def test_stock_report_renders_dipleg_internal_template(self):
         picking = self._create_picking(
-            self.out_type,
+            self.int_type,
             self.warehouse.lot_stock_id,
-            self.customer_location,
+            self.internal_destination,
         )
+        picking.partner_id = self.partner.id
 
         html, _format = self.env["ir.actions.report"]._render_qweb_html(
-            "stock.return_label_report",
+            "stock.action_report_delivery",
             [picking.id],
         )
         html = html.decode()
 
-        self.assertIn("Return Slip", html)
-        self.assertIn("Invalid document as invoice", html)
+        self.assertIn("Internal Transfer Note", html)
+        self.assertIn("Contact: ", html)
+        self.assertIn("Destination:", html)

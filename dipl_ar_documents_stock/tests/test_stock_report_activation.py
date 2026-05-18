@@ -18,9 +18,22 @@ class TestDiplArDocumentsStockActivation(TransactionCase):
             "picking_type_id": warehouse.in_type_id.id,
         })
 
-        self.assertEqual(picking._dipl_ar_get_stock_report_title(), "Goods Receipt Note")
+        self.assertEqual(picking._dipl_ar_get_stock_report_name(), "Goods Receipt Note")
         self.assertEqual(picking._dipl_ar_get_stock_partner_label(), "Vendor")
         self.assertEqual(picking._dipl_ar_get_stock_address_label(), "Warehouse Address")
+
+    def test_stock_adapter_internal_labels(self):
+        company = self.env.company
+        company.account_fiscal_country_id = self.env.ref("base.ar")
+        warehouse = self.env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
+        picking = self.env["stock.picking"].new({
+            "company_id": company.id,
+            "picking_type_id": warehouse.int_type_id.id,
+        })
+
+        self.assertEqual(picking._dipl_ar_get_stock_report_name(), "Internal Transfer Note")
+        self.assertEqual(picking._dipl_ar_get_stock_partner_label(), "Contact")
+        self.assertEqual(picking._dipl_ar_get_stock_address_label(), "Destination")
 
     def test_stock_adapter_activation_rejects_non_ar_company(self):
         company = self.env.company

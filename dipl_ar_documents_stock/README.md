@@ -8,8 +8,7 @@ Este addon toma control del flujo principal de impresion de stock para estandari
 
 - delivery slip,
 - goods receipt note,
-- internal move base,
-- return slip con header/footer Dipleg.
+- internal move.
 
 ## Dependencias
 
@@ -22,7 +21,11 @@ El addon ya incluye:
 
 - activacion por compania AR,
 - toma de control de `stock.report_delivery_document`,
-- header y footer AR Dipleg sobre delivery y receipt,
+- header y footer AR Dipleg sobre delivery, receipt e internal move,
 - bloque documental formal para contraparte, direccion operativa y metadata,
-- header/footer Dipleg sobre `Return slip`,
-- smoke tests HTML para outgoing, incoming y return.
+- smoke tests HTML para outgoing, incoming e internal.
+
+## Fuera de V1
+
+- `Picking Operations`
+- `Return slip`

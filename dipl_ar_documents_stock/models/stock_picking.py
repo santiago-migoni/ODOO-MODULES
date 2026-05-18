@@ -8,9 +8,26 @@ class StockPicking(models.Model):
         self.ensure_one()
         return self.company_id._dipl_ar_documents_is_active()
 
-    def _dipl_ar_get_stock_report_title(self):
+    def _dipl_ar_get_stock_report_name(self):
         self.ensure_one()
-        return self.picking_type_id._get_code_report_name() or _("Transfer")
+        code = self.picking_type_id.code
+        if code == "incoming":
+            return _("Goods Receipt Note")
+        if code == "outgoing":
+            return _("Delivery Note")
+        if code == "internal":
+            return _("Internal Transfer Note")
+        return _("Transfer")
+
+    def _dipl_ar_get_stock_report_date(self):
+        self.ensure_one()
+        return self.date_done if self.state == "done" else self.scheduled_date
+
+    def _dipl_ar_get_stock_partner(self):
+        self.ensure_one()
+        if self.picking_type_id.code == "internal":
+            return self.partner_id or False
+        return (self.partner_id or (self.move_ids and self.move_ids[0].partner_id)) or False
 
     def _dipl_ar_get_stock_partner_label(self):
         self.ensure_one()
