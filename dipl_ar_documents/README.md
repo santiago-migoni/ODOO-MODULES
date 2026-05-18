@@ -31,6 +31,7 @@ Los adaptadores funcionales viven en:
 Stage 06 implementado como core reusable para templates y helpers AR.
 El layout comun reutiliza el soporte de `custom_header` y `custom_footer` de `l10n_latam_invoice_document` para evitar duplicacion de paginacion en PDF.
 La capa comun conserva labels fuente en ingles; la localizacion AR visible debe resolverse via i18n.
+La franja superior vive en el header PDF y la franja inferior del emisor vive en el body para desacoplar el espaciado de la geometria de `report.paperformat`.
 
 ## Validacion actual
 

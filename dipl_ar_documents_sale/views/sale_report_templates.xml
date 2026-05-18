@@ -35,7 +35,8 @@
         <t t-set="layout_document_title" position="replace"/>
 
         <xpath expr="//div[@id='informations']" position="replace">
-            <div id="dipl_ar_sale_informations" class="row mt-5 mb-4">
+            <t t-call="dipl_ar_documents.emitter_information_block"/>
+            <div id="dipl_ar_sale_informations" class="row mb-5">
                 <div class="col-6">
                     <strong>Customer: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
                     <br/>
