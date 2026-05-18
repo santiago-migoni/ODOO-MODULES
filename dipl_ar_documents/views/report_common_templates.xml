@@ -28,11 +28,11 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <strong>Nombre: </strong>
+                    <strong>Name: </strong>
                     <span t-out="emitter_partner.name or o.company_id.partner_id.name"/>
                     <t t-if="emitter_partner and (emitter_partner.street or emitter_partner.street2 or emitter_partner.city or emitter_partner.state_id or emitter_partner.country_id)">
                         <br/>
-                        <strong>Dirección: </strong>
+                        <strong>Address: </strong>
                         <span
                             t-out="', '.join([item for item in [
                                 ', '.join([item for item in [emitter_partner.street, emitter_partner.street2] if item]),
@@ -56,7 +56,7 @@
                     </t>
                     <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.l10n_ar_afip_responsibility_type_id)">
                         <br/>
-                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Condición IVA: </span>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">VAT Cond: </span>
                         <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/>
                     </t>
                     <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat)">
@@ -71,7 +71,7 @@
                     </t>
                     <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.company_id.l10n_ar_afip_start_date)">
                         <br/>
-                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Inicio de actividad: </span>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Activity Start: </span>
                         <span t-field="o.company_id.l10n_ar_afip_start_date"/>
                     </t>
                 </div>

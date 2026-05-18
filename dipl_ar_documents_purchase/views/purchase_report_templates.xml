@@ -31,7 +31,7 @@
         <t t-set="address" position="replace"/>
 
         <t t-set="layout_document_title" position="replace">
-            <div id="dipl_ar_purchase_rfq_informations" class="row mt-3 mb-4">
+            <div id="dipl_ar_purchase_rfq_informations" class="row mt-5 mb-4">
                 <div class="col-6">
                     <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
                     <br/>
@@ -100,7 +100,7 @@
         </xpath>
 
         <div id="informations" position="replace">
-            <div id="dipl_ar_purchase_order_informations" class="row mt-3 mb-4">
+            <div id="dipl_ar_purchase_order_informations" class="row mt-5 mb-4">
                 <div class="col-6">
                     <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
                     <br/>
