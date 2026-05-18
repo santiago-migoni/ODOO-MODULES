@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <template id="report_saleorder_raw" inherit_id="sale.report_saleorder_raw">
         <t t-call="sale.report_saleorder_document" position="attributes">
-            <attribute name="t-call">#{ doc._get_name_sale_report('sale.report_saleorder_document') }</attribute>
+            <attribute name="t-call">#{ doc._dipl_get_localized_sale_report_name('sale.report_saleorder_document') }</attribute>
         </t>
     </template>
 
     <template id="report_saleorder_pro_forma" inherit_id="sale.report_saleorder_pro_forma">
         <t t-call="sale.report_saleorder_document" position="attributes">
-            <attribute name="t-call">#{ doc._get_name_sale_report('sale.report_saleorder_document') }</attribute>
+            <attribute name="t-call">#{ doc._dipl_get_localized_sale_report_name('sale.report_saleorder_document') }</attribute>
         </t>
     </template>
 
@@ -27,25 +26,17 @@
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document" primary="True" priority="20">
         <t t-set="doc" position="after">
             <t t-set="o" t-value="doc"/>
-            <t t-set="custom_header" t-value="'l10n_ar_sale.custom_header_saleorder'"/>
-            <t t-set="report_date" t-value="o.validity_date if o.state in ['draft', 'sent'] and o.validity_date else o.date_order"/>
-            <t t-set="report_number" t-value="o.name"/>
+            <t t-set="custom_header" t-value="'dipl_ar_documents_sale.custom_header_saleorder'"/>
+            <t t-set="identity_values" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_document_identity_values(o)"/>
+            <t t-set="is_proforma" t-value="env.context.get('proforma', False) or is_pro_forma"/>
+            <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_sale_report_date(o, is_proforma)"/>
+            <t t-set="report_number" t-value="identity_values['report_number']"/>
             <t t-set="document_letter" t-value="'X'"/>
             <t t-set="document_legend">Invalid document as invoice</t>
-            <t t-set="report_name" t-if="o.state in ['draft', 'sent']">Request for Quotation</t>
-            <t t-set="report_name" t-if="o.state in ['sale', 'done']">Sales Order</t>
-            <t t-set="report_name" t-if="o.state == 'cancel'">Cancelled Sales Order</t>
-            <t t-set="header_address" t-value="o.company_id.partner_id"/>
-
+            <t t-set="report_name" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_sale_report_title(o, is_proforma)"/>
+            <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
             <t t-set="custom_footer">
-                <div class="row">
-                    <div name="footer_left_column" class="col-8 text-center"/>
-                    <div name="footer_right_column" class="col-4 text-right">
-                        <div name="pager" t-if="report_type == 'pdf'">
-                            Page: <span class="page"/> / <span class="topage"/>
-                        </div>
-                    </div>
-                </div>
+                <t t-call="dipl_ar_documents.custom_footer_pager"/>
             </t>
         </t>
 
@@ -54,46 +45,45 @@
         <t t-set="layout_document_title" position="replace"/>
 
         <xpath expr="//div[@id='informations']" position="replace">
-            <div id="l10n_ar_informations" class="row mt8 mb8">
+            <div id="dipl_ar_sale_informations" class="row mt8 mb8">
                 <div class="col-6">
                     <strong>Customer: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
-
                     <br/>
-                    <span t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
-
-                    <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
-
-                    <t t-if="o.partner_id.vat and o.partner_id.l10n_latam_identification_type_id.name and o.partner_id.l10n_latam_identification_type_id.name != 'Sigd'">
-                        <br/><strong><t t-out="o.partner_id.l10n_latam_identification_type_id.name or o.company_id.country_id.vat_label"/>:</strong>
-                        <span t-out="o.partner_id.l10n_ar_formatted_vat or o.partner_id.vat"/>
+                    <span
+                        t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                    />
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.partner_id.l10n_ar_afip_responsibility_type_id)">
+                        <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-call="dipl_ar_documents.partner_tax_line">
+                        <t t-set="partner" t-value="o.partner_id"/>
                     </t>
                 </div>
-
                 <div class="col-6">
                     <t t-if="o.user_id">
                         <strong>Salesperson:</strong>
                         <span t-field="o.user_id"/>
                     </t>
-
                     <t t-if="o.payment_term_id">
                         <br/><strong>Payment Terms:</strong>
                         <span t-field="o.payment_term_id.name"/>
                     </t>
-
                     <t t-if="o.client_order_ref">
                         <br/><strong>Your Reference:</strong>
                         <span t-field="o.client_order_ref"/>
                     </t>
-
-                    <t t-if="o.partner_shipping_id">
+                    <t t-if="o.partner_shipping_id and o.partner_shipping_id != o.partner_id">
                         <br/><strong>Shipping address:</strong>
                         <span t-field="o.partner_shipping_id.name"/>
                         <br/>
-                        <span t-field="o.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                        <span
+                            t-field="o.partner_shipping_id"
+                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                        />
                     </t>
                 </div>
             </div>
         </xpath>
     </template>
-
 </odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_footer_pager">
+        <div class="row">
+            <div name="footer_left_column" class="col-8 text-start"/>
+            <div name="footer_right_column" class="col-4 text-end">
+                <div name="pager" t-if="report_type == 'pdf'">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="company_identity_block">
+        <t t-if="header_address">
+            <span t-field="o.company_id.partner_id.name"/>
+            <br/>
+            <t
+                t-out="' - '.join([item for item in [
+                    ', '.join([item for item in [header_address.street, header_address.street2] if item]),
+                    header_address.city,
+                    header_address.state_id and header_address.state_id.name,
+                    header_address.zip,
+                    header_address.country_id and header_address.country_id.name] if item])"
+            />
+            <t t-if="header_address.phone">
+                <span> - </span>
+                <span style="white-space: nowrap;" t-out="'Tel: ' + header_address.phone"/>
+            </t>
+            <t t-if="header_address.website or header_address.email">
+                <br/>
+                <span
+                    t-att-style="'color: %s;' % o.company_id.primary_color"
+                    t-out="' - '.join([item for item in [
+                        (header_address.website or '').replace('https://', '').replace('http://', ''),
+                        header_address.email] if item])"
+                />
+            </t>
+        </t>
+    </template>
+
+    <template id="partner_tax_line">
+        <t t-if="partner and env['dipl.ar.document.helpers']._dipl_ar_has_partner_tax_data(partner)">
+            <br/>
+            <strong>
+                <t t-out="env['dipl.ar.document.helpers']._dipl_ar_get_partner_tax_label(partner, o.company_id)"/>:
+            </strong>
+            <span t-out="partner.l10n_ar_formatted_vat or partner.vat"/>
+        </t>
+    </template>
+
+    <template id="document_identity_values">
+        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Nro: </span>
+        <span t-out="report_number"/>
+        <t t-if="report_date">
+            <br/>
+            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date: </span>
+            <span t-out="report_date" t-options='{"widget": "date"}'/>
+        </t>
+    </template>
+</odoo>

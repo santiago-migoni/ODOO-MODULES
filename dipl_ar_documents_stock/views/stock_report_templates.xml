@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_header_delivery_guide" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[@id='l10n_ar_header_right']//span" position="replace">
+            <span t-att-style="'color: %s;' % o.company_id.secondary_color">
+                <strong>DOCUMENT NOT VALID AS AN INVOICE</strong>
+            </span>
+            <br/>
+            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Delivery Guide No: </span>
+            <span t-out="o.l10n_ar_delivery_guide_number"/>
+        </xpath>
+    </template>
+
+    <template id="report_delivery_document" inherit_id="l10n_ar_stock.report_delivery_document" primary="True" priority="25">
+        <xpath expr="//t[@t-set='custom_header']" position="replace">
+            <t t-set="custom_header" t-value="'dipl_ar_documents_stock.custom_header_delivery_guide'"/>
+        </xpath>
+
+        <xpath expr="//t[@t-set='header_address']" position="replace">
+            <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
+        </xpath>
+
+        <xpath expr="//t[@t-set='custom_footer']" position="replace">
+            <t t-set="custom_footer">
+                <div class="row">
+                    <div name="footer_left_column" class="col-6 text-start">
+                        <div name="pager" t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                        <div name="sequence_range" t-if="o.l10n_ar_cai_data">
+                            Sequence from <t t-out="o.l10n_ar_cai_data['sequence_number_start']"/> to <t t-out="o.l10n_ar_cai_data['sequence_number_end']"/>
+                        </div>
+                    </div>
+                    <div name="footer_right_column" class="col-6 text-end" t-if="o.l10n_ar_cai_data">
+                        <div name="cai_number">
+                            CAI: <t t-out="o.l10n_ar_cai_data['cai_authorization_code']"/>
+                        </div>
+                        <div name="cai_expiration_date">
+                            CAI Expiration Date:
+                            <t t-out="o.l10n_ar_cai_data['cai_expiration_date']" t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div id="dipl_ar_stock_informations">
+                <t><strong>Customer: </strong></t>
+                <span t-field="o.partner_id.commercial_partner_id.name"/>
+                <br/>
+                <span
+                    t-field="o.partner_id"
+                    t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                />
+                <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.partner_id.l10n_ar_afip_responsibility_type_id)">
+                    <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                </t>
+                <t t-call="dipl_ar_documents.partner_tax_line">
+                    <t t-set="partner" t-value="o.partner_id"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

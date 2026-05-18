@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+
+{
+    "name": "Dipleg AR Documents Stock",
+    "summary": "AR stock delivery guide adapter for the Dipleg document framework",
+    "version": "19.0.1.0.1",
+    "category": "Dipleg",
+    "license": "LGPL-3",
+    "author": "Dipleg",
+    "depends": [
+        "dipl_ar_documents",
+        "l10n_ar_stock",
+    ],
+    "data": [
+        "views/stock_report_templates.xml",
+    ],
+    "installable": True,
+    "auto_install": True,
+    "application": False,
+}

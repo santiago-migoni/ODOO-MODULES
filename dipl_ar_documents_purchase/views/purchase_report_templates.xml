@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchasequotation" inherit_id="purchase.report_purchasequotation">
+        <t t-call="purchase.report_purchasequotation_document" position="attributes">
+            <attribute name="t-call">#{ o._dipl_get_localized_purchase_report_name('purchase.report_purchasequotation_document') }</attribute>
+        </t>
+    </template>
+
+    <template id="report_purchaseorder" inherit_id="purchase.report_purchaseorder">
+        <t t-call="purchase.report_purchaseorder_document" position="attributes">
+            <attribute name="t-call">#{ o._dipl_get_localized_purchase_report_name('purchase.report_purchaseorder_document') }</attribute>
+        </t>
+    </template>
+
+    <template id="custom_header_purchasequotation" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[hasclass('col-6', 'text-end')]/span[1]" position="replace">
+            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
+        </xpath>
+    </template>
+
+    <template id="custom_header_purchaseorder" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[hasclass('col-6', 'text-end')]/span[1]" position="replace">
+            <t t-if="o.state == 'purchase'">
+                <span t-att-style="'color: %s;' % o.company_id.secondary_color">Approve date: </span>
+            </t>
+            <t t-else="">
+                <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document" primary="True" priority="20">
+        <t t-set="o" position="after">
+            <t t-set="custom_header" t-value="'dipl_ar_documents_purchase.custom_header_purchasequotation'"/>
+            <t t-set="identity_values" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_document_identity_values(o)"/>
+            <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_date(o)"/>
+            <t t-set="report_number" t-value="identity_values['report_number']"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_title(o)"/>
+            <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
+            <t t-set="custom_footer">
+                <t t-call="dipl_ar_documents.custom_footer_pager"/>
+            </t>
+        </t>
+
+        <t t-set="address" position="replace"/>
+
+        <t t-set="layout_document_title" position="replace">
+            <div id="dipl_ar_purchase_rfq_informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
+                    <br/>
+                    <span
+                        t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                    />
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.partner_id.l10n_ar_afip_responsibility_type_id)">
+                        <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-call="dipl_ar_documents.partner_tax_line">
+                        <t t-set="partner" t-value="o.partner_id"/>
+                    </t>
+                </div>
+                <div class="col-6">
+                    <t t-if="o.user_id">
+                        <strong>Purchase Representative:</strong>
+                        <span t-field="o.user_id"/>
+                    </t>
+                    <t t-if="o.payment_term_id">
+                        <br/><strong>Payment Terms:</strong>
+                        <span t-field="o.payment_term_id.name"/>
+                    </t>
+                    <t t-if="o.partner_ref">
+                        <br/><strong>Your Order Reference:</strong>
+                        <span t-field="o.partner_ref"/>
+                    </t>
+                    <t t-if="o.dest_address_id">
+                        <br/><strong>Shipping address:</strong>
+                        <span t-field="o.dest_address_id.name"/>
+                        <br/>
+                        <span
+                            t-field="o.dest_address_id"
+                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                        />
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document" primary="True" priority="20">
+        <t t-set="o" position="after">
+            <t t-set="custom_header" t-value="'dipl_ar_documents_purchase.custom_header_purchaseorder'"/>
+            <t t-set="report_date" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_date(o)"/>
+            <t t-set="report_number" t-value="o.name"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_purchase_report_title(o)"/>
+            <t t-set="header_address" t-value="env['dipl.ar.document.helpers']._dipl_ar_get_header_address(o)"/>
+            <t t-set="custom_footer">
+                <t t-call="dipl_ar_documents.custom_footer_pager"/>
+            </t>
+        </t>
+
+        <t t-set="address" position="replace"/>
+
+        <t t-set="layout_document_title" position="replace"/>
+
+        <xpath expr="//th[@name='th_taxes']/strong" position="replace">
+            <strong>% VAT</strong>
+        </xpath>
+        <xpath expr="//span[contains(@t-out, 'tax.tax_label')]" position="replace">
+            <span t-out="', '.join(tax.tax_label for tax in line.tax_ids if tax.tax_label and tax.tax_group_id.l10n_ar_vat_afip_code)"/>
+        </xpath>
+
+        <div id="informations" position="replace">
+            <div id="dipl_ar_purchase_order_informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Supplier: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
+                    <br/>
+                    <span
+                        t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                    />
+                    <t t-if="env['dipl.ar.document.helpers']._dipl_ar_should_render_field(o.partner_id.l10n_ar_afip_responsibility_type_id)">
+                        <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-call="dipl_ar_documents.partner_tax_line">
+                        <t t-set="partner" t-value="o.partner_id"/>
+                    </t>
+                </div>
+                <div class="col-6">
+                    <t t-if="o.user_id">
+                        <strong>Purchase Representative:</strong>
+                        <span t-field="o.user_id"/>
+                    </t>
+                    <t t-if="o.partner_ref">
+                        <br/><strong>Your Order Reference:</strong>
+                        <span t-field="o.partner_ref"/>
+                    </t>
+                    <t t-if="o.dest_address_id">
+                        <br/><strong>Shipping address:</strong>
+                        <span t-field="o.dest_address_id.name"/>
+                        <br/>
+                        <span
+                            t-field="o.dest_address_id"
+                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'
+                        />
+                    </t>
+                </div>
+            </div>
+        </div>
+
+        <xpath expr="//strong[normalize-space()='Payment Terms:']/.." position="replace">
+            <t t-if="o.payment_term_id">
+                <strong>Payment Terms: </strong>
+                <span t-field="o.payment_term_id" class="mt-4"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>
