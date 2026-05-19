@@ -17,42 +17,18 @@
     </template>
 
     <template id="custom_header_sale_document" inherit_id="l10n_ar.custom_header" primary="True">
-        <xpath expr="//div[@name='center-upper']" position="attributes">
-            <attribute name="t-att-style">'color: %s;' % dipl_title_color</attribute>
-        </xpath>
-        <xpath expr="//span[@id='withholding_legend']" position="attributes">
-            <attribute name="t-att-style">'display: inline-block; text-align: center; line-height: 10px; color: %s;' % dipl_title_color</attribute>
-        </xpath>
-        <xpath expr="//span[@id='withholding_legend']/h1" position="attributes">
-            <attribute name="t-att-style">'font-size: 50px; line-height: 42px; margin: 0 0 6px 0; color: %s;' % dipl_title_color</attribute>
-        </xpath>
-        <xpath expr="//span[@id='withholding_legend']/span" position="attributes">
-            <attribute name="t-att-style">'font-size: 11px; line-height: 1.2; color: %s;' % dipl_label_color</attribute>
-        </xpath>
-        <xpath expr="//div[@name='right-upper-side']/h4" position="attributes">
-            <attribute name="t-att-style">'color: %s; font-size: 34px; line-height: 1.05; margin: 0;' % dipl_title_color</attribute>
-        </xpath>
-        <xpath expr="//div[@class='col-6' and @style='padding-right: 0px;']" position="attributes">
-            <attribute name="t-att-style">'padding-right: 0px; color: %s; font-size: 15px; line-height: 1.4;' % dipl_value_color</attribute>
-        </xpath>
-        <xpath expr="//span[@t-field='o.company_id.partner_id.name']" position="attributes">
-            <attribute name="t-att-style">'font-size: 23px; font-weight: 700; color: %s;' % dipl_value_color</attribute>
-        </xpath>
-        <xpath expr="//span[contains(@t-out, 'website')]" position="attributes">
-            <attribute name="t-att-style">'color: %s; font-size: 13px;' % dipl_label_color</attribute>
-        </xpath>
         <xpath expr="//div[@id='l10n_ar_header_right']" position="replace">
-            <div id="l10n_ar_header_right" class="col-6 text-end" t-att-style="'padding-left: 0px; color: %s; font-size: 15px; line-height: 1.35;' % dipl_value_color">
+            <div id="l10n_ar_header_right" class="col-6 text-end" style="padding-left: 0px;">
                 <t t-if="not pre_printed_report">
-                    <span t-att-style="'color: %s; font-size: 13px; font-weight: 700; letter-spacing: 0.03em;' % dipl_label_color">Nro: </span><span t-out="report_number"/>
+                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Número: </span><span t-out="report_number"/>
                 </t>
                 <br/>
-                <span t-att-style="'color: %s; font-size: 13px; font-weight: 700; letter-spacing: 0.03em;' % dipl_label_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
+                <span t-att-style="'color: %s;' % o.company_id.secondary_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
 
                 <t t-if="not pre_printed_report">
                     <br/>
-                    <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s; font-size: 13px; font-weight: 700;' % dipl_label_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
-                    <br/><span t-att-style="'color: %s; font-size: 13px; font-weight: 700;' % dipl_label_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exento' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s; font-size: 13px; font-weight: 700;' % dipl_label_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                    <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
+                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exento' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Inicio de las actividades: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
                 </t>
             </div>
         </xpath>
@@ -61,24 +37,21 @@
     <template id="report_salequotation_document" priority="30" inherit_id="sale.report_saleorder_document" primary="True">
         <t t-set="doc" position="after">
             <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
-            <t t-set="dipl_title_color" t-value="'#2f3b45'"/>
-            <t t-set="dipl_label_color" t-value="'#6b7280'"/>
-            <t t-set="dipl_value_color" t-value="'#1f2933'"/>
             <t t-set="report_date" t-value="doc.date_order"/>
-            <t t-set="report_date_label">Quotation Date: </t>
+            <t t-set="report_date_label">Fecha de cotización: </t>
             <t t-set="report_number" t-value="doc.name"/>
             <t t-set="document_letter" t-value="'X'"/>
-            <t t-set="document_legend">Invalid document as invoice</t>
-            <t t-set="report_name">Quotation</t>
+            <t t-set="document_legend">Documento no válido como factura</t>
+            <t t-set="report_name">Cotización</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="custom_footer">
                 <div class="row">
                     <div class="col-8 text-start">
-                        <span class="dipl_quote_footer_legend">This quotation is a commercial proposal and does not constitute a valid invoice or tax document.</span>
+                        <span class="dipl_quote_footer_legend">Esta cotización es una propuesta comercial y no constituye una factura ni un documento fiscal válido.</span>
                     </div>
                     <div class="col-4 text-end">
                         <div t-if="report_type == 'pdf'">
-                            Page: <span class="page"/> / <span class="topage"/>
+                            Página: <span class="page"/> / <span class="topage"/>
                         </div>
                     </div>
                 </div>
@@ -89,36 +62,36 @@
         <t t-set="layout_document_title" position="replace"/>
 
         <div id="informations" position="replace">
-            <div id="informations" class="row mt8 mb8" t-att-style="'margin-top: 14px; margin-bottom: 14px; color: %s;' % dipl_value_color">
-                <div class="col-6" t-att-style="'font-size: 14px; line-height: 1.45; color: %s;' % dipl_value_color">
-                    <strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Customer: </strong><span t-att-style="'font-size: 15px; font-weight: 600; color: %s;' % dipl_value_color" t-field="doc.partner_id.commercial_partner_id.name"/>
+            <div id="informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Cliente: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
                     <br/>
-                    <span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
                     <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">VAT Condition: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <br/><strong>Condición IVA: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
                     </t>
                     <t t-if="doc.partner_id.vat">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">CUIT: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id.vat"/>
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
                     </t>
                 </div>
-                <div class="col-6" t-att-style="'font-size: 14px; line-height: 1.45; color: %s;' % dipl_value_color">
+                <div class="col-6">
                     <t t-if="doc.validity_date">
-                        <strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Validity Date: </strong><span t-att-style="'font-size: 15px; font-weight: 600; color: %s;' % dipl_value_color" t-field="doc.validity_date"/>
+                        <strong>Validez: </strong><span t-field="doc.validity_date"/>
                     </t>
                     <t t-if="doc.user_id">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Salesperson: </strong><span t-att-style="'font-size: 15px; font-weight: 600; color: %s;' % dipl_value_color" t-field="doc.user_id"/>
+                        <br/><strong>Vendedor: </strong><span t-field="doc.user_id"/>
                     </t>
                     <t t-if="doc.client_order_ref">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Your Reference: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.client_order_ref"/>
+                        <br/><strong>Su referencia: </strong><span t-field="doc.client_order_ref"/>
                     </t>
                     <t t-if="doc.payment_term_id">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Payment Terms: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.payment_term_id.name"/>
+                        <br/><strong>Condiciones de pago: </strong><span t-field="doc.payment_term_id.name"/>
                     </t>
                     <t t-if="doc.commitment_date">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Delivery Date: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                        <br/><strong>Fecha de entrega: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
                     <t t-if="doc.incoterm">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Incoterm: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.incoterm.code"/><span t-att-style="'color: %s;' % dipl_value_color" t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                        <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                     </t>
                 </div>
             </div>
@@ -133,7 +106,7 @@
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
         <th name="th_taxes" position="replace">
-            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% IVA</span></th>
         </th>
 
         <t t-set="taxes" position="attributes">
@@ -144,26 +117,23 @@
     <template id="report_saleorder_document" priority="30" inherit_id="sale.report_saleorder_document" primary="True">
         <t t-set="doc" position="after">
             <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
-            <t t-set="dipl_title_color" t-value="'#2f3b45'"/>
-            <t t-set="dipl_label_color" t-value="'#6b7280'"/>
-            <t t-set="dipl_value_color" t-value="'#1f2933'"/>
             <t t-set="report_date" t-value="doc.date_order"/>
-            <t t-set="report_date_label">Order Date: </t>
+            <t t-set="report_date_label">Fecha de orden: </t>
             <t t-set="report_number" t-value="doc.name"/>
             <t t-set="document_letter" t-value="'X'"/>
-            <t t-set="document_legend">Invalid document as invoice</t>
-            <t t-set="report_name" t-if="doc.state == 'sale'">Sales Order</t>
-            <t t-set="report_name" t-if="doc.state == 'cancel'">Cancelled Sales Order</t>
-            <t t-set="report_name" t-if="doc.state not in ['sale', 'cancel']">Sales Order</t>
+            <t t-set="document_legend">Documento no válido como factura</t>
+            <t t-set="report_name" t-if="doc.state == 'sale'">Orden de venta</t>
+            <t t-set="report_name" t-if="doc.state == 'cancel'">Orden de venta cancelada</t>
+            <t t-set="report_name" t-if="doc.state not in ['sale', 'cancel']">Orden de venta</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="custom_footer">
                 <div class="row">
                     <div class="col-8 text-start">
-                        <span class="dipl_quote_footer_legend">This sales order document does not constitute a valid invoice or tax document.</span>
+                        <span class="dipl_quote_footer_legend">Esta orden de venta no constituye una factura ni un documento fiscal válido.</span>
                     </div>
                     <div class="col-4 text-end">
                         <div t-if="report_type == 'pdf'">
-                            Page: <span class="page"/> / <span class="topage"/>
+                            Página: <span class="page"/> / <span class="topage"/>
                         </div>
                     </div>
                 </div>
@@ -174,33 +144,33 @@
         <t t-set="layout_document_title" position="replace"/>
 
         <div id="informations" position="replace">
-            <div id="informations" class="row mt8 mb8" t-att-style="'margin-top: 14px; margin-bottom: 14px; color: %s;' % dipl_value_color">
-                <div class="col-6" t-att-style="'font-size: 14px; line-height: 1.45; color: %s;' % dipl_value_color">
-                    <strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Customer: </strong><span t-att-style="'font-size: 15px; font-weight: 600; color: %s;' % dipl_value_color" t-field="doc.partner_id.commercial_partner_id.name"/>
+            <div id="informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Cliente: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
                     <br/>
-                    <span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
                     <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">VAT Condition: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <br/><strong>Condición IVA: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
                     </t>
                     <t t-if="doc.partner_id.vat">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">CUIT: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.partner_id.vat"/>
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
                     </t>
                 </div>
-                <div class="col-6" t-att-style="'font-size: 14px; line-height: 1.45; color: %s;' % dipl_value_color">
+                <div class="col-6">
                     <t t-if="doc.user_id">
-                        <strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Salesperson: </strong><span t-att-style="'font-size: 15px; font-weight: 600; color: %s;' % dipl_value_color" t-field="doc.user_id"/>
+                        <strong>Vendedor: </strong><span t-field="doc.user_id"/>
                     </t>
                     <t t-if="doc.client_order_ref">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Your Reference: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.client_order_ref"/>
+                        <br/><strong>Su referencia: </strong><span t-field="doc.client_order_ref"/>
                     </t>
                     <t t-if="doc.payment_term_id">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Payment Terms: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.payment_term_id.name"/>
+                        <br/><strong>Condiciones de pago: </strong><span t-field="doc.payment_term_id.name"/>
                     </t>
                     <t t-if="doc.commitment_date">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Delivery Date: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                        <br/><strong>Fecha de entrega: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
                     <t t-if="doc.incoterm">
-                        <br/><strong t-att-style="'color: %s; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;' % dipl_label_color">Incoterm: </strong><span t-att-style="'color: %s;' % dipl_value_color" t-field="doc.incoterm.code"/><span t-att-style="'color: %s;' % dipl_value_color" t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                        <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                     </t>
                 </div>
             </div>
@@ -215,7 +185,7 @@
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
         <th name="th_taxes" position="replace">
-            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% IVA</span></th>
         </th>
 
         <t t-set="taxes" position="attributes">

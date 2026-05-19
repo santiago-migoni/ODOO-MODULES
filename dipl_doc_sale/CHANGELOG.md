@@ -4,10 +4,10 @@
 
 ### Fixed
 - Restored company CUIT rendering in the inherited `l10n_ar` header by falling back to `partner_id.vat` when the formatted AR VAT value is not available.
+- Reverted the failed typography harmonization attempt and normalized the visible sales document wording to Spanish directly in QWeb.
 
 ### Changed
 - Made header date labels translatable and updated the `es_AR` catalog to cover the current commercial quotation report wording.
-- Harmonized the sales document typography and color hierarchy so the inherited AR header and the customer/meta block follow a consistent visual scale.
 
 ### Added
 - Initial Odoo 19 scaffolding for `dipl_doc_sale` as a Dipleg-owned sales document module.

@@ -18,9 +18,9 @@ msgstr ""
 #. module: dipl_doc_sale
 #: model:ir.actions.report,print_report_name:dipl_doc_sale.action_report_saleorder_formal_quote
 msgid ""
-"(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or "
-"((object.state == 'sale') and 'Sales Order - %s' % (object.name)) or "
-"'Cancelled Sales Order - %s' % (object.name)"
+"(object.state in ('draft', 'sent') and 'Cotización - %s' % (object.name)) or "
+"((object.state == 'sale') and 'Orden de venta - %s' % (object.name)) or "
+"'Orden de venta cancelada - %s' % (object.name)"
 msgstr ""
 
 #. module: dipl_doc_sale
@@ -32,7 +32,7 @@ msgstr ""
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<br/><strong>Delivery Date: </strong>"
+msgid "<br/><strong>Fecha de entrega: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
@@ -44,70 +44,70 @@ msgstr ""
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<br/><strong>Payment Terms: </strong>"
+msgid "<br/><strong>Condiciones de pago: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<br/><strong>Salesperson: </strong>"
-msgstr ""
-
-#. module: dipl_doc_sale
-#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
-#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<br/><strong>VAT Condition: </strong>"
+msgid "<br/><strong>Vendedor: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<br/><strong>Your Reference: </strong>"
+msgid "<br/><strong>Condición IVA: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Su referencia: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
 msgid ""
-"<span class=\"dipl_quote_footer_legend\">This quotation is a commercial "
-"proposal and does not constitute a valid invoice or tax document.</span>"
+"<span class=\"dipl_quote_footer_legend\">Esta cotización es una propuesta "
+"comercial y no constituye una factura ni un documento fiscal válido.</span>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 msgid ""
-"<span class=\"dipl_quote_footer_legend\">This sales order document does not "
-"constitute a valid invoice or tax document.</span>"
+"<span class=\"dipl_quote_footer_legend\">Esta orden de venta no constituye "
+"una factura ni un documento fiscal válido.</span>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<span>% VAT</span>"
+msgid "<span>% IVA</span>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<strong>Customer: </strong>"
+msgid "<strong>Cliente: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
-msgid "<strong>Salesperson: </strong>"
+msgid "<strong>Vendedor: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "<strong>Validity Date: </strong>"
+msgid "<strong>Validez: </strong>"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
-msgid "Cancelled Sales Order"
+msgid "Orden de venta cancelada"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model:ir.actions.report,name:dipl_doc_sale.action_report_saleorder_formal_quote
-msgid "Dipleg Commercial Quotation"
+msgid "Cotización comercial Dipleg"
 msgstr ""
 
 #. module: dipl_doc_sale
@@ -123,13 +123,13 @@ msgstr ""
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "Invalid document as invoice"
+msgid "Documento no válido como factura"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "Order Date: "
+msgid "Fecha de orden: "
 msgstr ""
 
 #. module: dipl_doc_sale
@@ -140,16 +140,16 @@ msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "Quotation"
+msgid "Cotización"
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
-msgid "Quotation Date: "
+msgid "Fecha de cotización: "
 msgstr ""
 
 #. module: dipl_doc_sale
 #: model:ir.model,name:dipl_doc_sale.model_sale_order
 #: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
-msgid "Sales Order"
+msgid "Orden de venta"
 msgstr ""
