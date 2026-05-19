@@ -1,74 +1,74 @@
-# Documentos comerciales de ventas
+# Sales Commercial Documents
 
-`dipl_doc_sale` es un módulo custom para Odoo 19 orientado a la presentación documental de ventas sobre `sale.order`.
+`dipl_doc_sale` is an Odoo 19 custom module focused on Argentine-style sales documents over `sale.order`.
 
-## Alcance actual
+## Current Scope
 
-La `V1` del módulo incorpora un único documento nuevo:
+The current `V1` introduces a single new document flow:
 
-- cotización formal comercial.
+- formal commercial quotation.
 
-No incluye todavía:
+It still does not include:
 
-- lista de corte,
-- orden interna de flujo comercial,
-- workflow operativo o administrativo,
-- comportamiento fiscal de factura.
+- cutting list,
+- internal commercial flow order,
+- operational or administrative workflow,
+- fiscal invoice behavior.
 
-## Propósito
+## Purpose
 
-El objetivo del módulo es reemplazar la debilidad visual del PDF estándar de cotización con un documento más formal, ordenado y profesional para contexto comercial argentino.
+The goal of the module is to replace the weak default quotation PDF with a formal, orderly, and professional document for Argentine commercial use.
 
-La política actual es:
+Current policy:
 
-- inspiración visual argentina,
-- presentación comercial clara,
-- documento explícitamente no fiscal,
-- ownership documental separado de `dipl_sale_technical_quote`.
+- near-mirror structure of Argentine invoice and purchase documents,
+- clear commercial presentation,
+- explicitly non-fiscal document semantics,
+- documentary ownership separated from `dipl_sale_technical_quote`.
 
-## Dependencias
+## Dependencies
 
 - `sale_management`
+- `l10n_ar`
 
-No depende en esta iteración de:
+It still avoids direct dependency on:
 
 - `l10n_ar_sale`,
 - `l10n_ar_tax`,
 - `sale_ux`.
 
-## Flujo funcional
+## Functional Flow
 
-1. Crear o abrir una cotización en Ventas.
-2. Usar la nueva acción de impresión `Cotización comercial Dipleg`.
-3. Obtener un PDF con:
-   - encabezado comercial formal,
-   - bloque cliente ordenado,
-   - metadata comercial,
-   - tabla de líneas más legible,
-   - totales reforzados,
-   - leyenda no fiscal.
+1. Create or open a sales quotation or order.
+2. Use the `Dipleg Commercial Quotation` print action.
+3. Generate a PDF with:
+   - Argentine-style documentary header,
+   - customer block on the left and commercial metadata on the right,
+   - line table aligned with invoice/purchase document structure,
+   - totals block aligned with the AR pattern,
+   - non-fiscal legend.
 
-## Política documental
+## Documentary Policy
 
-La cotización está inspirada en la jerarquía visual de documentos argentinos tipo factura, pero no simula una factura válida.
+The document follows a near-mirror structure of formal Argentine documents, but does not simulate a valid invoice.
 
-Reglas:
+Rules:
 
-- mantiene título explícito de cotización,
-- evita CAE y numeración fiscal,
-- evita letra fiscal presentada como válida,
-- conserva una leyenda documental no fiscal.
+- keeps an explicit quotation / sales-order title,
+- avoids CAE and fiscal numbering,
+- avoids presenting a fiscal-valid document letter,
+- keeps a non-fiscal documentary legend.
 
-## Relación con otros módulos
+## Relation to Other Modules
 
-`dipl_doc_sale` no reemplaza la lógica técnica de `dipl_sale_technical_quote`.
+`dipl_doc_sale` does not replace the technical pricing logic of `dipl_sale_technical_quote`.
 
-Si una orden contiene información técnica proveniente de otros módulos, este módulo puede renderizar la orden comercialmente, pero no asume ownership del cálculo técnico.
+If an order contains technical information coming from other modules, this module can still render the sales document, but it does not own the technical calculation logic.
 
-## Iteraciones futuras
+## Future Iterations
 
-Las siguientes iteraciones podrán incorporar:
+Future iterations may introduce:
 
-- lista de corte,
-- orden interna de flujo comercial,
-- reutilización de snippets documentales compartidos.
+- cutting list,
+- internal commercial flow order,
+- additional documentary reuse patterns.
