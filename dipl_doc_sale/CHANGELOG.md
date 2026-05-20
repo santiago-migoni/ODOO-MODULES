@@ -8,9 +8,10 @@
 - Aligned quotation and sales order headers, customer blocks, table labels, and footer behavior more closely with the AR invoice documentary family.
 - Refactored the report source templates back to English and delegated Spanish rendering to `es_AR` translations, matching the benchmark policy used by `l10n_ar` and `l10n_ar_purchase`.
 - Removed the generated `i18n` catalogs temporarily to validate the module with raw English source strings before regenerating translations from Odoo.
+- Fixed the remaining quotation metadata label hardcoded in Spanish by switching `Validez` back to the English source string `Validity`.
 
 ### Changed
-- Made header date labels translatable and updated the `es_AR` catalog to cover the current commercial quotation report wording.
+- Made header date labels translatable during the report wording refactor; translation catalogs are currently absent by design while raw English source validation is in progress.
 
 ### Added
 - Initial Odoo 19 scaffolding for `dipl_doc_sale` as a Dipleg-owned sales document module.
