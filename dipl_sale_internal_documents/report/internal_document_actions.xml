@@ -4,6 +4,8 @@
     <record id="action_report_cutting_list" model="ir.actions.report">
         <field name="name">Cutting List</field>
         <field name="model">sale.order</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type" eval="False"/>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dipl_sale_internal_documents.report_cutting_list</field>
         <field name="report_file">dipl_sale_internal_documents.report_cutting_list</field>
@@ -13,6 +15,8 @@
     <record id="action_report_internal_sales_order" model="ir.actions.report">
         <field name="name">Internal Order</field>
         <field name="model">sale.order</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type" eval="False"/>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dipl_sale_internal_documents.report_internal_sales_order</field>
         <field name="report_file">dipl_sale_internal_documents.report_internal_sales_order</field>

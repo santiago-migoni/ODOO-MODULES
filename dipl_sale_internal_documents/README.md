@@ -7,7 +7,7 @@
 The current `V1` introduces two internal document flows:
 
 - cutting list,
-- internal sales order.
+- internal order.
 
 It still does not include:
 
@@ -35,10 +35,10 @@ Current policy:
 
 ## Functional Flow
 
-1. Create or confirm a quotation or sales order.
+1. Confirm a sales order.
 2. Use one of the internal print actions:
    - `Cutting List`
-   - `Internal Sales Order`
+   - `Internal Order`
 3. Generate a PDF with:
    - Dipleg documentary header family,
    - customer block on the left and internal metadata on the right,
@@ -78,7 +78,7 @@ Main columns:
 - length,
 - kilograms.
 
-### Internal Sales Order
+### Internal Order
 
 Administrative internal document for order follow-up.
 
