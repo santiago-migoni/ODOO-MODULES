@@ -2,12 +2,12 @@
 <odoo>
 
     <record id="action_report_saleorder_formal_quote" model="ir.actions.report">
-        <field name="name">Cotización comercial Dipleg</field>
+        <field name="name">Dipleg Commercial Sales Document</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dipl_doc_sale.report_saleorder_formal_quote</field>
         <field name="report_file">dipl_doc_sale.report_saleorder_formal_quote</field>
-        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Cotización - %s' % (object.name)) or ((object.state == 'sale') and 'Orden de venta - %s' % (object.name)) or 'Orden de venta cancelada - %s' % (object.name)</field>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or ((object.state == 'sale') and 'Sales Order - %s' % (object.name)) or 'Cancelled Sales Order - %s' % (object.name)</field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
         <field name="binding_type">report</field>
     </record>

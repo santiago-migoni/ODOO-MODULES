@@ -17,10 +17,23 @@
     </template>
 
     <template id="custom_header_sale_document" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[@class='col-6' and @style='padding-right: 0px;']" position="replace">
+            <div class="col-6" style="padding-right: 0px;">
+                <t t-if="not pre_printed_report">
+                    <span t-field="o.company_id.partner_id.name"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.street, header_address.street2] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.city, header_address.zip] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.state_id and header_address.state_id.name, header_address.country_id and header_address.country_id.name] if item])"/>
+                </t>
+            </div>
+        </xpath>
         <xpath expr="//div[@id='l10n_ar_header_right']" position="replace">
             <div id="l10n_ar_header_right" class="col-6 text-end" style="padding-left: 0px;">
                 <t t-if="not pre_printed_report">
-                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Número: </span><span t-out="report_number"/>
+                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Number: </span><span t-out="report_number"/>
                 </t>
                 <br/>
                 <span t-att-style="'color: %s;' % o.company_id.secondary_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
@@ -28,7 +41,7 @@
                 <t t-if="not pre_printed_report">
                     <br/>
                     <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
-                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exento' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Inicio de las actividades: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exempt' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
                 </t>
             </div>
         </xpath>
@@ -38,20 +51,18 @@
         <t t-set="doc" position="after">
             <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
             <t t-set="report_date" t-value="doc.date_order"/>
-            <t t-set="report_date_label">Fecha de cotización: </t>
+            <t t-set="report_date_label">Date: </t>
             <t t-set="report_number" t-value="doc.name"/>
             <t t-set="document_letter" t-value="'X'"/>
-            <t t-set="document_legend">Documento no válido como factura</t>
-            <t t-set="report_name">Cotización</t>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name">QUOTATION</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="custom_footer">
                 <div class="row">
-                    <div class="col-8 text-start">
-                        <span class="dipl_quote_footer_legend">Esta cotización es una propuesta comercial y no constituye una factura ni un documento fiscal válido.</span>
-                    </div>
+                    <div class="col-8 text-start"/>
                     <div class="col-4 text-end">
                         <div t-if="report_type == 'pdf'">
-                            Página: <span class="page"/> / <span class="topage"/>
+                            Page: <span class="page"/> / <span class="topage"/>
                         </div>
                     </div>
                 </div>
@@ -64,11 +75,11 @@
         <div id="informations" position="replace">
             <div id="informations" class="row mt8 mb8">
                 <div class="col-6">
-                    <strong>Cliente: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                    <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
                     <br/>
                     <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
                     <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
-                        <br/><strong>Condición IVA: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
                     </t>
                     <t t-if="doc.partner_id.vat">
                         <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
@@ -79,16 +90,16 @@
                         <strong>Validez: </strong><span t-field="doc.validity_date"/>
                     </t>
                     <t t-if="doc.user_id">
-                        <br/><strong>Vendedor: </strong><span t-field="doc.user_id"/>
+                        <br/><strong>Salesperson: </strong><span t-field="doc.user_id"/>
                     </t>
                     <t t-if="doc.client_order_ref">
-                        <br/><strong>Su referencia: </strong><span t-field="doc.client_order_ref"/>
+                        <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
                     </t>
                     <t t-if="doc.payment_term_id">
-                        <br/><strong>Condiciones de pago: </strong><span t-field="doc.payment_term_id.name"/>
+                        <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
                     </t>
                     <t t-if="doc.commitment_date">
-                        <br/><strong>Fecha de entrega: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                        <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
                     <t t-if="doc.incoterm">
                         <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
@@ -106,34 +117,55 @@
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
         <th name="th_taxes" position="replace">
-            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% IVA</span></th>
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
         </th>
 
         <t t-set="taxes" position="attributes">
             <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
         </t>
+
+        <xpath expr="//th[@id='product_name_header']" position="replace">
+            <th class="text-start" id="product_name_header">Description</th>
+        </xpath>
+        <xpath expr="//th[@id='product_qty_header']" position="replace">
+            <th class="text-end" id="product_qty_header">Quantity</th>
+        </xpath>
+        <xpath expr="//th[@id='product_unit_price_header']" position="replace">
+            <th t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}" id="product_unit_price_header">Unit Price</th>
+        </xpath>
+        <xpath expr="//th[@id='subtotal_header']" position="replace">
+            <th class="text-end" id="subtotal_header"><span>Amount</span></th>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']/div[@id='quote_qty']" position="replace">
+            <div id="quote_qty">
+                <span t-field="line.product_uom_qty"/>
+            </div>
+        </xpath>
+        <xpath expr="//td[@name='td_combo_quantity']/div[@id='quote_qty']" position="replace">
+            <div id="quote_qty">
+                <span t-field="line.product_uom_qty"/>
+            </div>
+        </xpath>
     </template>
 
     <template id="report_saleorder_document" priority="30" inherit_id="sale.report_saleorder_document" primary="True">
         <t t-set="doc" position="after">
             <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
             <t t-set="report_date" t-value="doc.date_order"/>
-            <t t-set="report_date_label">Fecha de orden: </t>
+            <t t-set="report_date_label">Date: </t>
             <t t-set="report_number" t-value="doc.name"/>
             <t t-set="document_letter" t-value="'X'"/>
-            <t t-set="document_legend">Documento no válido como factura</t>
-            <t t-set="report_name" t-if="doc.state == 'sale'">Orden de venta</t>
-            <t t-set="report_name" t-if="doc.state == 'cancel'">Orden de venta cancelada</t>
-            <t t-set="report_name" t-if="doc.state not in ['sale', 'cancel']">Orden de venta</t>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name" t-if="doc.state == 'sale'">SALES ORDER</t>
+            <t t-set="report_name" t-if="doc.state == 'cancel'">CANCELLED SALES ORDER</t>
+            <t t-set="report_name" t-if="doc.state not in ['sale', 'cancel']">SALES ORDER</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="custom_footer">
                 <div class="row">
-                    <div class="col-8 text-start">
-                        <span class="dipl_quote_footer_legend">Esta orden de venta no constituye una factura ni un documento fiscal válido.</span>
-                    </div>
+                    <div class="col-8 text-start"/>
                     <div class="col-4 text-end">
                         <div t-if="report_type == 'pdf'">
-                            Página: <span class="page"/> / <span class="topage"/>
+                            Page: <span class="page"/> / <span class="topage"/>
                         </div>
                     </div>
                 </div>
@@ -146,11 +178,11 @@
         <div id="informations" position="replace">
             <div id="informations" class="row mt8 mb8">
                 <div class="col-6">
-                    <strong>Cliente: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                    <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
                     <br/>
                     <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
                     <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
-                        <br/><strong>Condición IVA: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
                     </t>
                     <t t-if="doc.partner_id.vat">
                         <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
@@ -158,16 +190,16 @@
                 </div>
                 <div class="col-6">
                     <t t-if="doc.user_id">
-                        <strong>Vendedor: </strong><span t-field="doc.user_id"/>
+                        <strong>Salesperson: </strong><span t-field="doc.user_id"/>
                     </t>
                     <t t-if="doc.client_order_ref">
-                        <br/><strong>Su referencia: </strong><span t-field="doc.client_order_ref"/>
+                        <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
                     </t>
                     <t t-if="doc.payment_term_id">
-                        <br/><strong>Condiciones de pago: </strong><span t-field="doc.payment_term_id.name"/>
+                        <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
                     </t>
                     <t t-if="doc.commitment_date">
-                        <br/><strong>Fecha de entrega: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                        <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
                     <t t-if="doc.incoterm">
                         <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
@@ -185,12 +217,35 @@
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
         <th name="th_taxes" position="replace">
-            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% IVA</span></th>
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
         </th>
 
         <t t-set="taxes" position="attributes">
             <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
         </t>
+
+        <xpath expr="//th[@id='product_name_header']" position="replace">
+            <th class="text-start" id="product_name_header">Description</th>
+        </xpath>
+        <xpath expr="//th[@id='product_qty_header']" position="replace">
+            <th class="text-end" id="product_qty_header">Quantity</th>
+        </xpath>
+        <xpath expr="//th[@id='product_unit_price_header']" position="replace">
+            <th t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}" id="product_unit_price_header">Unit Price</th>
+        </xpath>
+        <xpath expr="//th[@id='subtotal_header']" position="replace">
+            <th class="text-end" id="subtotal_header"><span>Amount</span></th>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']/div[@id='quote_qty']" position="replace">
+            <div id="quote_qty">
+                <span t-field="line.product_uom_qty"/>
+            </div>
+        </xpath>
+        <xpath expr="//td[@name='td_combo_quantity']/div[@id='quote_qty']" position="replace">
+            <div id="quote_qty">
+                <span t-field="line.product_uom_qty"/>
+            </div>
+        </xpath>
     </template>
 
 </odoo>

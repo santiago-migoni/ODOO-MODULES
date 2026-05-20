@@ -5,6 +5,9 @@
 ### Fixed
 - Restored company CUIT rendering in the inherited `l10n_ar` header by falling back to `partner_id.vat` when the formatted AR VAT value is not available.
 - Reverted the failed typography harmonization attempt and normalized the visible sales document wording to Spanish directly in QWeb.
+- Aligned quotation and sales order headers, customer blocks, table labels, and footer behavior more closely with the AR invoice documentary family.
+- Refactored the report source templates back to English and delegated Spanish rendering to `es_AR` translations, matching the benchmark policy used by `l10n_ar` and `l10n_ar_purchase`.
+- Removed the generated `i18n` catalogs temporarily to validate the module with raw English source strings before regenerating translations from Odoo.
 
 ### Changed
 - Made header date labels translatable and updated the `es_AR` catalog to cover the current commercial quotation report wording.
