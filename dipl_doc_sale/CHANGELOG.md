@@ -9,6 +9,7 @@
 - Refactored the report source templates back to English and delegated Spanish rendering to `es_AR` translations, matching the benchmark policy used by `l10n_ar` and `l10n_ar_purchase`.
 - Removed the generated `i18n` catalogs temporarily to validate the module with raw English source strings before regenerating translations from Odoo.
 - Fixed the remaining quotation metadata label hardcoded in Spanish by switching `Validez` back to the English source string `Validity`.
+- Hardened the inherited `l10n_ar` left header override by anchoring it relative to `#l10n_ar_header_right` instead of matching the parent node through exact `class` and `style` attributes.
 
 ### Changed
 - Made header date labels translatable during the report wording refactor; translation catalogs are currently absent by design while raw English source validation is in progress.

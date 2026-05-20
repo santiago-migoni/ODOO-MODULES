@@ -17,7 +17,7 @@
     </template>
 
     <template id="custom_header_sale_document" inherit_id="l10n_ar.custom_header" primary="True">
-        <xpath expr="//div[@class='col-6' and @style='padding-right: 0px;']" position="replace">
+        <xpath expr="//div[@id='l10n_ar_header_right']/preceding-sibling::div[1]" position="replace">
             <div class="col-6" style="padding-right: 0px;">
                 <t t-if="not pre_printed_report">
                     <span t-field="o.company_id.partner_id.name"/>
@@ -116,35 +116,35 @@
         <xpath expr="//td[@name='td_product_discount']" position="replace"/>
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
-        <th name="th_taxes" position="replace">
+        <xpath expr="//th[@name='th_taxes']" position="replace">
             <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
-        </th>
+        </xpath>
 
         <t t-set="taxes" position="attributes">
             <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
         </t>
 
-        <xpath expr="//th[@id='product_name_header']" position="replace">
-            <th class="text-start" id="product_name_header">Description</th>
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_description" class="text-start">Description</th>
         </xpath>
-        <xpath expr="//th[@id='product_qty_header']" position="replace">
-            <th class="text-end" id="product_qty_header">Quantity</th>
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end text-nowrap">Quantity</th>
         </xpath>
-        <xpath expr="//th[@id='product_unit_price_header']" position="replace">
-            <th t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}" id="product_unit_price_header">Unit Price</th>
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end text-nowrap">Unit Price</th>
         </xpath>
-        <xpath expr="//th[@id='subtotal_header']" position="replace">
-            <th class="text-end" id="subtotal_header"><span>Amount</span></th>
+        <xpath expr="//th[@name='th_subtotal']" position="replace">
+            <th name="th_subtotal" class="text-end"><span>Amount</span></th>
         </xpath>
-        <xpath expr="//td[@name='td_product_quantity']/div[@id='quote_qty']" position="replace">
-            <div id="quote_qty">
+        <xpath expr="//td[@name='td_product_quantity']" position="replace">
+            <td name="td_product_quantity" class="o_td_quantity text-end">
                 <span t-field="line.product_uom_qty"/>
-            </div>
+            </td>
         </xpath>
-        <xpath expr="//td[@name='td_combo_quantity']/div[@id='quote_qty']" position="replace">
-            <div id="quote_qty">
-                <span t-field="line.product_uom_qty"/>
-            </div>
+        <xpath expr="//td[@name='td_section_group_quantity']" position="replace">
+            <td name="td_section_group_quantity" class="text-end text-nowrap">
+                <span t-out="section_line['quantity']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"/>
+            </td>
         </xpath>
     </template>
 
@@ -216,35 +216,35 @@
         <xpath expr="//td[@name='td_product_discount']" position="replace"/>
         <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
 
-        <th name="th_taxes" position="replace">
+        <xpath expr="//th[@name='th_taxes']" position="replace">
             <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
-        </th>
+        </xpath>
 
         <t t-set="taxes" position="attributes">
             <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
         </t>
 
-        <xpath expr="//th[@id='product_name_header']" position="replace">
-            <th class="text-start" id="product_name_header">Description</th>
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_description" class="text-start">Description</th>
         </xpath>
-        <xpath expr="//th[@id='product_qty_header']" position="replace">
-            <th class="text-end" id="product_qty_header">Quantity</th>
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end text-nowrap">Quantity</th>
         </xpath>
-        <xpath expr="//th[@id='product_unit_price_header']" position="replace">
-            <th t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}" id="product_unit_price_header">Unit Price</th>
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end text-nowrap">Unit Price</th>
         </xpath>
-        <xpath expr="//th[@id='subtotal_header']" position="replace">
-            <th class="text-end" id="subtotal_header"><span>Amount</span></th>
+        <xpath expr="//th[@name='th_subtotal']" position="replace">
+            <th name="th_subtotal" class="text-end"><span>Amount</span></th>
         </xpath>
-        <xpath expr="//td[@name='td_product_quantity']/div[@id='quote_qty']" position="replace">
-            <div id="quote_qty">
+        <xpath expr="//td[@name='td_product_quantity']" position="replace">
+            <td name="td_product_quantity" class="o_td_quantity text-end">
                 <span t-field="line.product_uom_qty"/>
-            </div>
+            </td>
         </xpath>
-        <xpath expr="//td[@name='td_combo_quantity']/div[@id='quote_qty']" position="replace">
-            <div id="quote_qty">
-                <span t-field="line.product_uom_qty"/>
-            </div>
+        <xpath expr="//td[@name='td_section_group_quantity']" position="replace">
+            <td name="td_section_group_quantity" class="text-end text-nowrap">
+                <span t-out="section_line['quantity']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"/>
+            </td>
         </xpath>
     </template>
 
