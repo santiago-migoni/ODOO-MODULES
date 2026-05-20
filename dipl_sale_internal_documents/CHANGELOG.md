@@ -17,3 +17,4 @@
 - Added `es_AR` translations for the new internal reports, buttons, action names, and backend validation message.
 - Forced internal reports to render in the internal user language instead of the customer language.
 - Explicitly cleared report bindings on both internal actions so upgrades remove stale Print-menu exposure from quotation state.
+- Kept `binding_type` set to `report` while clearing `binding_model_id` so module upgrades do not fail on the required report-action field.
