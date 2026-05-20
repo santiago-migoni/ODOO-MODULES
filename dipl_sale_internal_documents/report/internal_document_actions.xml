@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_cutting_list" model="ir.actions.report">
+        <field name="name">Cutting List</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dipl_sale_internal_documents.report_cutting_list</field>
+        <field name="report_file">dipl_sale_internal_documents.report_cutting_list</field>
+        <field name="print_report_name">'Cutting List - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_internal_sales_order" model="ir.actions.report">
+        <field name="name">Internal Sales Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dipl_sale_internal_documents.report_internal_sales_order</field>
+        <field name="report_file">dipl_sale_internal_documents.report_internal_sales_order</field>
+        <field name="print_report_name">'Internal Sales Order - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
