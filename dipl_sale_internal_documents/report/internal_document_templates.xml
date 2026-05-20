@@ -22,7 +22,7 @@
                 </t>
                 <br/>
                 <span t-att-style="'color: %s;' % o.company_id.secondary_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
-                <t t-if="not pre_printed_report">
+                <t t-if="not pre_printed_report and show_company_fiscal_data">
                     <br/>
                     <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
                     <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exempt' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
@@ -79,13 +79,13 @@
                         <span t-field="line.product_uom_qty"/>
                     </td>
                     <td class="text-end text-nowrap">
-                        <span t-field="line.dipl_development_mm"/>
+                        <span t-field="line.dipl_development_mm" t-options='{"widget": "float", "precision": 0}'/>
                     </td>
                     <td class="text-end text-nowrap">
-                        <span t-field="line.dipl_width_mm"/>
+                        <span t-field="line.dipl_width_mm" t-options='{"widget": "float", "precision": 0}'/>
                     </td>
                     <td class="text-end text-nowrap">
-                        <span t-field="line.dipl_kg_total"/>
+                        <span t-field="line.dipl_kg_total" t-options='{"widget": "float", "precision": 2}'/>
                     </td>
                     <t t-if="show_amounts">
                         <td class="text-end o_price_total">
@@ -101,17 +101,19 @@
         <div id="informations" class="row mt8 mb8">
             <div class="col-6">
                 <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
-                <br/>
-                <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
-                <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
-                    <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
-                </t>
-                <t t-if="doc.partner_id.vat">
-                    <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                <t t-if="not minimal_customer_only">
+                    <br/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-if="doc.partner_id.vat">
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                    </t>
                 </t>
             </div>
             <div class="col-6">
-                <t t-if="doc.user_id">
+                <t t-if="doc.user_id and not hide_salesperson">
                     <strong>Salesperson: </strong><span t-field="doc.user_id"/>
                 </t>
                 <t t-if="doc.client_order_ref">
@@ -143,6 +145,7 @@
             <t t-set="report_name">CUTTING LIST</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="show_company_fiscal_data" t-value="False"/>
             <t t-set="custom_footer">
                 <div class="row">
                     <div class="col-8 text-start"/>
@@ -157,6 +160,8 @@
             <t t-set="layout_document_title"/>
             <div class="page">
                 <div class="oe_structure"/>
+                <t t-set="minimal_customer_only" t-value="True"/>
+                <t t-set="hide_salesperson" t-value="True"/>
                 <t t-set="show_payment_terms" t-value="False"/>
                 <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="False"/>
@@ -175,9 +180,10 @@
             <t t-set="report_number" t-value="doc.name"/>
             <t t-set="document_letter" t-value="'&#160;'"/>
             <t t-set="document_legend" t-value="'&#160;'"/>
-            <t t-set="report_name">INTERNAL SALES ORDER</t>
+            <t t-set="report_name">INTERNAL ORDER</t>
             <t t-set="header_address" t-value="doc.company_id.partner_id"/>
             <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="show_company_fiscal_data" t-value="True"/>
             <t t-set="custom_footer">
                 <div class="row">
                     <div class="col-8 text-start"/>
@@ -192,6 +198,8 @@
             <t t-set="layout_document_title"/>
             <div class="page">
                 <div class="oe_structure"/>
+                <t t-set="minimal_customer_only" t-value="False"/>
+                <t t-set="hide_salesperson" t-value="False"/>
                 <t t-set="show_payment_terms" t-value="True"/>
                 <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="True"/>
