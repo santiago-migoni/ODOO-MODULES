@@ -10,9 +10,11 @@
 - Removed the generated `i18n` catalogs temporarily to validate the module with raw English source strings before regenerating translations from Odoo.
 - Fixed the remaining quotation metadata label hardcoded in Spanish by switching `Validez` back to the English source string `Validity`.
 - Hardened the inherited `l10n_ar` left header override by anchoring it relative to `#l10n_ar_header_right` instead of matching the parent node through exact `class` and `style` attributes.
+- Rewired the standard sales print action so the native `Print` button on quotations and sales orders now renders the `dipl_doc_sale` PDF directly instead of exposing a separate report action.
+- Reintroduced `i18n` support with a normalized `dipl_doc_sale.pot` and a regenerated `es_AR.po` aligned with the current English report source strings.
 
 ### Changed
-- Made header date labels translatable during the report wording refactor; translation catalogs are currently absent by design while raw English source validation is in progress.
+- Made header date labels translatable during the report wording refactor and restored the module translation catalogs after raw source validation.
 
 ### Added
 - Initial Odoo 19 scaffolding for `dipl_doc_sale` as a Dipleg-owned sales document module.

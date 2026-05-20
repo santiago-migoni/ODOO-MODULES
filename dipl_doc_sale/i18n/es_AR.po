@@ -1,0 +1,186 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dipl_doc_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"PO-Revision-Date: 2026-05-20 02:34+0000\n"
+"Last-Translator: Codex\n"
+"Language-Team: Spanish (Argentina)\n"
+"Language: es_AR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: dipl_doc_sale
+#: model:ir.actions.report,print_report_name:dipl_doc_sale.action_report_saleorder_formal_quote
+msgid ""
+"(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or "
+"((object.state == 'sale') and 'Sales Order - %s' % (object.name)) or "
+"'Cancelled Sales Order - %s' % (object.name)"
+msgstr ""
+"(object.state in ('draft', 'sent') and 'Cotización - %s' % (object.name)) or "
+"((object.state == 'sale') and 'Orden de venta - %s' % (object.name)) or "
+"'Orden de venta cancelada - %s' % (object.name)"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "- Activities Start:"
+msgstr "- Inicio de las actividades:"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "- CUIT:"
+msgstr "- CUIT:"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>CUIT: </strong>"
+msgstr "<br/><strong>CUIT: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Delivery Date: </strong>"
+msgstr "<br/><strong>Fecha de entrega: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Incoterm: </strong>"
+msgstr "<br/><strong>Incoterm: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Payment Terms: </strong>"
+msgstr "<br/><strong>Condiciones de pago: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Reference: </strong>"
+msgstr "<br/><strong>Referencia: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Salesperson: </strong>"
+msgstr "<br/><strong>Vendedor: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<span>% VAT</span>"
+msgstr "<span>% IVA</span>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<span>Amount</span>"
+msgstr "<span>Importe</span>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>Customer: </strong>"
+msgstr "<strong>Cliente: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "<strong>Salesperson: </strong>"
+msgstr "<strong>Vendedor: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>VAT Condition: </strong>"
+msgstr "<strong>Cond. IVA: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>Validity: </strong>"
+msgstr "<strong>Validez: </strong>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "CANCELLED SALES ORDER"
+msgstr "ORDEN DE VENTA CANCELADA"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Date:"
+msgstr "Fecha:"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Description"
+msgstr "Descripción"
+
+#. module: dipl_doc_sale
+#: model:ir.actions.report,name:dipl_doc_sale.action_report_saleorder_formal_quote
+msgid "Dipleg Commercial Sales Document"
+msgstr "Documento comercial de ventas Dipleg"
+
+#. module: dipl_doc_sale
+#: model:ir.model.fields,field_description:dipl_doc_sale.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: dipl_doc_sale
+#: model:ir.model.fields,field_description:dipl_doc_sale.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "IIBB:"
+msgstr "IIBB:"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Invalid document as invoice"
+msgstr "Documento no válido como factura"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "Number:"
+msgstr "Número:"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "Página: <span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "QUOTATION"
+msgstr "COTIZACIÓN"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "SALES ORDER"
+msgstr "ORDEN DE VENTA"
+
+#. module: dipl_doc_sale
+#: model:ir.model,name:dipl_doc_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Orden de venta"
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Unit Price"
+msgstr "Precio unitario"

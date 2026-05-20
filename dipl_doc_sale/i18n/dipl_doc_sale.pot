@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dipl_doc_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-20 02:34+0000\n"
+"PO-Revision-Date: 2026-05-20 02:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dipl_doc_sale
+#: model:ir.actions.report,print_report_name:dipl_doc_sale.action_report_saleorder_formal_quote
+msgid ""
+"(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or "
+"((object.state == 'sale') and 'Sales Order - %s' % (object.name)) or "
+"'Cancelled Sales Order - %s' % (object.name)"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "- Activities Start:"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "- CUIT:"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>CUIT: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Delivery Date: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Incoterm: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Payment Terms: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Reference: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<br/><strong>Salesperson: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<span>% VAT</span>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<span>Amount</span>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>Customer: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "<strong>Salesperson: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>VAT Condition: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "<strong>Validity: </strong>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "CANCELLED SALES ORDER"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Date:"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Description"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model:ir.actions.report,name:dipl_doc_sale.action_report_saleorder_formal_quote
+msgid "Dipleg Commercial Sales Document"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model:ir.model.fields,field_description:dipl_doc_sale.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model:ir.model.fields,field_description:dipl_doc_sale.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "IIBB:"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Invalid document as invoice"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.custom_header_sale_document
+msgid "Number:"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "QUOTATION"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Quantity"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+msgid "SALES ORDER"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model:ir.model,name:dipl_doc_sale.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: dipl_doc_sale
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:dipl_doc_sale.report_salequotation_document
+msgid "Unit Price"
+msgstr ""

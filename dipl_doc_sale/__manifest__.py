@@ -3,7 +3,7 @@
 {
     "name": "Dipleg Sales Documents",
     "summary": "Argentine-style commercial quotation and sales order documents",
-    "version": "19.0.1.2.8",
+    "version": "19.0.1.2.10",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",
