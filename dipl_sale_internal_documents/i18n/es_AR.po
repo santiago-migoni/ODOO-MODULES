@@ -56,6 +56,11 @@ msgstr "<br/><strong>Condiciones de pago: </strong>"
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Pricelist: </strong>"
+msgstr "<br/><strong>Lista de precios: </strong>"
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Reference: </strong>"
 msgstr "<br/><strong>Referencia: </strong>"
 
@@ -67,12 +72,12 @@ msgstr "<span>□</span> <strong>Cliente avisado</strong>"
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
 msgid "<span>□</span> <strong>Delivery</strong>"
-msgstr "<span>□</span> <strong>Entrega</strong>"
+msgstr "<span>□</span> <strong>Entregado</strong>"
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
 msgid "<span>□</span> <strong>Payment</strong>"
-msgstr "<span>□</span> <strong>Pago</strong>"
+msgstr "<span>□</span> <strong>Pagado</strong>"
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block

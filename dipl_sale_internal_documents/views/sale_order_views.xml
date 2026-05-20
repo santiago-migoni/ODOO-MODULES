@@ -11,11 +11,13 @@
                     string="Cutting List"
                     name="action_print_cutting_list"
                     type="object"
+                    class="btn-primary"
                     invisible="state != 'sale'"/>
                 <button
                     string="Internal Order"
                     name="action_print_internal_order"
                     type="object"
+                    class="btn-primary"
                     invisible="state != 'sale'"/>
             </xpath>
         </field>
