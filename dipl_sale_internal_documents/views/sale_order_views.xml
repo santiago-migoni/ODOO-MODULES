@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_internal_documents" model="ir.ui.view">
+        <field name="name">sale.order.form.internal.documents</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='sale.action_report_saleorder']" position="after">
+                <button
+                    string="Cutting List"
+                    name="action_print_cutting_list"
+                    type="object"
+                    invisible="state != 'sale'"/>
+                <button
+                    string="Internal Order"
+                    name="action_print_internal_order"
+                    type="object"
+                    invisible="state != 'sale'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

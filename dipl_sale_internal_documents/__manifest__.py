@@ -3,7 +3,7 @@
 {
     "name": "Dipleg Sales Internal Documents",
     "summary": "Internal cutting and administrative sales documents",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.3",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",
@@ -15,6 +15,7 @@
     "data": [
         "report/internal_document_actions.xml",
         "report/internal_document_templates.xml",
+        "views/sale_order_views.xml",
     ],
     "installable": True,
     "application": False,

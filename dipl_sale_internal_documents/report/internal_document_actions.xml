@@ -8,8 +8,6 @@
         <field name="report_name">dipl_sale_internal_documents.report_cutting_list</field>
         <field name="report_file">dipl_sale_internal_documents.report_cutting_list</field>
         <field name="print_report_name">'Cutting List - %s' % (object.name)</field>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
-        <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_internal_sales_order" model="ir.actions.report">
@@ -19,8 +17,6 @@
         <field name="report_name">dipl_sale_internal_documents.report_internal_sales_order</field>
         <field name="report_file">dipl_sale_internal_documents.report_internal_sales_order</field>
         <field name="print_report_name">'Internal Order - %s' % (object.name)</field>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
-        <field name="binding_type">report</field>
     </record>
 
 </odoo>

@@ -13,3 +13,5 @@
 - Renamed the internal administrative document to `Internal Order` in both the report title and report action naming.
 - Formatted `dipl_development_mm` and `dipl_width_mm` without decimals and `dipl_kg_total` with two decimals in the technical line tables.
 - Simplified the `Cutting List` header and customer block so it only shows the customer name and suppresses company fiscal data plus customer address, VAT condition, CUIT, and salesperson.
+- Restricted internal document printing to confirmed sales orders by removing generic report bindings, adding dedicated `sale.order` buttons, and validating the state in backend methods.
+- Added `es_AR` translations for the new internal reports, buttons, action names, and backend validation message.
