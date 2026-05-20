@@ -85,6 +85,7 @@ Administrative internal document for order follow-up.
 Main additions over the technical lines:
 
 - line amount and totals,
+- pricelist used on the sales order,
 - printed process checkboxes.
 
 ## Future Iterations

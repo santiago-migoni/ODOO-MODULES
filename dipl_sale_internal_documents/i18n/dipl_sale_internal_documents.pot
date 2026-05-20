@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260513\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-20 15:31+0000\n"
-"PO-Revision-Date: 2026-05-20 15:31+0000\n"
+"POT-Creation-Date: 2026-05-20 16:06+0000\n"
+"PO-Revision-Date: 2026-05-20 16:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -117,6 +117,7 @@ msgstr ""
 
 #. module: dipl_sale_internal_documents
 #: model:ir.actions.report,name:dipl_sale_internal_documents.action_report_cutting_list
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.view_order_form_internal_documents
 msgid "Cutting List"
 msgstr ""
 
@@ -137,6 +138,16 @@ msgid "Development"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model:ir.model.fields,field_description:dipl_sale_internal_documents.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.model.fields,field_description:dipl_sale_internal_documents.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
 msgid "IIBB:"
 msgstr ""
@@ -148,7 +159,14 @@ msgstr ""
 
 #. module: dipl_sale_internal_documents
 #: model:ir.actions.report,name:dipl_sale_internal_documents.action_report_internal_sales_order
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.view_order_form_internal_documents
 msgid "Internal Order"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#. odoo-python
+#: code:addons/dipl_sale_internal_documents/models/sale_order.py:0
+msgid "Internal documents can only be printed from confirmed sales orders."
 msgstr ""
 
 #. module: dipl_sale_internal_documents
@@ -175,4 +193,9 @@ msgstr ""
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
 msgid "Quantity"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.model,name:dipl_sale_internal_documents.model_sale_order
+msgid "Sales Order"
 msgstr ""
