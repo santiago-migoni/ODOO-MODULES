@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_salequotation_document_technical_details" inherit_id="dipl_doc_sale.report_salequotation_document" priority="40">
+        <xpath expr="//td[@name='td_product_name']/span[@t-field='line.name']" position="after">
+            <div t-if="line.dipl_development_mm or line.dipl_width_mm" class="text-muted small">
+                <t t-if="line.dipl_development_mm">
+                    <span>Development: </span>
+                    <span t-field="line.dipl_development_mm" t-options='{"widget": "float", "precision": 0}'/>
+                </t>
+                <t t-if="line.dipl_development_mm and line.dipl_width_mm">
+                    <span> | </span>
+                </t>
+                <t t-if="line.dipl_width_mm">
+                    <span>Length: </span>
+                    <span t-field="line.dipl_width_mm" t-options='{"widget": "float", "precision": 0}'/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_document_technical_details" inherit_id="dipl_doc_sale.report_saleorder_document" priority="40">
+        <xpath expr="//td[@name='td_product_name']/span[@t-field='line.name']" position="after">
+            <div t-if="line.dipl_development_mm or line.dipl_width_mm" class="text-muted small">
+                <t t-if="line.dipl_development_mm">
+                    <span>Development: </span>
+                    <span t-field="line.dipl_development_mm" t-options='{"widget": "float", "precision": 0}'/>
+                </t>
+                <t t-if="line.dipl_development_mm and line.dipl_width_mm">
+                    <span> | </span>
+                </t>
+                <t t-if="line.dipl_width_mm">
+                    <span>Length: </span>
+                    <span t-field="line.dipl_width_mm" t-options='{"widget": "float", "precision": 0}'/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

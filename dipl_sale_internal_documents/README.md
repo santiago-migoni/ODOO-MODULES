@@ -9,6 +9,9 @@ The current `V1` introduces two internal document flows:
 - cutting list,
 - internal order.
 
+It also extends the commercial quotation and sales order printouts from
+`dipl_doc_sale` with technical subdetails sourced from the sales lines.
+
 It still does not include:
 
 - persisted internal workflow fields,
@@ -26,10 +29,13 @@ Current policy:
 - internal and non-client-facing use,
 - technical line data sourced from `dipl_sale_technical_quote`,
 - separate document actions from the commercial sales document flow.
+- commercial quotation and sales order documents can show technical line
+  subdetails without modifying the standard base contract of `dipl_doc_sale`.
 
 ## Dependencies
 
 - `sale_management`
+- `dipl_doc_sale`
 - `dipl_sale_technical_quote`
 - `l10n_ar`
 
@@ -44,6 +50,9 @@ Current policy:
    - customer block on the left and internal metadata on the right,
    - technical line data from `sale.order.line`,
    - internal-purpose layout.
+4. For commercial quotation and sales order documents, the module can also add
+   a technical subdetail under the line description:
+   - `Development: ... | Length: ...`
 
 ## Document Policy
 

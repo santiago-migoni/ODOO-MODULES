@@ -120,6 +120,12 @@ msgid "CUTTING LIST"
 msgstr "LISTA DE CORTE"
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_saleorder_document_technical_details
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_salequotation_document_technical_details
+msgid "Development: "
+msgstr "Desarrollo: "
+
+#. module: dipl_sale_internal_documents
 #: model:ir.actions.report,name:dipl_sale_internal_documents.action_report_cutting_list
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.view_order_form_internal_documents
 msgid "Cutting List"
@@ -182,6 +188,12 @@ msgstr "Kilogramos"
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
 msgid "Length"
 msgstr "Largo"
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_saleorder_document_technical_details
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_salequotation_document_technical_details
+msgid "Length: "
+msgstr "Largo: "
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
