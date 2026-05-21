@@ -101,7 +101,7 @@
                     <t t-if="doc.commitment_date">
                         <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
-                    <t t-if="doc.incoterm">
+                    <t t-if="'incoterm' in doc._fields and doc.incoterm">
                         <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                     </t>
                 </div>
@@ -201,7 +201,7 @@
                     <t t-if="doc.commitment_date">
                         <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
                     </t>
-                    <t t-if="doc.incoterm">
+                    <t t-if="'incoterm' in doc._fields and doc.incoterm">
                         <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                     </t>
                 </div>

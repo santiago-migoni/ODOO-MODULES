@@ -12,6 +12,7 @@
 - Hardened the inherited `l10n_ar` left header override by anchoring it relative to `#l10n_ar_header_right` instead of matching the parent node through exact `class` and `style` attributes.
 - Rewired the standard sales print action so the native `Print` button on quotations and sales orders now renders the `dipl_doc_sale` PDF directly instead of exposing a separate report action.
 - Reintroduced `i18n` support with a normalized `dipl_doc_sale.pot` and a regenerated `es_AR.po` aligned with the current English report source strings.
+- Guarded the Incoterm block so quotations and sales orders no longer crash when `sale_stock` is not installed and `sale.order` does not provide the `incoterm` field.
 
 ### Changed
 - Made header date labels translatable during the report wording refactor and restored the module translation catalogs after raw source validation.
