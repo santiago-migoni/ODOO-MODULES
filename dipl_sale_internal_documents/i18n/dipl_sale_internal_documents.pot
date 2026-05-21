@@ -1,0 +1,206 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dipl_sale_internal_documents
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-20 17:23+0000\n"
+"PO-Revision-Date: 2026-05-20 17:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dipl_sale_internal_documents
+#: model:ir.actions.report,print_report_name:dipl_sale_internal_documents.action_report_cutting_list
+msgid "'Cutting List - %s' % (object.name)"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.actions.report,print_report_name:dipl_sale_internal_documents.action_report_internal_sales_order
+msgid "'Internal Order - %s' % (object.name)"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
+msgid "- Activities Start:"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
+msgid "- CUIT:"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>CUIT: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Delivery Date: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Incoterm: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Payment Terms: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Pricelist: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<br/><strong>Reference: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<span>□</span> <strong>Customer Notified</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<span>□</span> <strong>Delivery</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<span>□</span> <strong>Payment</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<strong>Customer: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<strong>Salesperson: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<strong>Subtotal</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<strong>Taxes</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<strong>VAT Condition: </strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Amount"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_cutting_list_document
+msgid "CUTTING LIST"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.actions.report,name:dipl_sale_internal_documents.action_report_cutting_list
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.view_order_form_internal_documents
+msgid "Cutting List"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_cutting_list_document
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "Date:"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Description"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Development"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.model.fields,field_description:dipl_sale_internal_documents.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.model.fields,field_description:dipl_sale_internal_documents.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
+msgid "IIBB:"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "INTERNAL ORDER"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.actions.report,name:dipl_sale_internal_documents.action_report_internal_sales_order
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.view_order_form_internal_documents
+msgid "Internal Order"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#. odoo-python
+#: code:addons/dipl_sale_internal_documents/models/sale_order.py:0
+msgid "Internal documents can only be printed from confirmed sales orders."
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Kilograms"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Length"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.custom_header_internal_document
+msgid "Number:"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_cutting_list_document
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_lines_table
+msgid "Quantity"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model:ir.model,name:dipl_sale_internal_documents.model_sale_order
+msgid "Sales Order"
+msgstr ""

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Changed
+- Added a corporate QWeb quote layout layer for `sale.report_saleorder_document` with tighter vertical spacing, stronger typographic hierarchy, and cleaner totals/table presentation for printable quotations and orders.
+
 ## 19.0.1.3.1 - 2026-05-07
 
 ### Fixed

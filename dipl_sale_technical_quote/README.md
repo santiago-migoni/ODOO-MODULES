@@ -152,6 +152,17 @@ Alcance actual:
 
 No se exponen otros campos tecnicos en `sale.report` por politica lean: el reporte comercial solo necesita por ahora el total de kilos tecnicos agregado.
 
+## Plantilla corporativa de cotizacion PDF
+
+El modulo incluye una capa de presentacion corporativa sobre `sale.report_saleorder_document` para el PDF de cotizacion/orden:
+- compacta espacios verticales entre encabezado, bloque cliente y metadata,
+- refuerza jerarquia tipografica de titulo y etiquetas,
+- mejora legibilidad visual de tabla y bloque de totales.
+
+Alcance:
+- afecta `Quotation / Order` y `PRO-FORMA` (`qweb-pdf`),
+- no modifica la logica comercial de lineas, impuestos ni calculos.
+
 ## Tests
 
 El modulo incluye cobertura automatizada en:

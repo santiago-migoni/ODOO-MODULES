@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_saleorder_formal_quote_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t
+                    t-call="#{ doc._get_name_dipl_doc_sale_report('sale.report_saleorder_document') }"
+                    t-lang="doc.partner_id.lang"
+                />
+            </t>
+        </t>
+    </template>
+
+    <template id="report_saleorder_formal_quote">
+        <t t-call="dipl_doc_sale.report_saleorder_formal_quote_raw"/>
+    </template>
+
+    <template id="custom_header_sale_document" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[@id='l10n_ar_header_right']/preceding-sibling::div[1]" position="replace">
+            <div class="col-6" style="padding-right: 0px;">
+                <t t-if="not pre_printed_report">
+                    <span t-field="o.company_id.partner_id.name"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.street, header_address.street2] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.city, header_address.zip] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.state_id and header_address.state_id.name, header_address.country_id and header_address.country_id.name] if item])"/>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='l10n_ar_header_right']" position="replace">
+            <div id="l10n_ar_header_right" class="col-6 text-end" style="padding-left: 0px;">
+                <t t-if="not pre_printed_report">
+                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Number: </span><span t-out="report_number"/>
+                </t>
+                <br/>
+                <span t-att-style="'color: %s;' % o.company_id.secondary_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
+
+                <t t-if="not pre_printed_report">
+                    <br/>
+                    <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
+                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exempt' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_salequotation_document" priority="30" inherit_id="sale.report_saleorder_document" primary="True">
+        <t t-set="doc" position="after">
+            <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
+            <t t-set="report_date" t-value="doc.date_order"/>
+            <t t-set="report_date_label">Date: </t>
+            <t t-set="report_number" t-value="doc.name"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name">QUOTATION</t>
+            <t t-set="header_address" t-value="doc.company_id.partner_id"/>
+            <t t-set="custom_footer">
+                <div class="row">
+                    <div class="col-8 text-start"/>
+                    <div class="col-4 text-end">
+                        <div t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+        <t t-set="address" position="replace"/>
+        <t t-set="layout_document_title" position="replace"/>
+
+        <div id="informations" position="replace">
+            <div id="informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                    <br/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-if="doc.partner_id.vat">
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                    </t>
+                </div>
+                <div class="col-6">
+                    <t t-if="doc.validity_date">
+                        <strong>Validity: </strong><span t-field="doc.validity_date"/>
+                    </t>
+                    <t t-if="doc.user_id">
+                        <br/><strong>Salesperson: </strong><span t-field="doc.user_id"/>
+                    </t>
+                    <t t-if="doc.client_order_ref">
+                        <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
+                    </t>
+                    <t t-if="doc.payment_term_id">
+                        <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
+                    </t>
+                    <t t-if="doc.commitment_date">
+                        <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                    </t>
+                    <t t-if="'incoterm' in doc._fields and doc.incoterm">
+                        <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+
+        <t t-set="display_discount" position="attributes">
+            <attribute name="t-value">False</attribute>
+        </t>
+
+        <xpath expr="//th[@name='th_discount']" position="replace"/>
+        <xpath expr="//td[@name='td_product_discount']" position="replace"/>
+        <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
+
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
+        </xpath>
+
+        <t t-set="taxes" position="attributes">
+            <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
+        </t>
+
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_description" class="text-start">Description</th>
+        </xpath>
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end text-nowrap">Quantity</th>
+        </xpath>
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end text-nowrap">Unit Price</th>
+        </xpath>
+        <xpath expr="//th[@name='th_subtotal']" position="replace">
+            <th name="th_subtotal" class="text-end"><span>Amount</span></th>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']" position="replace">
+            <td name="td_product_quantity" class="o_td_quantity text-end">
+                <span t-field="line.product_uom_qty"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='td_section_group_quantity']" position="replace">
+            <td name="td_section_group_quantity" class="text-end text-nowrap">
+                <span t-out="section_line['quantity']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_document" priority="30" inherit_id="sale.report_saleorder_document" primary="True">
+        <t t-set="doc" position="after">
+            <t t-set="custom_header" t-value="'dipl_doc_sale.custom_header_sale_document'"/>
+            <t t-set="report_date" t-value="doc.date_order"/>
+            <t t-set="report_date_label">Date: </t>
+            <t t-set="report_number" t-value="doc.name"/>
+            <t t-set="document_letter" t-value="'X'"/>
+            <t t-set="document_legend">Invalid document as invoice</t>
+            <t t-set="report_name" t-if="doc.state == 'sale'">SALES ORDER</t>
+            <t t-set="report_name" t-if="doc.state == 'cancel'">CANCELLED SALES ORDER</t>
+            <t t-set="report_name" t-if="doc.state not in ['sale', 'cancel']">SALES ORDER</t>
+            <t t-set="header_address" t-value="doc.company_id.partner_id"/>
+            <t t-set="custom_footer">
+                <div class="row">
+                    <div class="col-8 text-start"/>
+                    <div class="col-4 text-end">
+                        <div t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+        <t t-set="address" position="replace"/>
+        <t t-set="layout_document_title" position="replace"/>
+
+        <div id="informations" position="replace">
+            <div id="informations" class="row mt8 mb8">
+                <div class="col-6">
+                    <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                    <br/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-if="doc.partner_id.vat">
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                    </t>
+                </div>
+                <div class="col-6">
+                    <t t-if="doc.user_id">
+                        <strong>Salesperson: </strong><span t-field="doc.user_id"/>
+                    </t>
+                    <t t-if="doc.client_order_ref">
+                        <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
+                    </t>
+                    <t t-if="doc.payment_term_id">
+                        <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
+                    </t>
+                    <t t-if="doc.commitment_date">
+                        <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                    </t>
+                    <t t-if="'incoterm' in doc._fields and doc.incoterm">
+                        <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+
+        <t t-set="display_discount" position="attributes">
+            <attribute name="t-value">False</attribute>
+        </t>
+
+        <xpath expr="//th[@name='th_discount']" position="replace"/>
+        <xpath expr="//td[@name='td_product_discount']" position="replace"/>
+        <xpath expr="//td[@name='td_section_group_discount']" position="replace"/>
+
+        <xpath expr="//th[@name='th_taxes']" position="replace">
+            <th t-if="display_taxes" name="th_taxes" class="text-end"><span>% VAT</span></th>
+        </xpath>
+
+        <t t-set="taxes" position="attributes">
+            <attribute name="t-value">', '.join((tax.tax_label or tax.name) for tax in line.tax_ids if (tax.tax_label or tax.name))</attribute>
+        </t>
+
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_description" class="text-start">Description</th>
+        </xpath>
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end text-nowrap">Quantity</th>
+        </xpath>
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end text-nowrap">Unit Price</th>
+        </xpath>
+        <xpath expr="//th[@name='th_subtotal']" position="replace">
+            <th name="th_subtotal" class="text-end"><span>Amount</span></th>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']" position="replace">
+            <td name="td_product_quantity" class="o_td_quantity text-end">
+                <span t-field="line.product_uom_qty"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='td_section_group_quantity']" position="replace">
+            <td name="td_section_group_quantity" class="text-end text-nowrap">
+                <span t-out="section_line['quantity']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

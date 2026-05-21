@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Testing"
+  short_description: "Validate technical, functional, regression, and promotion readiness."
+  default_prompt: "Use $odoo-testing to validate this Odoo implementation across technical, regression, and release-readiness dimensions."

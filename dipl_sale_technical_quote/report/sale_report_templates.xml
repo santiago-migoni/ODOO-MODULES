@@ -1,2 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo/>
+<odoo>
+    <template id="report_saleorder_document_corporate_spacing" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='page']" position="attributes">
+            <attribute name="class">page dipl_corporate_quote_page</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='informations']" position="attributes">
+            <attribute name="class">row mb-3 g-2</attribute>
+        </xpath>
+
+        <xpath expr="//table[contains(@class, 'o_main_table')]" position="attributes">
+            <attribute name="class">o_has_total_table table o_main_table table-borderless dipl_corporate_quote_table</attribute>
+        </xpath>
+
+        <xpath expr="//div[@name='total']" position="attributes">
+            <attribute name="class">row mt-1</attribute>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'page')]/div[contains(@class, 'oe_structure')][1]" position="before">
+            <style>
+                body[data-report-id="sale.action_report_saleorder"] .address.row,
+                body[data-report-id="sale.action_report_pro_forma_invoice"] .address.row {
+                    margin-bottom: 0.75rem !important;
+                    align-items: flex-start;
+                }
+
+                body[data-report-id="sale.action_report_saleorder"] .address.row [name="address"],
+                body[data-report-id="sale.action_report_pro_forma_invoice"] .address.row [name="address"] {
+                    line-height: 1.3;
+                }
+
+                body[data-report-id="sale.action_report_saleorder"] .article h2,
+                body[data-report-id="sale.action_report_pro_forma_invoice"] .article h2 {
+                    margin-top: 0.1rem;
+                    margin-bottom: 0.6rem;
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                }
+
+                .dipl_corporate_quote_page #informations strong {
+                    color: #666;
+                    font-size: 0.84rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em;
+                }
+
+                .dipl_corporate_quote_page #informations div {
+                    margin-top: 0.2rem;
+                    color: #222;
+                }
+
+                .dipl_corporate_quote_table thead th {
+                    border-bottom: 2px solid #222;
+                    font-size: 0.86rem;
+                    font-weight: 700;
+                    letter-spacing: 0.02em;
+                    color: #202020;
+                    padding-top: 0.4rem;
+                    padding-bottom: 0.45rem;
+                }
+
+                .dipl_corporate_quote_table tbody td {
+                    padding-top: 0.35rem;
+                    padding-bottom: 0.35rem;
+                }
+
+                .dipl_corporate_quote_page .o_total_table tr:last-child td,
+                .dipl_corporate_quote_page .o_total_table tr:last-child th {
+                    border-top: 1px solid #222;
+                    padding-top: 0.35rem;
+                    font-weight: 700;
+                }
+
+                .dipl_corporate_quote_page .o_total_table td,
+                .dipl_corporate_quote_page .o_total_table th {
+                    padding-top: 0.2rem;
+                    padding-bottom: 0.2rem;
+                }
+            </style>
+        </xpath>
+    </template>
+</odoo>

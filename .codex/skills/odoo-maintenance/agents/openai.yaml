@@ -1,0 +1,4 @@
+interface:
+  display_name: "Odoo Maintenance"
+  short_description: "Handle incidents, hotfix decisions, and production learning."
+  default_prompt: "Use $odoo-maintenance to manage post-release incidents, hotfix paths, and operational learning for this Odoo scope."

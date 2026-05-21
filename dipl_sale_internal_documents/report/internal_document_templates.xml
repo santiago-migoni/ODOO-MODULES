@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="custom_header_internal_document" inherit_id="l10n_ar.custom_header" primary="True">
+        <xpath expr="//div[@id='l10n_ar_header_right']/preceding-sibling::div[1]" position="replace">
+            <div class="col-6" style="padding-right: 0px;">
+                <t t-if="not pre_printed_report">
+                    <span t-field="o.company_id.partner_id.name"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.street, header_address.street2] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.city, header_address.zip] if item])"/>
+                    <br/>
+                    <span t-out="', '.join([item for item in [header_address.state_id and header_address.state_id.name, header_address.country_id and header_address.country_id.name] if item])"/>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='l10n_ar_header_right']" position="replace">
+            <div id="l10n_ar_header_right" class="col-6 text-end" style="padding-left: 0px;">
+                <t t-if="not pre_printed_report">
+                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Number: </span><span t-out="report_number"/>
+                </t>
+                <br/>
+                <span t-att-style="'color: %s;' % o.company_id.secondary_color" t-out="report_date_label"/><span t-out="report_date" t-options='{"widget": "date"}'/>
+                <t t-if="not pre_printed_report and show_company_fiscal_data">
+                    <br/>
+                    <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-out="o.company_id.partner_id.l10n_ar_formatted_vat or o.company_id.partner_id.vat or ''"/>
+                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exempt' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_cutting_list_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="dipl_sale_internal_documents.report_cutting_list_document" t-lang="env.user.lang or env.company.partner_id.lang or 'en_US'"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_cutting_list">
+        <t t-call="dipl_sale_internal_documents.report_cutting_list_raw"/>
+    </template>
+
+    <template id="report_internal_sales_order_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="dipl_sale_internal_documents.report_internal_sales_order_document" t-lang="env.user.lang or env.company.partner_id.lang or 'en_US'"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_internal_sales_order">
+        <t t-call="dipl_sale_internal_documents.report_internal_sales_order_raw"/>
+    </template>
+
+    <template id="technical_lines_table">
+        <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report().filtered(lambda l: not l.display_type)"/>
+        <table class="o_has_total_table table o_main_table table-borderless">
+            <thead style="display: table-row-group">
+                <tr>
+                    <th class="text-start">Description</th>
+                    <th class="text-end text-nowrap">Quantity</th>
+                    <th class="text-end text-nowrap">Development</th>
+                    <th class="text-end text-nowrap">Length</th>
+                    <th class="text-end text-nowrap">Kilograms</th>
+                    <t t-if="show_amounts">
+                        <th class="text-end">Amount</th>
+                    </t>
+                </tr>
+            </thead>
+            <tbody class="sale_tbody">
+                <tr t-foreach="lines_to_report" t-as="line">
+                    <td>
+                        <span t-field="line.name"/>
+                    </td>
+                    <td class="text-end o_td_quantity">
+                        <span t-field="line.product_uom_qty"/>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <span t-field="line.dipl_development_mm" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <span t-field="line.dipl_width_mm" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <span t-field="line.dipl_kg_total" t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <t t-if="show_amounts">
+                        <td class="text-end o_price_total">
+                            <span t-field="line.price_subtotal"/>
+                        </td>
+                    </t>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <template id="technical_customer_meta_block">
+        <div id="informations" class="row mt8 mb8">
+            <div class="col-6">
+                <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                <t t-if="not minimal_customer_only">
+                    <br/>
+                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                    <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                        <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                    </t>
+                    <t t-if="doc.partner_id.vat">
+                        <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                    </t>
+                </t>
+            </div>
+            <div class="col-6">
+                <t t-if="doc.user_id and not hide_salesperson">
+                    <strong>Salesperson: </strong><span t-field="doc.user_id"/>
+                </t>
+                <t t-if="doc.pricelist_id">
+                    <br/><strong>Pricelist: </strong><span t-field="doc.pricelist_id"/>
+                </t>
+                <t t-if="doc.client_order_ref">
+                    <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
+                </t>
+                <t t-if="doc.payment_term_id and show_payment_terms">
+                    <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
+                </t>
+                <t t-if="doc.commitment_date">
+                    <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                </t>
+                <t t-if="doc.incoterm">
+                    <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_cutting_list_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=env.user.lang or env.company.partner_id.lang or 'en_US')"/>
+            <t t-set="o" t-value="doc"/>
+            <t t-set="custom_header" t-value="'dipl_sale_internal_documents.custom_header_internal_document'"/>
+            <t t-set="report_date" t-value="doc.date_order"/>
+            <t t-set="report_date_label">Date: </t>
+            <t t-set="report_number" t-value="doc.name"/>
+            <t t-set="document_letter" t-value="'&#160;'"/>
+            <t t-set="document_legend" t-value="'&#160;'"/>
+            <t t-set="report_name">CUTTING LIST</t>
+            <t t-set="header_address" t-value="doc.company_id.partner_id"/>
+            <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="show_company_fiscal_data" t-value="False"/>
+            <t t-set="custom_footer">
+                <div class="row">
+                    <div class="col-8 text-start"/>
+                    <div class="col-4 text-end">
+                        <div t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-set="address"/>
+            <t t-set="layout_document_title"/>
+            <div class="page">
+                <div class="oe_structure"/>
+                <t t-set="minimal_customer_only" t-value="True"/>
+                <t t-set="hide_salesperson" t-value="True"/>
+                <t t-set="show_payment_terms" t-value="False"/>
+                <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
+                <t t-set="show_amounts" t-value="False"/>
+                <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_internal_sales_order_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=env.user.lang or env.company.partner_id.lang or 'en_US')"/>
+            <t t-set="o" t-value="doc"/>
+            <t t-set="custom_header" t-value="'dipl_sale_internal_documents.custom_header_internal_document'"/>
+            <t t-set="report_date" t-value="doc.date_order"/>
+            <t t-set="report_date_label">Date: </t>
+            <t t-set="report_number" t-value="doc.name"/>
+            <t t-set="document_letter" t-value="'&#160;'"/>
+            <t t-set="document_legend" t-value="'&#160;'"/>
+            <t t-set="report_name">INTERNAL ORDER</t>
+            <t t-set="header_address" t-value="doc.company_id.partner_id"/>
+            <t t-set="pre_printed_report" t-value="False"/>
+            <t t-set="show_company_fiscal_data" t-value="True"/>
+            <t t-set="custom_footer">
+                <div class="row">
+                    <div class="col-8 text-start"/>
+                    <div class="col-4 text-end">
+                        <div t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-set="address"/>
+            <t t-set="layout_document_title"/>
+            <div class="page">
+                <div class="oe_structure"/>
+                <t t-set="minimal_customer_only" t-value="False"/>
+                <t t-set="hide_salesperson" t-value="False"/>
+                <t t-set="show_payment_terms" t-value="True"/>
+                <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
+                <t t-set="show_amounts" t-value="True"/>
+                <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
+                <div class="row mt32">
+                    <div class="col-6">
+                        <table class="table table-borderless table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="ps-0">
+                                        <span>&#9633;</span> <strong>Payment</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-0">
+                                        <span>&#9633;</span> <strong>Customer Notified</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-0">
+                                        <span>&#9633;</span> <strong>Delivery</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        <table class="o_total_table table table-borderless avoid-page-break-inside ms-auto">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Subtotal</strong></td>
+                                    <td class="text-end"><span t-field="doc.amount_untaxed"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Taxes</strong></td>
+                                    <td class="text-end"><span t-field="doc.amount_tax"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-end"><span t-field="doc.amount_total"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
