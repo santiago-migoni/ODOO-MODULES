@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260513\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 17:05+0000\n"
-"PO-Revision-Date: 2026-05-21 17:05+0000\n"
+"POT-Creation-Date: 2026-05-22 01:39+0000\n"
+"PO-Revision-Date: 2026-05-22 01:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,31 +36,37 @@ msgid "- CUIT:"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>CUIT: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Delivery Date: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Incoterm: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Payment Terms: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Pricelist: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<br/><strong>Reference: </strong>"
 msgstr ""
@@ -84,26 +90,33 @@ msgid "<span>Length: </span>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Customer Notified</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Delivered</strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Delivery</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>In Progress</strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Payment</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Notified</strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Paid</strong>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<strong>Customer: </strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<strong>Salesperson: </strong>"
 msgstr ""
@@ -124,6 +137,7 @@ msgid "<strong>Total</strong>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
 msgid "<strong>VAT Condition: </strong>"
 msgstr ""

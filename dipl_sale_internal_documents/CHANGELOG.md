@@ -23,3 +23,6 @@
 - Added the sales order pricelist to the right-side metadata block of `Internal Order`.
 - Highlighted the internal print buttons in the sales order form and added the missing `Pricelist` translation entry to the module catalogs.
 - Guarded the Incoterm block so internal documents no longer crash when `sale_stock` is not installed and `sale.order` does not provide the `incoterm` field.
+- Moved the internal process checkboxes into the right-side metadata block and updated the checklist to `Work in Progress`, `Notified`, `Delivered`, and `Paid`.
+- Reworked `Internal Order` into a three-column upper block (`5/4/3`) so customer, commercial metadata, and process checkboxes each have their own column.
+- Rebalanced the `Internal Order` upper block to `6/4/2`, shortened the process label to `In Progress`, enlarged the checkbox glyph, and aligned the translation catalogs with the new printable strings.

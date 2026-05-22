@@ -84,19 +84,24 @@ msgid "<span>Length: </span>"
 msgstr "<span>Largo: </span>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Customer Notified</strong>"
-msgstr "<span>□</span> <strong>Cliente avisado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Delivered</strong>"
+msgstr "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Entregado</strong>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Delivery</strong>"
-msgstr "<span>□</span> <strong>Entregado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>In Progress</strong>"
+msgstr "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>En proceso</strong>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Payment</strong>"
-msgstr "<span>□</span> <strong>Pagado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Notified</strong>"
+msgstr "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Avisado</strong>"
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.internal_order_customer_meta_block
+msgid "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Paid</strong>"
+msgstr "<span style=\"font-size: 18px; line-height: 1;\">□</span> <strong>Pagado</strong>"
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block

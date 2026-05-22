@@ -135,6 +135,48 @@
         </div>
     </template>
 
+    <template id="internal_order_customer_meta_block">
+        <div id="informations" class="row mt8 mb8">
+            <div class="col-6">
+                <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                <br/>
+                <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                    <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                </t>
+                <t t-if="doc.partner_id.vat">
+                    <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                </t>
+            </div>
+            <div class="col-4">
+                <t t-if="doc.user_id">
+                    <strong>Salesperson: </strong><span t-field="doc.user_id"/>
+                </t>
+                <t t-if="doc.pricelist_id">
+                    <br/><strong>Pricelist: </strong><span t-field="doc.pricelist_id"/>
+                </t>
+                <t t-if="doc.client_order_ref">
+                    <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
+                </t>
+                <t t-if="doc.payment_term_id">
+                    <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
+                </t>
+                <t t-if="doc.commitment_date">
+                    <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                </t>
+                <t t-if="'incoterm' in doc._fields and doc.incoterm">
+                    <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                </t>
+            </div>
+            <div class="col-2">
+                <div class="text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>In Progress</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Notified</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Delivered</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Paid</strong></div>
+            </div>
+        </div>
+    </template>
+
     <template id="report_cutting_list_document">
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=env.user.lang or env.company.partner_id.lang or 'en_US')"/>
@@ -201,34 +243,11 @@
             <t t-set="layout_document_title"/>
             <div class="page">
                 <div class="oe_structure"/>
-                <t t-set="minimal_customer_only" t-value="False"/>
-                <t t-set="hide_salesperson" t-value="False"/>
-                <t t-set="show_payment_terms" t-value="True"/>
-                <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
+                <t t-call="dipl_sale_internal_documents.internal_order_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="True"/>
                 <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
                 <div class="row mt32">
-                    <div class="col-6">
-                        <table class="table table-borderless table-sm">
-                            <tbody>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Payment</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Customer Notified</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Delivery</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="col-6"/>
                     <div class="col-6">
                         <table class="o_total_table table table-borderless avoid-page-break-inside ms-auto">
                             <tbody>
