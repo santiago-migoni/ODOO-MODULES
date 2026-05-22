@@ -131,14 +131,48 @@
                 <t t-if="'incoterm' in doc._fields and doc.incoterm">
                     <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                 </t>
-                <t t-if="show_process_checkboxes">
-                    <div class="mt-3">
-                        <div><span>&#9633;</span> <strong>Work in Progress</strong></div>
-                        <div class="mt-1"><span>&#9633;</span> <strong>Notified</strong></div>
-                        <div class="mt-1"><span>&#9633;</span> <strong>Delivered</strong></div>
-                        <div class="mt-1"><span>&#9633;</span> <strong>Paid</strong></div>
-                    </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="internal_order_customer_meta_block">
+        <div id="informations" class="row mt8 mb8">
+            <div class="col-5">
+                <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
+                <br/>
+                <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
+                <t t-if="'l10n_ar_afip_responsibility_type_id' in doc.partner_id._fields and doc.partner_id.l10n_ar_afip_responsibility_type_id">
+                    <strong>VAT Condition: </strong><span t-field="doc.partner_id.l10n_ar_afip_responsibility_type_id"/>
                 </t>
+                <t t-if="doc.partner_id.vat">
+                    <br/><strong>CUIT: </strong><span t-field="doc.partner_id.vat"/>
+                </t>
+            </div>
+            <div class="col-4">
+                <t t-if="doc.user_id">
+                    <strong>Salesperson: </strong><span t-field="doc.user_id"/>
+                </t>
+                <t t-if="doc.pricelist_id">
+                    <br/><strong>Pricelist: </strong><span t-field="doc.pricelist_id"/>
+                </t>
+                <t t-if="doc.client_order_ref">
+                    <br/><strong>Reference: </strong><span t-field="doc.client_order_ref"/>
+                </t>
+                <t t-if="doc.payment_term_id">
+                    <br/><strong>Payment Terms: </strong><span t-field="doc.payment_term_id.name"/>
+                </t>
+                <t t-if="doc.commitment_date">
+                    <br/><strong>Delivery Date: </strong><span t-field="doc.commitment_date" t-options='{"widget": "date"}'/>
+                </t>
+                <t t-if="'incoterm' in doc._fields and doc.incoterm">
+                    <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
+                </t>
+            </div>
+            <div class="col-3">
+                <div><span>&#9633;</span> <strong>Work in Progress</strong></div>
+                <div class="mt-1"><span>&#9633;</span> <strong>Notified</strong></div>
+                <div class="mt-1"><span>&#9633;</span> <strong>Delivered</strong></div>
+                <div class="mt-1"><span>&#9633;</span> <strong>Paid</strong></div>
             </div>
         </div>
     </template>
@@ -174,7 +208,6 @@
                 <t t-set="minimal_customer_only" t-value="True"/>
                 <t t-set="hide_salesperson" t-value="True"/>
                 <t t-set="show_payment_terms" t-value="False"/>
-                <t t-set="show_process_checkboxes" t-value="False"/>
                 <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="False"/>
                 <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
@@ -210,11 +243,7 @@
             <t t-set="layout_document_title"/>
             <div class="page">
                 <div class="oe_structure"/>
-                <t t-set="minimal_customer_only" t-value="False"/>
-                <t t-set="hide_salesperson" t-value="False"/>
-                <t t-set="show_payment_terms" t-value="True"/>
-                <t t-set="show_process_checkboxes" t-value="True"/>
-                <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
+                <t t-call="dipl_sale_internal_documents.internal_order_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="True"/>
                 <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
                 <div class="row mt32">
