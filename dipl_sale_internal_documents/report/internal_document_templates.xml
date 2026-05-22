@@ -131,6 +131,14 @@
                 <t t-if="'incoterm' in doc._fields and doc.incoterm">
                     <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                 </t>
+                <t t-if="show_process_checkboxes">
+                    <div class="mt-3">
+                        <div><span>&#9633;</span> <strong>Work in Progress</strong></div>
+                        <div class="mt-1"><span>&#9633;</span> <strong>Notified</strong></div>
+                        <div class="mt-1"><span>&#9633;</span> <strong>Delivered</strong></div>
+                        <div class="mt-1"><span>&#9633;</span> <strong>Paid</strong></div>
+                    </div>
+                </t>
             </div>
         </div>
     </template>
@@ -166,6 +174,7 @@
                 <t t-set="minimal_customer_only" t-value="True"/>
                 <t t-set="hide_salesperson" t-value="True"/>
                 <t t-set="show_payment_terms" t-value="False"/>
+                <t t-set="show_process_checkboxes" t-value="False"/>
                 <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="False"/>
                 <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
@@ -204,31 +213,12 @@
                 <t t-set="minimal_customer_only" t-value="False"/>
                 <t t-set="hide_salesperson" t-value="False"/>
                 <t t-set="show_payment_terms" t-value="True"/>
+                <t t-set="show_process_checkboxes" t-value="True"/>
                 <t t-call="dipl_sale_internal_documents.technical_customer_meta_block"/>
                 <t t-set="show_amounts" t-value="True"/>
                 <t t-call="dipl_sale_internal_documents.technical_lines_table"/>
                 <div class="row mt32">
-                    <div class="col-6">
-                        <table class="table table-borderless table-sm">
-                            <tbody>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Payment</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Customer Notified</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-0">
-                                        <span>&#9633;</span> <strong>Delivery</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="col-6"/>
                     <div class="col-6">
                         <table class="o_total_table table table-borderless avoid-page-break-inside ms-auto">
                             <tbody>

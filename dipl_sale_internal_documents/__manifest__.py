@@ -3,7 +3,7 @@
 {
     "name": "Dipleg Sales Internal Documents",
     "summary": "Internal cutting and administrative sales documents",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "category": "Dipleg",
     "license": "LGPL-3",
     "author": "Dipleg",

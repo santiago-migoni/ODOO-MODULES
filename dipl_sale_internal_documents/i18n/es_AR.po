@@ -84,19 +84,24 @@ msgid "<span>Length: </span>"
 msgstr "<span>Largo: </span>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Customer Notified</strong>"
-msgstr "<span>□</span> <strong>Cliente avisado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Delivered</strong></div>"
+msgstr "<div class=\"mt-1\"><span>□</span> <strong>Entregado</strong></div>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Delivery</strong>"
-msgstr "<span>□</span> <strong>Entregado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Notified</strong></div>"
+msgstr "<div class=\"mt-1\"><span>□</span> <strong>Avisado</strong></div>"
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Payment</strong>"
-msgstr "<span>□</span> <strong>Pagado</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Paid</strong></div>"
+msgstr "<div class=\"mt-1\"><span>□</span> <strong>Pagado</strong></div>"
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div><span>□</span> <strong>Work in Progress</strong></div>"
+msgstr "<div><span>□</span> <strong>Trabajo en proceso</strong></div>"
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block

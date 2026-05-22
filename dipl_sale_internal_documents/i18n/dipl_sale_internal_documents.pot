@@ -85,17 +85,27 @@ msgstr ""
 
 #. module: dipl_sale_internal_documents
 #: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Customer Notified</strong>"
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Delivered</strong></div>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Delivery</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Delivered</strong></div>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
-#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.report_internal_sales_order_document
-msgid "<span>□</span> <strong>Payment</strong>"
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Notified</strong></div>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div class=\"mt-1\"><span>□</span> <strong>Paid</strong></div>"
+msgstr ""
+
+#. module: dipl_sale_internal_documents
+#: model_terms:ir.ui.view,arch_db:dipl_sale_internal_documents.technical_customer_meta_block
+msgid "<div><span>□</span> <strong>Work in Progress</strong></div>"
 msgstr ""
 
 #. module: dipl_sale_internal_documents
