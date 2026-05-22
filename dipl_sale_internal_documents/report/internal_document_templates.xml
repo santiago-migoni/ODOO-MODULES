@@ -137,7 +137,7 @@
 
     <template id="internal_order_customer_meta_block">
         <div id="informations" class="row mt8 mb8">
-            <div class="col-5">
+            <div class="col-6">
                 <strong>Customer: </strong><span t-field="doc.partner_id.commercial_partner_id.name"/>
                 <br/>
                 <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": True}'/>
@@ -168,11 +168,11 @@
                     <br/><strong>Incoterm: </strong><span t-field="doc.incoterm.code"/><span t-if="doc.incoterm_location" t-out="' - %s' % doc.incoterm_location"/>
                 </t>
             </div>
-            <div class="col-3">
-                <div><span>&#9633;</span> <strong>Work in Progress</strong></div>
-                <div class="mt-1"><span>&#9633;</span> <strong>Notified</strong></div>
-                <div class="mt-1"><span>&#9633;</span> <strong>Delivered</strong></div>
-                <div class="mt-1"><span>&#9633;</span> <strong>Paid</strong></div>
+            <div class="col-2">
+                <div class="text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>In Progress</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Notified</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Delivered</strong></div>
+                <div class="mt-1 text-nowrap"><span style="font-size: 18px; line-height: 1;">&#9633;</span> <strong>Paid</strong></div>
             </div>
         </div>
     </template>
